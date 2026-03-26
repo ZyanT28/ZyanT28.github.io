@@ -8,3 +8,8 @@ website:
     left:
       - text: "Inicio"
         file: index.qmd
+
+format: 
+  html:
+    theme: cosmo
+    css: styles.css
