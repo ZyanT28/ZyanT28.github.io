@@ -10,7 +10,7 @@
 <meta name="author" content="José Eduardo Cruz Campos">
 <meta name="author" content="Paola Mildred Martínez Hidalgo">
 
-<title>Almacenes y Minería de Datos: Tarea 02 – ZyanT28</title>
+<title>Almacenes y Minería de Datos: Tarea 02</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -119,25 +119,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ZyanT28</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Buscar"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Inicio</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+        <div class="quarto-navbar-tools tools-end">
 </div>
+          <div id="quarto-search" class="" title="Buscar"></div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -259,7 +243,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de filas:</strong> 116945</li>
 </ul>
-<div id="14975afa" class="cell" data-execution_count="1">
+<div id="52f51b93" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -280,7 +264,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de columnas:</strong> 11</li>
 </ul>
-<div id="1fb522ec" class="cell" data-execution_count="2">
+<div id="d6fc45e0" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -301,7 +285,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Periodo de fechas cubierto:</strong> Se cubrió desde el periodo del 01-05-1968 al 20-08-2023</li>
 </ul>
-<div id="e74c144c" class="cell" data-execution_count="3">
+<div id="aa72e229" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -427,7 +411,7 @@ Figura&nbsp;1: Tabla de columnas
 <ul>
 <li><strong>¿Cuál es el porcentaje de faltantes de cada columna?</strong></li>
 </ul>
-<div id="9544b194" class="cell" data-execution_count="4">
+<div id="b8b2ad34" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -471,7 +455,7 @@ Autoridad que reportó                           38024        33 %</code></pre>
 <ul>
 <li><strong>¿Cuál es el porcentaje de valores faltantes en general?</strong></li>
 </ul>
-<div id="bd8bb93f" class="cell" data-execution_count="5">
+<div id="9b5af867" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -526,7 +510,7 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 <li><strong>¿Cómo podemos encontrar registros duplicados?</strong></li>
 </ul>
 <p>Para encontrar registros duplicados primero necesitamos limpiar el dataset con el siguiente codigo:</p>
-<div id="e23b7561" class="cell" data-execution_count="6">
+<div id="5a4ed819" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -557,7 +541,7 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 </div>
 </div>
 <p>Ahora, para encontrar duplicados utilizamos el sig codigo:</p>
-<div id="665605a1" class="cell" data-execution_count="7">
+<div id="e83c4710" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -625,7 +609,7 @@ Total de registros finales: 79295</code></pre>
 <section id="análisis-de-series-de-tiempo" class="level4">
 <h4 class="anchored" data-anchor-id="análisis-de-series-de-tiempo">1. Análisis de Series de Tiempo</h4>
 <p>Este modelo busca identificar la tendencia temporal del volumen de personas desaparecidas a lo largo de los meses.</p>
-<div id="541b9fc8" class="cell" data-execution_count="8">
+<div id="e64a8aff" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -663,7 +647,7 @@ Total de registros finales: 79295</code></pre>
 <section id="clustering-k-means" class="level4">
 <h4 class="anchored" data-anchor-id="clustering-k-means">2. Clustering (K-Means)</h4>
 <p>Agruparemos las entidades federativas (estados) con base en dos características numéricas: la <strong>cantidad total de desapariciones</strong> y la <strong>edad promedio</strong> de los desaparecidos.</p>
-<div id="cb801cbe" class="cell" data-execution_count="9">
+<div id="cca36c71" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -715,7 +699,7 @@ Total de registros finales: 79295</code></pre>
 <section id="clasificación-con-árboles-de-decisión" class="level4">
 <h4 class="anchored" data-anchor-id="clasificación-con-árboles-de-decisión">3. Clasificación con Árboles de Decisión</h4>
 <p>Este modelo ayuda a identificar reglas que separan a las personas desaparecidas según su sexo, utilizando su Edad y el Estado donde desaparecieron.</p>
-<div id="27eace79" class="cell" data-execution_count="10">
+<div id="7a65eb64" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
@@ -763,7 +747,7 @@ Total de registros finales: 79295</code></pre>
 <section id="predicción-de-nacionalidad-random-forest" class="level4">
 <h4 class="anchored" data-anchor-id="predicción-de-nacionalidad-random-forest">4. Predicción de Nacionalidad (Random Forest)</h4>
 <p>Este modelo evalúa la importancia de variables demográficas y geográficas para predecir si una persona reportada es de origen extranjero o mexicano, ayudando a detectar patrones de migración vulnerada.</p>
-<div id="0959a0bf" class="cell" data-execution_count="11">
+<div id="06bdce35" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
@@ -876,7 +860,7 @@ interpretación breve, formal y contextualizada en el caso del dataset de person
 <p>Para el análisis de las medidas de localización se utilizó la variable edad, calculando la media, mediana y moda. A partir del histograma, se observa que la edad con mayor frecuencia de desaparición es de 18 años (moda), lo cual sugiere una concentración preocupante en la población adolescente.</p>
 <p>Asimismo, la mediana (29) es menor que la media (31.7), lo que indica que la distribución presenta un sesgo hacia la derecha. Esto implica que existen algunos casos de mayor edad que elevan el promedio.</p>
 <p>Por otro lado, los percentiles permiten comprender mejor la distribución de la variable. Por ejemplo, el percentil 90 indica que el 90% de las personas desaparecidas tiene una edad menor o igual a 52 años. Estas medidas son útiles para identificar valores extremos y analizar la dispersión de los datos.</p>
-<div id="f466c636" class="cell" data-execution_count="12">
+<div id="244a9bb6" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -960,7 +944,7 @@ P90=52 años,  P95=60 años</code></pre>
 </div>
 </div>
 <p>Finalmente, en ambas gráficas se observa claramente la presencia de un sesgo. Esto se debe a un valor atípico considerablemente alejado del resto (1832), lo cual puede confirmarse con el siguiente código.</p>
-<div id="b79c272a" class="cell" data-execution_count="13">
+<div id="109eb560" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'Edad'</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -976,7 +960,7 @@ P90=52 años,  P95=60 años</code></pre>
 <h3 class="anchored" data-anchor-id="varianza-y-desviación-estándar">Varianza y desviación estándar</h3>
 <p>Para interpretar la varianza nos ayudamos de la desviación estandar, en este caso tenemos una desviación estándar de 17 años, esto significa que las edades de las personas registradas como desaparecidas se dispersan, en promedio, aproximadamente 17 años por encima o por debajo de la media. Esto implica que el rango típico de edades oscila entre los 14 años (31 − 17) y los 48 años (31 + 17), abarcando desde adolescentes hasta adultos de mediana edad como el perfil más frecuente.</p>
 <p>Esto refleja que la desaparición de personas en México no se limita a un grupo específico, sino que afecta a individuos en distintas edades, sin embargo se puede ver una mayor concentración en edades jóvenes, lo cual vimos también con la moda, esto sugiere que la población adolescente y adulta joven enfrenta un riesgo particularmente elevado.</p>
-<div id="e79fe46b" class="cell" data-execution_count="14">
+<div id="839933d0" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1043,7 +1027,7 @@ Media:               31.71 años</code></pre>
 <li><p><strong>Rango Intercuartílico (IQR)</strong> El IQR de 19 años representa la amplitud del 50% central de los datos, es decir, la mitad de las personas desaparecidas tenía entre 21 y 40 años,mostrando que la mayor concentración de edades se encuentra dentro de ese intervalo.</p></li>
 <li><p><strong>Rango y valores atípicos</strong> Los límites calculados a partir del IQR establecen que valores fuera del rango de −7.50 a 68.50 años se consideran atípicos estadísticamente. Dado que una edad negativa no tiene interpretación posible, el límite inferior efectivo es 0 años. Esto significa que cualquier persona registrada con más de 68 años representa un caso atípico dentro del dataset, esto puede implicar que dichos casos sean errores o que se trate de desapariciones menos frecuentes en grupos de edad avanzada.</p></li>
 </ul>
-<div id="494956fc" class="cell" data-execution_count="15">
+<div id="dde24640" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
