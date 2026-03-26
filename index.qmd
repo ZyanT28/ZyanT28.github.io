@@ -1,7 +1,7 @@
 ---
 title: "Almacenes y Minería de Datos: Tarea 02"
 author: 
-  - "Zianya Nenetzi Trujillo Beltran" 
+  - "Zianya Nenetzi Trujillo Beltran AAAAAAAAAAAAAAA" 
   - "José Eduardo Cruz Campos"
   - "Paola Mildred Martínez Hidalgo"
 date: "2026-03-19"
