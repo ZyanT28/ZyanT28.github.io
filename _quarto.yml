@@ -1,0 +1,10 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "ZyanT28"
+  navbar:
+    left:
+      - text: "Inicio"
+        file: index.qmd
