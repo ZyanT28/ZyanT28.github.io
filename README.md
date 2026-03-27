@@ -47,7 +47,7 @@ Python >=3.11
 8. Instalar dependencias:
     ```bash
     $ pip install -r requirements.txt
-9. En caso de que salga un erropr de que no encuentra Jupyter o TinyTex ejecutar dentro del entorno
+9. En caso de que salga un error de que no encuentra Jupyter o TinyTex ejecutar dentro del entorno
     ```bash
     $pip install jupyter nbformat ipykernel    
 10. Ejecutar quarto desde la terminal y con el entorno activo,
