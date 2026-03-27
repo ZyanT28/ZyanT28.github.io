@@ -40,14 +40,17 @@ Python >=3.11
 4. Instalar y configurar esa herramienta.
 5. Integrar Quarto correctamente.
 6. Renderizar tus documentos desde esa plataforma.
-7. Instalar dependencias:
-    ```bash
-    $ pip install -r requirements.txt
-8. Crear un entorno virtual de python para ejecutar el proyecto en quarto: <br>
+7. Crear un entorno virtual de python para ejecutar el proyecto en quarto: <br>
     ```bash
     1.1 $ python -m venv .venv
     2.1 $ .venv\Scripts\activate 
-9. Ejecutar quarto desde la terminal y con el entorno activo,
+8. Instalar dependencias:
+    ```bash
+    $ pip install -r requirements.txt
+9. En caso de que salga un erropr de que no encuentra Jupyter o TinyTex ejecutar dentro del entorno
+    ```bash
+    $pip install jupyter nbformat ipykernel    
+10. Ejecutar quarto desde la terminal y con el entorno activo,
     ```bash
     $ quarto render Tarea2.qmd
     $ quarto preview Tarea2.qmd

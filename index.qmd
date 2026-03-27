@@ -589,7 +589,7 @@ Asimismo, no son susceptibles de análisis mediante medidas estadísticas ni apo
 
 Para el análisis de las medidas de localización se utilizó la variable edad, calculando la media, mediana y moda. A partir del histograma, se observa que la edad con mayor frecuencia de desaparición es de 18 años (moda), lo cual sugiere una concentración preocupante en la población adolescente.
 
-Asimismo, la mediana (29) es menor que la media (31.7), lo que indica que la distribución presenta un sesgo hacia la derecha. Esto implica que existen algunos casos de mayor edad que elevan el promedio.
+Asimismo, la mediana (29) es menor que la media (32), lo que indica que la distribución presenta un sesgo hacia la derecha. Esto implica que existen algunos casos de mayor edad que elevan el promedio.
 
 Por otro lado, los percentiles permiten comprender mejor la distribución de la variable. Por ejemplo, el percentil 90 indica que el 90% de las personas desaparecidas tiene una edad menor o igual a 52 años. Estas medidas son útiles para identificar valores extremos y analizar la dispersión de los datos.
 
@@ -614,7 +614,7 @@ counts, bin_edges = np.histogram(edad, bins=bins)
 max_bin_idx = np.argmax(counts)
 mode_approx = 0.5 * (bin_edges[max_bin_idx] + bin_edges[max_bin_idx + 1])
 
-print(f"Media            = {mean:.2f} años")
+print(f"Media            = {mean:.0f} años")
 print(f"Mediana          = {median:.0f} años")
 print(f"Moda (aprox)     = {mode_approx:.0f} años")
 
@@ -653,10 +653,71 @@ print(f"P90={p90:.0f} años,  P95={p95:.0f} años")
 
 ```
 
-Finalmente, en ambas gráficas se observa claramente la presencia de un sesgo. Esto se debe a un valor atípico considerablemente alejado del resto (1832), lo cual puede confirmarse con el siguiente código.
+En ambas gráficas se observa claramente la presencia de un sesgo. Esto se debe a valores atípicos considerablemente alejados del resto (por ejemplo 1832), lo cual puede confirmarse con el siguiente código.
 
 ```{python}
 print(df['Edad'].max())
+```
+
+Dado que no es posible tener edades tan grandes haremos otro análisis donde sólo tomaremos edades de 0 a 100, esto con el fin de tener resultados más realistas. Como vemos obtenemos nuevos valores que no son tan distintos a los primeros a excepción de la moda que cambia a 27.
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Cargar dataset limpio
+df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+df['Edad'] = pd.to_numeric(df['Edad'], errors='coerce')
+edad = df['Edad'].dropna().values
+edad = edad[(edad >= 0) & (edad <= 100)] 
+
+# Medidas de localización
+mean   = edad.mean()
+median = np.median(edad)
+
+# Moda aproximada: centro del bin con mayor frecuencia
+bins = 50
+counts, bin_edges = np.histogram(edad, bins=bins)
+max_bin_idx = np.argmax(counts)
+mode_approx = 0.5 * (bin_edges[max_bin_idx] + bin_edges[max_bin_idx + 1])
+
+print(f"Media            = {mean:.0f} años")
+print(f"Mediana          = {median:.0f} años")
+print(f"Moda (aprox)     = {mode_approx:.0f} años")
+
+# Histograma con líneas de localización
+plt.figure()
+plt.hist(edad, bins=bins, alpha=0.45, edgecolor="white")
+plt.title("Personas desaparecidas en México: histograma de edad")
+plt.xlabel("Edad (años)")
+plt.ylabel("Frecuencia")
+
+plt.axvline(mean,        color="tab:blue",   linestyle="--", linewidth=2, label=f"Media = {mean:.1f}")
+plt.axvline(median,      color="tab:orange", linestyle="-",  linewidth=2, label=f"Mediana = {median:.0f}")
+plt.axvline(mode_approx, color="tab:red",  linestyle=":",  linewidth=2, label=f"Moda (aprox) = {mode_approx:.0f}")
+
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# ECDF para percentiles y cola
+x_sorted = np.sort(edad)
+y = np.arange(1, x_sorted.size + 1) / x_sorted.size
+
+plt.figure()
+plt.step(x_sorted, y, where="post")
+plt.title("Personas desaparecidas en México: ECDF de edad")
+plt.xlabel("Edad (años)")
+plt.ylabel("Proporción acumulada")
+plt.ylim(0, 1.01)
+plt.tight_layout()
+plt.show()
+
+# Percentiles
+p25, p50, p75, p90, p95 = np.quantile(edad, [0.25, 0.50, 0.75, 0.90, 0.95])
+print(f"P25={p25:.0f} años,  P50={p50:.0f} años,  P75={p75:.0f} años")
+print(f"P90={p90:.0f} años,  P95={p95:.0f} años")
 ```
 
 ## Medidas de variabilidad  
@@ -682,9 +743,9 @@ varianza = edad.var(ddof=1)
 desv_std = edad.std(ddof=1)
 media    = edad.mean()
 
-print(f"Varianza:            {varianza:.4f} años")
-print(f"Desviación estándar: {desv_std:.4f} años")
-print(f"Media:               {media:.2f} años")
+print(f"Varianza:            {varianza:.0f} años")
+print(f"Desviación estándar: {desv_std:.0f} años")
+print(f"Media:               {media:.0f} años")
 
 # Gráfica 
 fig, ax = plt.subplots(figsize=(10, 5))
@@ -740,11 +801,11 @@ iqr = q3 - q1
 low  = q1 - 1.5 * iqr
 high = q3 + 1.5 * iqr
 
-print(f"Q1:    {q1:.2f} años")
-print(f"Q3:    {q3:.2f} años")
-print(f"IQR:   {iqr:.2f} años")
-print(f"Límite inferior: {low:.2f} años")
-print(f"Límite superior: {high:.2f} años")
+print(f"Q1:    {q1:.0f} años")
+print(f"Q3:    {q3:.0f} años")
+print(f"IQR:   {iqr:.0f} años")
+print(f"Límite inferior: {low:.0f} años")
+print(f"Límite superior: {high:.0f} años")
 
 # Boxplot 
 plt.figure()
@@ -755,43 +816,420 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Medidas de heterogeneidad  
+Dado que no es posible tener edades tan grandes haremos otro análisis donde sólo tomaremos edades de 0 a 100, esto con el fin de tener una mejor visualización de los resultados. 
 
 ```{python}
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
+# Cargar CSV limpio
 df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+df['Edad'] = pd.to_numeric(df['Edad'], errors='coerce')
+edad = df['Edad'].dropna()
+edad = edad[(edad >= 0) & (edad <= 100)] 
 
-# Conteo y porcentaje por sexo
-sexo_counts = df['Sexo'].value_counts(dropna=True)
-sexo_pct = df['Sexo'].value_counts(normalize=True, dropna=True) * 100
+# Medidas
+q1  = np.quantile(edad, 0.25)
+q3  = np.quantile(edad, 0.75)
+iqr = q3 - q1
+low  = q1 - 1.5 * iqr
+high = q3 + 1.5 * iqr
 
-resumen_sexo = pd.DataFrame({
-    'Frecuencia': sexo_counts,
-    'Porcentaje': sexo_pct.round(1).astype(str) + ' %'
-})
-print(resumen_sexo)
+print(f"Q1:    {q1:.2f} años")
+print(f"Q3:    {q3:.2f} años")
+print(f"IQR:   {iqr:.2f} años")
+print(f"Límite inferior: {low:.2f} años")
+print(f"Límite superior: {high:.2f} años")
 
-# Gráfica de barras
-plt.figure(figsize=(7, 4))
-sexo_counts.plot(kind='bar', color=['#3266ad', '#e05c5c'], edgecolor='white')
-plt.title('Distribución de desapariciones por sexo')
-plt.xlabel('Sexo')
-plt.ylabel('Número de personas')
-plt.xticks(rotation=0)
+# Boxplot
+plt.figure()
+plt.boxplot(edad, vert=True)
+plt.title(f"Boxplot edad: IQR={iqr:.2f}, límites [{low:.2f}, {high:.2f}]")
+plt.ylabel("Edad (años)")
 plt.tight_layout()
 plt.show()
-``` 
+```
+
+### Coeficiente de variación (CV)
+
+Para esta parte vamos a comparar la edad entre hombres y mujeres desaparecidos:
+
+- **Hombres**
+Los hombres desaparecidos presentan una media de 33.7 años con una desviación estándar de 17.4 años, resultando en un coeficiente de variación de 0.52 (52%). Esto indica que la dispersión de edades es considerable respecto a la media, reflejando que las desapariciones masculinas abarcan un amplio espectro de edades.
+- **Mujeres**
+Las mujeres desaparecidas presentan una media de 25.5 años con una desviación estándar de 14.7 años, resultando en un coeficiente de variación de 0.57 (57%). Aunque la desviación estándar es menor que la de los hombres, el CV es ligeramente superior, lo que indica que en proporción a su media, las edades de las mujeres desaparecidas son relativamente más dispersas.
+
+Ambos grupos presentan coeficientes de variación superiores al 50%, lo que confirma una dispersión alta en ambos casos. Sin embargo, el resultado más relevante es la diferencia en las medias: las mujeres desaparecidas son en promedio 8 años más jóvenes que los hombres (25.6 vs 33.7 años). Esto sugiere que las mujeres enfrentan un riesgo de desaparición concentrado en edades más tempranas.
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Cargar CSV limpio
+df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+df['Edad'] = pd.to_numeric(df['Edad'], errors='coerce')
+
+# Separar por sexo
+hombres = df[df['Sexo'] == 'HOMBRE']['Edad'].dropna()
+mujeres = df[df['Sexo'] == 'MUJER']['Edad'].dropna()
+
+# Coeficiente de variación 
+cv_h = hombres.std(ddof=1) / hombres.mean()
+cv_m = mujeres.std(ddof=1) / mujeres.mean()
+
+print(f"Hombres:    media={hombres.mean():.1f}, s={hombres.std(ddof=1):.1f}, CV={cv_h:.2f}")
+print(f"Mujeres:    media={mujeres.mean():.1f}, s={mujeres.std(ddof=1):.1f}, CV={cv_m:.2f}")
+
+# Gráfica
+plt.figure(figsize=(10, 5))
+
+plt.hist(hombres, bins=range(0, 121, 5), alpha=0.6, color='#3266ad',
+         label=f"Hombres: media={hombres.mean():.1f}, s={hombres.std(ddof=1):.1f}, CV={cv_h:.2f}")
+plt.hist(mujeres, bins=range(0, 121, 5), alpha=0.6, color='#E24B4A',
+         label=f"Mujeres: media={mujeres.mean():.1f}, s={mujeres.std(ddof=1):.1f}, CV={cv_m:.2f}")
+
+plt.title("Coeficiente de variación — edad de personas desaparecidas por sexo")
+plt.xlabel("Edad (años)")
+plt.ylabel("Frecuencia")
+plt.legend()
+plt.tight_layout()
+plt.savefig('coeficiente_variacion.png', dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+## Medidas de heterogeneidad  
+
+Para el cálculo de las medidas de heterogeneidad (Shannon y Gini) se utilizaron variables cualitativas como sexo, nacionalidad, entidad y autoridad que reportó, ya que estas permiten analizar la distribución de los casos entre distintas categorías. 
+
+En las gráficas, el eje vertical (eje y) representa proporciones en lugar de cantidades absolutas, lo que facilita una comparación más justa entre las variables.
+
+- **Sexo:** Con una entropía de Shannon de 0.54 y un índice de Gini de 0.36, el sexo es la variable menos heterogénea del análisis. Las proporciones revelan que aproximadamente el 75% de los registros corresponde a hombres, el 23% a mujeres y apenas el 0.8% a indeterminado (se descartó del dataset). Esto significa que si se tomara un registro al azar del dataset, existiría una alta probabilidad de que corresponda a un hombre, lo que refleja una distribución muy poco diversa y concentrada en una sola categoría.
+
+- **Nacionalidad:** A pesar de contar con 58 nacionalidades distintas, la nacionalidad presenta la entropía más baja de todas las variables (0.50) y un Gini de apenas 0.23. Esto indica que el reparto entre categorías es extremadamente desigual: la proporción correspondiente a personas de nacionalidad mexicana domina el total de registros, mientras que las demás nacionalidades tienen una representación marginal. 
+
+- **Entidad:** Con una entropía de 2.98 y un Gini de 0.93, la distribución por entidad es considerablemente más diversa. Las 33 entidades del país participan en el reparto de casos, aunque no de forma equitativa, con entidades como Tamaulipas y Estado de México concentrando las proporciones más altas. El Gini cercano a 1 indica que los casos se distribuyen ampliamente entre las categorías, sin que ninguna entidad domine completamente el total, lo que confirma que la desaparición de personas es un fenómeno presente en todo el territorio nacional.
+
+- **Autoridad:** La autoridad que reportó es la variable más heterogénea del análisis, con la entropía más alta (3.37) y un Gini de 0.95 entre 72 categorías distintas. Esto significa que los reportes provienen de una gran variedad de instituciones y que el reparto entre ellas es relativamente amplio. .
+
+
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+
+# Cargar CSV limpio
+df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+
+# Renombrar las columnas para evitar errores con los acentos
+df.columns = [
+    'Consecutivo Reportes por Persona',
+    'Consecutivo Registro',
+    'Nombre',
+    'Primer Apellido',
+    'Segundo Apellido',
+    'Edad',
+    'Sexo',
+    'Nacionalidad',
+    'Fecha de desaparicion',
+    'Entidad de desaparicion',
+    'Autoridad que reporto'
+]
+
+matplotlib.rcParams['axes.unicode_minus'] = False
+# Limpiar caracteres especiales en las columnas de texto
+for col in ['Sexo', 'Entidad de desaparicion', 'Nacionalidad', 'Autoridad que reporto']:
+    df[col] = df[col].str.encode('ascii', errors='ignore').str.decode('ascii')
+
+# Filtrar valores ELIMINADO en todas las variables cualitativas
+for col in ['Sexo', 'Entidad de desaparicion', 'Nacionalidad', 'Autoridad que reporto']:
+    df[col] = df[col].where(~df[col].str.startswith('ELIMINADO 3', na=False))
+
+# Funciones
+def entropy(p):
+    p = np.asarray(p, dtype=float)
+    p = p[p > 0]
+    return -np.sum(p * np.log(p))
+
+def gini_impurity(p):
+    p = np.asarray(p, dtype=float)
+    return 1.0 - np.sum(p**2)
+
+def get_props(series):
+    counts = series.value_counts(dropna=True)
+    return counts / counts.sum()
+
+# Calcular proporciones para las variables cualitativas
+variables = {
+    'Sexo':       get_props(df['Sexo']),
+    'Entidad':    get_props(df['Entidad de desaparicion']),
+    'Nacionalidad': get_props(df['Nacionalidad']),
+    'Autoridad':  get_props(df['Autoridad que reporto']),
+}
+
+# Resultados 
+print(f"{'Variable':<15} {'Shannon':>10} {'Gini':>10} {'Categorías':>12}")
+print("-" * 50)
+for nombre, props in variables.items():
+    h = entropy(props.values)
+    g = gini_impurity(props.values)
+    k = len(props)
+    print(f"{nombre:<15} {h:>10.4f} {g:>10.4f} {k:>12}")
+
+# Gráfica de barras
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+axes = axes.flatten()
+colores = ['green', 'cyan', 'yellow', 'purple']
+
+for ax, (nombre, props), color in zip(axes, variables.items(), colores):
+    # Solo vamos a mostrar los 10 primeros para tener una mejor visualización de la grafica
+    top = props.head(10)
+    ax.bar(range(len(top)), top.values, color=color, alpha=0.75, edgecolor='white')
+    ax.set_title(f'{nombre}  |  H={entropy(props.values):.3f}  G={gini_impurity(props.values):.3f}',
+                 fontsize=11)
+    ax.set_xticks(range(len(top)))
+    ax.set_xticklabels(top.index, rotation=35, ha='right', fontsize=8)
+    ax.set_ylabel('Proporción', fontsize=9)
+    ax.set_ylim(0, 1.0)
+
+plt.suptitle('Heterogeneidad por variable — personas desaparecidas en México',
+             fontsize=13, y=1.01)
+plt.tight_layout()
+plt.savefig('heterogeneidad_barras.png', dpi=150)
+plt.show()
+
+# Gráfica de dispersión Shannon vs Gini 
+Hs = [entropy(p.values) for p in variables.values()]
+Gs = [gini_impurity(p.values) for p in variables.values()]
+
+plt.figure(figsize=(7, 5))
+plt.scatter(Hs, Gs, color='orange', s=80, zorder=3)
+
+for nombre, h, g in zip(variables.keys(), Hs, Gs):
+    plt.text(h, g, f'  {nombre}', va='center', fontsize=10)
+
+plt.title('Heterogeneidad: Entropía de Shannon vs Gini', fontsize=13, pad=12)
+plt.xlabel('Entropía H(p)', fontsize=11)
+plt.ylabel('Índice de Gini G(p)', fontsize=11)
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig('heterogeneidad_shannon_gini.png', dpi=150)
+plt.show()
+```
+
 
 ## Medidas de concentración  
+
+### HHI, Curva de Lorenz y coeficiente de Gini (desigualdad)
+
+Para este análisis, es importante recordar que el índice Herfindahl–Hirschman Index (HHI) mide el nivel de concentración, es decir, permite identificar si una o pocas categorías concentran la mayoría de los casos. Por su parte, la curva de Lorenz muestra de forma visual si los datos se distribuyen de manera homogénea o si están concentrados en un número reducido de categorías. Finalmente, el coeficiente de Gini cuantifica el grado de desigualdad en dicha distribución.
+
+- **Sexo:** El HHI de 0.63 indica una concentración alta considerando que solo existen 2 categorías. El índice de Gini de desigualdad de 0.26 confirma que la distribución de casos entre sexos está lejos de ser equitativa. Esto se explica por el predominio de los hombres en los registros, quienes concentran aproximadamente el 75% de los casos, mientras que la categoría de mujeres acumula una proporción considerablemente menor.
+
+- **Nacionalidad:** La nacionalidad presenta los valores más altos de concentración en todo el análisis. Un HHI de 0.768 y un Gini de desigualdad de 0.974 sobre 58 categorías revelan una concentración extrema, es decir, casi la totalidad de los registros corresponde a personas de nacionalidad mexicana, mientras que las otras 57 nacionalidades tienen una presencia marginal. La Curva de Lorenz de esta variable es la que más se aleja de la igualdad de igualdad perfecta.
+
+- **Entidad:** El HHI de 0.065 es bajo, lo que indica que ninguna entidad domina de manera absoluta el total de casos. Sin embargo, el Gini de desigualdad de 0.543 señala que sí existe una concentración moderada, aunque los casos se distribuyen entre las 33 entidades, estados como Tamaulipas y Estado de México acumulan proporcionalmente más registros que el resto. 
+
+- **Autoridad:** La autoridad presenta el HHI más bajo (0.048), lo que indica que al haber 72 autoridades distintas, ninguna concentra individualmente una proporción dominante del total. 
+
+
+Los resultados muestran dos patrones claros. Por un lado, Sexo y Nacionalidad presentan alta concentración tanto en HHI como en Gini, lo que refleja que estas variables están dominadas por una sola categoría. Por otro lado, Entidad y Autoridad tienen HHI bajos pero Gini moderados-altos, lo que indica que aunque el fenómeno involucra a muchas entidades y autoridades, la distribución entre ellas no es equitativa. En conjunto, estos resultados confirman que la desaparición de personas en México es un fenómeno nacionalmente extendido pero con desigualdades territoriales e institucionales marcadas.
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Cargar CSV limpio
+df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+
+# Renombrar las columnas para evitar errores con los acentos
+df.columns = [
+    'Consecutivo Reportes por Persona',
+    'Consecutivo Registro',
+    'Nombre',
+    'Primer Apellido',
+    'Segundo Apellido',
+    'Edad',
+    'Sexo',
+    'Nacionalidad',
+    'Fecha de desaparicion',
+    'Entidad de desaparicion',
+    'Autoridad que reporto'
+]
+
+# Filtrar ELIMINADO
+for col in ['Sexo', 'Entidad de desaparicion', 'Nacionalidad', 'Autoridad que reporto']:
+    df[col] = df[col].where(~df[col].str.startswith('ELIMINADO 3', na=False))
+
+# Funciones 
+def hhi(counts):
+    props = counts / counts.sum()
+    return np.sum(props ** 2)
+
+def gini_desigualdad(counts):
+    counts = np.sort(counts)
+    n = len(counts)
+    idx = np.arange(1, n + 1)
+    return (2 * np.sum(idx * counts)) / (n * counts.sum()) - (n + 1) / n
+
+def lorenz_points(counts):
+    counts = np.sort(counts)
+    cum = np.cumsum(counts)
+    cum = np.insert(cum, 0, 0)
+    return cum / cum[-1]
+
+#  Variables cualitativas 
+variables = {
+    'Sexo':          df['Sexo'].value_counts(dropna=True),
+    'Nacionalidad':  df['Nacionalidad'].value_counts(dropna=True),
+    'Entidad':       df['Entidad de desaparicion'].value_counts(dropna=True),
+    'Autoridad':     df['Autoridad que reporto'].value_counts(dropna=True),
+}
+
+# Resultados 
+print(f"{'Variable':<15} {'HHI':>10} {'Gini':>10} {'Categorías':>12}")
+print("-" * 50)
+for nombre, counts in variables.items():
+    h = hhi(counts.values)
+    g = gini_desigualdad(counts.values)
+    print(f"{nombre:<15} {h:>10.4f} {g:>10.4f} {len(counts):>12}")
+
+# Gráfica Curvas de Lorenz 
+fig, axes = plt.subplots(2, 2, figsize=(11, 9))
+axes = axes.flatten()
+colores = ['#3266ad', '#1D9E75', '#EF9F27', '#E24B4A']
+
+for ax, (nombre, counts), color in zip(axes, variables.items(), colores):
+    n = len(counts)
+    lorenz = lorenz_points(counts.values)
+    x = np.linspace(0, 1, len(lorenz))
+
+    # Línea de igualdad perfecta
+    ax.plot([0, 1], [0, 1], color='gray', linestyle='--',
+            linewidth=1, label='Igualdad perfecta')
+
+    # Curva de Lorenz
+    ax.plot(x, lorenz, color=color, linewidth=2,
+            label=f'Lorenz  Gini={gini_desigualdad(counts.values):.3f}')
+
+    # Área entre curvas
+    ax.fill_between(x, lorenz, x, alpha=0.15, color=color)
+
+    ax.set_title(f'{nombre}  |  HHI={hhi(counts.values):.4f}', fontsize=11)
+    ax.set_xlabel('Proporción acumulada de categorías', fontsize=9)
+    ax.set_ylabel('Proporción acumulada de casos', fontsize=9)
+    ax.legend(fontsize=9)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+
+plt.suptitle('Curvas de Lorenz — concentración de casos por variable',
+             fontsize=13, y=1.01)
+plt.tight_layout()
+plt.savefig('concentracion_lorenz.png', dpi=150)
+plt.show()
+```
 
 ---
 
 # Correlación
 
-- Generar la matriz de correlación (heatmap)  
-- Indicar correlaciones más fuertes y más débiles  
+<!-- Generar la matriz de correlación (heatmap)  
+- Indicar correlaciones más fuertes y más débiles-->
+
+Para esto vamos a usar las variables cuantitativas, en este caso igual tomaremos la fecha, pero únicamente el mes y año.
+
+- **Correlación más fuerte (Edad y Año (-0.053)):**
+La correlación más alta del análisis es de -0.053 entre la edad y el año de desaparición, lo que indica una relación negativa muy débil, conforme avanzan los años, la edad promedio de las personas desaparecidas tiende a disminuir ligeramente. Sin embargo, al ser un valor tan cercano a cero, esta relación no es estadísticamente significativa.
+
+- **Correlación más débil (Consecutivo Registro y Mes (0.002)):**
+La correlación más débil es de 0.002 entre el número de veces que una persona fue reportada y el mes de desaparición, un valor prácticamente nulo que indica una ausencia total de relación lineal entre ambas variables. El mes en que ocurrió la desaparición no tiene ninguna influencia sobre cuántas veces fue reportada la persona.
+
+
+El resultado más relevante de esta matriz es que ninguna de las correlaciones supera el umbral de 0.1 en valor absoluto, lo que indica que no existe ninguna relación lineal significativa entre las variables numéricas del dataset. Esto significa que la edad, el número de reportes, el año y el mes de desaparición son variables prácticamente independientes entre sí.
+
+Este resultado es esperable en un dataset de registros administrativos, en este caso de personas desaparecidas, donde las variables capturan dimensiones distintas del fenómeno y no necesariamente guardan una relación lineal directa. 
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Cargar CSV limpio
+df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+
+# Renombrar las columnas para evitar errores con los acentos
+df.columns = [
+    'Consecutivo Reportes por Persona',
+    'Consecutivo Registro',
+    'Nombre',
+    'Primer Apellido',
+    'Segundo Apellido',
+    'Edad',
+    'Sexo',
+    'Nacionalidad',
+    'Fecha de desaparicion',
+    'Entidad de desaparicion',
+    'Autoridad que reporto'
+]
+
+# ── Preparar variables numéricas ─────────────────────────
+df['Edad'] = pd.to_numeric(df['Edad'], errors='coerce')
+df['Fecha'] = pd.to_datetime(df['Fecha de desaparicion'], format='%d/%m/%Y', errors='coerce')
+df['Anio'] = df['Fecha'].dt.year
+df['Mes']  = df['Fecha'].dt.month
+
+# Seleccionar solo las 4 variables cuantitativas
+numericas = df[['Edad', 'Consecutivo Registro', 'Anio', 'Mes']].dropna()
+
+# Matriz de correlación 
+corr = numericas.corr()
+
+print("Matriz de correlación:")
+print(corr.round(4))
+
+# Correlaciones más fuertes y más débiles (sin diagonal)
+corr_pairs = (corr
+              .where(np.triu(np.ones(corr.shape), k=1).astype(bool))
+              .stack()
+              .reset_index())
+corr_pairs.columns = ['Variable 1', 'Variable 2', 'Correlación']
+corr_pairs['Abs'] = corr_pairs['Correlación'].abs()
+corr_pairs = corr_pairs.sort_values('Abs', ascending=False)
+
+print("\nCorrelaciones de mayor a menor (valor absoluto):")
+print(corr_pairs[['Variable 1', 'Variable 2', 'Correlación']].to_string(index=False))
+
+# Heatmap 
+fig, ax = plt.subplots(figsize=(7, 6))
+
+im = ax.imshow(corr, cmap='coolwarm', vmin=-1, vmax=1)
+plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+
+# Etiquetas
+labels = ['Edad', 'Consec. Registro', 'Año', 'Mes']
+ax.set_xticks(range(len(labels)))
+ax.set_yticks(range(len(labels)))
+ax.set_xticklabels(labels, rotation=30, ha='right', fontsize=10)
+ax.set_yticklabels(labels, fontsize=10)
+
+# Valores dentro de cada celda
+for i in range(len(corr)):
+    for j in range(len(corr)):
+        ax.text(j, i, f'{corr.iloc[i, j]:.3f}',
+                ha='center', va='center', fontsize=11,
+                color='white' if abs(corr.iloc[i, j]) > 0.5 else 'black')
+
+ax.set_title('Matriz de correlación — personas desaparecidas en México',
+             fontsize=12, pad=12)
+
+plt.tight_layout()
+plt.savefig('correlacion_heatmap.png', dpi=150)
+plt.show()
+```  
 
 --- 
 
@@ -826,7 +1264,9 @@ El dataset contiene filas donde todas las columnas presentan valores como 'ELIMI
 
 Del total de registros con sexo registrado, el 76.2 % corresponde a hombres y el 23.8 % a mujeres. No obstante, dado que 38,076 registros (33 % del total) carecen de dato de sexo, la proporción real podría diferir de estos valores.
 
-8. 
+8. Inexistencia de relación entre variables
+
+ A partir de la matriz de correlación se determinó que no existe una relación entre variables numéricas. Esto sugiere que la desaparición de personas en México no sigue un patrón, por lo que puede afectar a cualquier persona, en cualquier momento del año, independientemente de su edad.
 
 --- 
 
