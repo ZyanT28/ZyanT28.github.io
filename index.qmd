@@ -4,6 +4,7 @@ author:
   - "Zianya Nenetzi Trujillo Beltran" 
   - "José Eduardo Cruz Campos"
   - "Paola Mildred Martínez Hidalgo"
+  - "Eric Toporek Coca"
 date: "2026-03-19"
 format: 
   html:    

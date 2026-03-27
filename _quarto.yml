@@ -10,3 +10,6 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    echo: true
+  pdf: 
+    echo: false
