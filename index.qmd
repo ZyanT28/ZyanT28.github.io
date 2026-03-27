@@ -63,8 +63,12 @@ Cada integrante del equipo deberá elegir una empresa distinta en la que le gust
   7. Despliegue
   Fuente: [Capital One](https://www.capitalone.com/tech/cloud/data-management-at-scale/)
 
-# Dataset a limpiar: personas desaparecidas en México
-Se trabajará con conjuntos de datos abiertos relacionados con personas desaparecidas en México.
+
+## Descripción general del dataset
+El dataset RNPDNO-22-08-2023 contiene información oficial sobre personas desaparecidas y no
+localizadas en México, publicada como dato abierto. Cada fila representa el reporte de una persona
+desaparecida.
+
 
 - **Número de filas:** 116945  
 ```{python}
@@ -130,7 +134,6 @@ Crear una tabla que incluya, para cada columna:
   - Categórica nominal u ordinal
   - Numérica discreta o continua
 
-<!--![](images/tabla_de_columnas.png)-->
 ![Tabla de columnas](images/tabla_de_columnas.png){#fig-tabla-columnas}
 
 ## Aplicación de CRISP-DM al dataset asignado
@@ -299,10 +302,17 @@ columnas_relevantes = [
 ]
 dataset = dataset.dropna(subset=columnas_relevantes, how="all")
 
+# Normalizar texto
+cols_texto = ["Sexo", "Nacionalidad", "Entidad de desaparición", "Autoridad que reportó"]
+
+for col in cols_texto:
+    dataset[col] = dataset[col].str.upper().str.strip()
+    
 # guardamos parte del dataset limpio
 dataset.to_csv("dataset_limpio.csv", index=False)
 
 ```
+
 
 Ahora, para encontrar duplicados utilizamos el sig codigo:
 
@@ -745,10 +755,35 @@ plt.tight_layout()
 plt.show()
 ```
 
-
-
-
 ## Medidas de heterogeneidad  
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('dataset_limpio.csv', encoding='latin1')
+
+# Conteo y porcentaje por sexo
+sexo_counts = df['Sexo'].value_counts(dropna=True)
+sexo_pct = df['Sexo'].value_counts(normalize=True, dropna=True) * 100
+
+resumen_sexo = pd.DataFrame({
+    'Frecuencia': sexo_counts,
+    'Porcentaje': sexo_pct.round(1).astype(str) + ' %'
+})
+print(resumen_sexo)
+
+# Gráfica de barras
+plt.figure(figsize=(7, 4))
+sexo_counts.plot(kind='bar', color=['#3266ad', '#e05c5c'], edgecolor='white')
+plt.title('Distribución de desapariciones por sexo')
+plt.xlabel('Sexo')
+plt.ylabel('Número de personas')
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.show()
+``` 
+
 ## Medidas de concentración  
 
 ---
@@ -760,14 +795,23 @@ plt.show()
 
 --- 
 
-**Entregable adicional:** generar el archivo CSV con el dataset limpio.
+# Hallazgos importantes y limitaciones del análisis
 
---- 
+1. Alto porcentaje de datos faltantes en la columna Fecha de desaparición 
+El 80 % de los registros carece de fecha de desaparición, lo que limita significativamente el análisis temporal y la identificación de tendencias a lo largo del tiempo.
 
-# Git 
-- Crear un notebook reproducible y subirlo a Git.
-- Crear un environment para la instalación de bibliotecas.
-- Incluir instrucciones de ejecución: las dependencias necesarias y los pasos para ejecutar el proyecto.
+2. Concentración de desapariciones en población joven (moda: 18 años)
+La distribución de edades muestra que la moda es de 18 años, lo que indica una concentración
+preocupante en población adolescente. 
+
+3. Rango típico de riesgo: entre 14 y 48 años
+Encontramos una desviación estándar de 17 años sobre la media de 31 años, el perfil típico de persona
+desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 % central de los casos
+tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y
+juvenil. 
+
+4. Presencia de valores atípicos extremos en la variable Edad
+
 
 --- 
 
