@@ -133,8 +133,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">En esta página</h2>
    
   <ul class="collapse">
-  <li><a href="#empresa-y-metodología-de-minería-de-datos" id="toc-empresa-y-metodología-de-minería-de-datos" class="nav-link active" data-scroll-target="#empresa-y-metodología-de-minería-de-datos">Empresa y metodología de Minería de Datos</a></li>
-  <li><a href="#dataset-a-limpiar-personas-desaparecidas-en-méxico" id="toc-dataset-a-limpiar-personas-desaparecidas-en-méxico" class="nav-link" data-scroll-target="#dataset-a-limpiar-personas-desaparecidas-en-méxico">Dataset a limpiar: personas desaparecidas en México</a></li>
+  <li><a href="#empresa-y-metodología-de-minería-de-datos" id="toc-empresa-y-metodología-de-minería-de-datos" class="nav-link active" data-scroll-target="#empresa-y-metodología-de-minería-de-datos">Empresa y metodología de Minería de Datos</a>
+  <ul class="collapse">
+  <li><a href="#descripción-general-del-dataset" id="toc-descripción-general-del-dataset" class="nav-link" data-scroll-target="#descripción-general-del-dataset">Descripción general del dataset</a></li>
+  </ul></li>
   <li><a href="#medidas-descriptivas-y-análisis-exploratorio-de-datos-eda" id="toc-medidas-descriptivas-y-análisis-exploratorio-de-datos-eda" class="nav-link" data-scroll-target="#medidas-descriptivas-y-análisis-exploratorio-de-datos-eda">Medidas descriptivas y análisis exploratorio de datos (EDA)</a>
   <ul class="collapse">
   <li><a href="#diccionario-de-datos" id="toc-diccionario-de-datos" class="nav-link" data-scroll-target="#diccionario-de-datos">Diccionario de datos</a></li>
@@ -148,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#medidas-de-concentración" id="toc-medidas-de-concentración" class="nav-link" data-scroll-target="#medidas-de-concentración">Medidas de concentración</a></li>
   </ul></li>
   <li><a href="#correlación" id="toc-correlación" class="nav-link" data-scroll-target="#correlación">Correlación</a></li>
-  <li><a href="#git" id="toc-git" class="nav-link" data-scroll-target="#git">Git</a></li>
+  <li><a href="#hallazgos-importantes-y-limitaciones-del-análisis" id="toc-hallazgos-importantes-y-limitaciones-del-análisis" class="nav-link" data-scroll-target="#hallazgos-importantes-y-limitaciones-del-análisis">Hallazgos importantes y limitaciones del análisis</a></li>
   <li><a href="#reporte-final-hallazgos-y-limitaciones" id="toc-reporte-final-hallazgos-y-limitaciones" class="nav-link" data-scroll-target="#reporte-final-hallazgos-y-limitaciones">Reporte final: hallazgos y limitaciones</a></li>
   </ul>
 </nav>
@@ -236,14 +238,13 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <li>Despliegue Fuente: <a href="https://www.capitalone.com/tech/cloud/data-management-at-scale/">Capital One</a></li>
 </ol></li>
 </ul>
-</section>
-<section id="dataset-a-limpiar-personas-desaparecidas-en-méxico" class="level1">
-<h1>Dataset a limpiar: personas desaparecidas en México</h1>
-<p>Se trabajará con conjuntos de datos abiertos relacionados con personas desaparecidas en México.</p>
+<section id="descripción-general-del-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="descripción-general-del-dataset">Descripción general del dataset</h2>
+<p>El dataset RNPDNO-22-08-2023 contiene información oficial sobre personas desaparecidas y no localizadas en México, publicada como dato abierto. Cada fila representa el reporte de una persona desaparecida.</p>
 <ul>
 <li><strong>Número de filas:</strong> 116945</li>
 </ul>
-<div id="c3627b3d" class="cell" data-execution_count="1">
+<div id="655a50b6" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -264,7 +265,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de columnas:</strong> 11</li>
 </ul>
-<div id="86b63284" class="cell" data-execution_count="2">
+<div id="1c925603" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -285,7 +286,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Periodo de fechas cubierto:</strong> Se cubrió desde el periodo del 01-05-1968 al 20-08-2023</li>
 </ul>
-<div id="2c2a9aa7" class="cell" data-execution_count="3">
+<div id="6ee7998b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -314,12 +315,12 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 </ul>
 <hr>
 </section>
+</section>
 <section id="medidas-descriptivas-y-análisis-exploratorio-de-datos-eda" class="level1">
 <h1>Medidas descriptivas y análisis exploratorio de datos (EDA)</h1>
 <section id="diccionario-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="diccionario-de-datos">Diccionario de datos</h2>
 <p>Crear una tabla que incluya, para cada columna: - Nombre de la columna - Descripción - Tipo de dato (string, entero, float, fecha/hora, booleano) - Tipo estadístico: - Categórica nominal u ordinal - Numérica discreta o continua</p>
-<!--![](images/tabla_de_columnas.png)-->
 <div id="fig-tabla-columnas" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tabla-columnas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -411,7 +412,7 @@ Figura&nbsp;1: Tabla de columnas
 <ul>
 <li><strong>¿Cuál es el porcentaje de faltantes de cada columna?</strong></li>
 </ul>
-<div id="d18bb838" class="cell" data-execution_count="4">
+<div id="2bc13e09" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -455,7 +456,7 @@ Autoridad que reportó                           38024        33 %</code></pre>
 <ul>
 <li><strong>¿Cuál es el porcentaje de valores faltantes en general?</strong></li>
 </ul>
-<div id="f2e9dcfd" class="cell" data-execution_count="5">
+<div id="77d4c89d" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -510,7 +511,7 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 <li><strong>¿Cómo podemos encontrar registros duplicados?</strong></li>
 </ul>
 <p>Para encontrar registros duplicados primero necesitamos limpiar el dataset con el siguiente codigo:</p>
-<div id="406537a6" class="cell" data-execution_count="6">
+<div id="fd1c27a2" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -533,15 +534,21 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.dropna(subset<span class="op">=</span>columnas_relevantes, how<span class="op">=</span><span class="st">"all"</span>)</span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># guardamos parte del dataset limpio</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>dataset.to_csv(<span class="st">"dataset_limpio.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalizar texto</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>cols_texto <span class="op">=</span> [<span class="st">"Sexo"</span>, <span class="st">"Nacionalidad"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span>]</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_texto:</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    dataset[col] <span class="op">=</span> dataset[col].<span class="bu">str</span>.upper().<span class="bu">str</span>.strip()</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># guardamos parte del dataset limpio</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>dataset.to_csv(<span class="st">"dataset_limpio.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total de registros iniciales: 116945</code></pre>
 </div>
 </div>
 <p>Ahora, para encontrar duplicados utilizamos el sig codigo:</p>
-<div id="78c56e3f" class="cell" data-execution_count="7">
+<div id="56a1836a" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -609,7 +616,7 @@ Total de registros finales: 79295</code></pre>
 <section id="análisis-de-series-de-tiempo" class="level4">
 <h4 class="anchored" data-anchor-id="análisis-de-series-de-tiempo">1. Análisis de Series de Tiempo</h4>
 <p>Este modelo busca identificar la tendencia temporal del volumen de personas desaparecidas a lo largo de los meses.</p>
-<div id="3343c833" class="cell" data-execution_count="8">
+<div id="39fe31bf" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -647,7 +654,7 @@ Total de registros finales: 79295</code></pre>
 <section id="clustering-k-means" class="level4">
 <h4 class="anchored" data-anchor-id="clustering-k-means">2. Clustering (K-Means)</h4>
 <p>Agruparemos las entidades federativas (estados) con base en dos características numéricas: la <strong>cantidad total de desapariciones</strong> y la <strong>edad promedio</strong> de los desaparecidos.</p>
-<div id="ede41f60" class="cell" data-execution_count="9">
+<div id="f07adae0" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -699,7 +706,7 @@ Total de registros finales: 79295</code></pre>
 <section id="clasificación-con-árboles-de-decisión" class="level4">
 <h4 class="anchored" data-anchor-id="clasificación-con-árboles-de-decisión">3. Clasificación con Árboles de Decisión</h4>
 <p>Este modelo ayuda a identificar reglas que separan a las personas desaparecidas según su sexo, utilizando su Edad y el Estado donde desaparecieron.</p>
-<div id="b9ee3627" class="cell" data-execution_count="10">
+<div id="1324af22" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
@@ -747,7 +754,7 @@ Total de registros finales: 79295</code></pre>
 <section id="predicción-de-nacionalidad-random-forest" class="level4">
 <h4 class="anchored" data-anchor-id="predicción-de-nacionalidad-random-forest">4. Predicción de Nacionalidad (Random Forest)</h4>
 <p>Este modelo evalúa la importancia de variables demográficas y geográficas para predecir si una persona reportada es de origen extranjero o mexicano, ayudando a detectar patrones de migración vulnerada.</p>
-<div id="8554ffb1" class="cell" data-execution_count="11">
+<div id="0131d029" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
@@ -860,7 +867,7 @@ interpretación breve, formal y contextualizada en el caso del dataset de person
 <p>Para el análisis de las medidas de localización se utilizó la variable edad, calculando la media, mediana y moda. A partir del histograma, se observa que la edad con mayor frecuencia de desaparición es de 18 años (moda), lo cual sugiere una concentración preocupante en la población adolescente.</p>
 <p>Asimismo, la mediana (29) es menor que la media (31.7), lo que indica que la distribución presenta un sesgo hacia la derecha. Esto implica que existen algunos casos de mayor edad que elevan el promedio.</p>
 <p>Por otro lado, los percentiles permiten comprender mejor la distribución de la variable. Por ejemplo, el percentil 90 indica que el 90% de las personas desaparecidas tiene una edad menor o igual a 52 años. Estas medidas son útiles para identificar valores extremos y analizar la dispersión de los datos.</p>
-<div id="72dc93cd" class="cell" data-execution_count="12">
+<div id="8ce5315e" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -944,7 +951,7 @@ P90=52 años,  P95=60 años</code></pre>
 </div>
 </div>
 <p>Finalmente, en ambas gráficas se observa claramente la presencia de un sesgo. Esto se debe a un valor atípico considerablemente alejado del resto (1832), lo cual puede confirmarse con el siguiente código.</p>
-<div id="a93ba62c" class="cell" data-execution_count="13">
+<div id="f65ab486" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'Edad'</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -960,7 +967,7 @@ P90=52 años,  P95=60 años</code></pre>
 <h3 class="anchored" data-anchor-id="varianza-y-desviación-estándar">Varianza y desviación estándar</h3>
 <p>Para interpretar la varianza nos ayudamos de la desviación estandar, en este caso tenemos una desviación estándar de 17 años, esto significa que las edades de las personas registradas como desaparecidas se dispersan, en promedio, aproximadamente 17 años por encima o por debajo de la media. Esto implica que el rango típico de edades oscila entre los 14 años (31 − 17) y los 48 años (31 + 17), abarcando desde adolescentes hasta adultos de mediana edad como el perfil más frecuente.</p>
 <p>Esto refleja que la desaparición de personas en México no se limita a un grupo específico, sino que afecta a individuos en distintas edades, sin embargo se puede ver una mayor concentración en edades jóvenes, lo cual vimos también con la moda, esto sugiere que la población adolescente y adulta joven enfrenta un riesgo particularmente elevado.</p>
-<div id="efbc3b25" class="cell" data-execution_count="14">
+<div id="d93b8f05" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1027,7 +1034,7 @@ Media:               31.71 años</code></pre>
 <li><p><strong>Rango Intercuartílico (IQR)</strong> El IQR de 19 años representa la amplitud del 50% central de los datos, es decir, la mitad de las personas desaparecidas tenía entre 21 y 40 años,mostrando que la mayor concentración de edades se encuentra dentro de ese intervalo.</p></li>
 <li><p><strong>Rango y valores atípicos</strong> Los límites calculados a partir del IQR establecen que valores fuera del rango de −7.50 a 68.50 años se consideran atípicos estadísticamente. Dado que una edad negativa no tiene interpretación posible, el límite inferior efectivo es 0 años. Esto significa que cualquier persona registrada con más de 68 años representa un caso atípico dentro del dataset, esto puede implicar que dichos casos sean errores o que se trate de desapariciones menos frecuentes en grupos de edad avanzada.</p></li>
 </ul>
-<div id="dcc585e7" class="cell" data-execution_count="15">
+<div id="31c95356" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1079,6 +1086,50 @@ Límite superior: 68.50 años</code></pre>
 </section>
 <section id="medidas-de-heterogeneidad" class="level2">
 <h2 class="anchored" data-anchor-id="medidas-de-heterogeneidad">Medidas de heterogeneidad</h2>
+<div id="0ab32b96" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Conteo y porcentaje por sexo</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>sexo_counts <span class="op">=</span> df[<span class="st">'Sexo'</span>].value_counts(dropna<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>sexo_pct <span class="op">=</span> df[<span class="st">'Sexo'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>, dropna<span class="op">=</span><span class="va">True</span>) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>resumen_sexo <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Frecuencia'</span>: sexo_counts,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Porcentaje'</span>: sexo_pct.<span class="bu">round</span>(<span class="dv">1</span>).astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">' %'</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resumen_sexo)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de barras</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>sexo_counts.plot(kind<span class="op">=</span><span class="st">'bar'</span>, color<span class="op">=</span>[<span class="st">'#3266ad'</span>, <span class="st">'#e05c5c'</span>], edgecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribución de desapariciones por sexo'</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sexo'</span>)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Número de personas'</span>)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Frecuencia Porcentaje
+Sexo                                
+HOMBRE              59938     75.6 %
+MUJER               18733     23.6 %
+INDETERMINADO         614      0.8 %
+ELIMINADO 3            10      0.0 %</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-17-output-2.png" width="663" height="374" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="medidas-de-concentración" class="level2">
 <h2 class="anchored" data-anchor-id="medidas-de-concentración">Medidas de concentración</h2>
@@ -1093,16 +1144,15 @@ Límite superior: 68.50 años</code></pre>
 <li>Indicar correlaciones más fuertes y más débiles</li>
 </ul>
 <hr>
-<p><strong>Entregable adicional:</strong> generar el archivo CSV con el dataset limpio.</p>
-<hr>
 </section>
-<section id="git" class="level1">
-<h1>Git</h1>
-<ul>
-<li>Crear un notebook reproducible y subirlo a Git.</li>
-<li>Crear un environment para la instalación de bibliotecas.</li>
-<li>Incluir instrucciones de ejecución: las dependencias necesarias y los pasos para ejecutar el proyecto.</li>
-</ul>
+<section id="hallazgos-importantes-y-limitaciones-del-análisis" class="level1">
+<h1>Hallazgos importantes y limitaciones del análisis</h1>
+<ol type="1">
+<li><p>Alto porcentaje de datos faltantes en la columna Fecha de desaparición El 80 % de los registros carece de fecha de desaparición, lo que limita significativamente el análisis temporal y la identificación de tendencias a lo largo del tiempo.</p></li>
+<li><p>Concentración de desapariciones en población joven (moda: 18 años) La distribución de edades muestra que la moda es de 18 años, lo que indica una concentración preocupante en población adolescente.</p></li>
+<li><p>Rango típico de riesgo: entre 14 y 48 años Encontramos una desviación estándar de 17 años sobre la media de 31 años, el perfil típico de persona desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 % central de los casos tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y juvenil.</p></li>
+<li><p>Presencia de valores atípicos extremos en la variable Edad</p></li>
+</ol>
 <hr>
 </section>
 <section id="reporte-final-hallazgos-y-limitaciones" class="level1">
