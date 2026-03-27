@@ -244,7 +244,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de filas:</strong> 116945</li>
 </ul>
-<div id="655a50b6" class="cell" data-execution_count="1">
+<div id="b5182d17" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -265,7 +265,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de columnas:</strong> 11</li>
 </ul>
-<div id="1c925603" class="cell" data-execution_count="2">
+<div id="226de6e5" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -286,7 +286,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Periodo de fechas cubierto:</strong> Se cubrió desde el periodo del 01-05-1968 al 20-08-2023</li>
 </ul>
-<div id="6ee7998b" class="cell" data-execution_count="3">
+<div id="6de6ed48" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -412,7 +412,7 @@ Figura&nbsp;1: Tabla de columnas
 <ul>
 <li><strong>¿Cuál es el porcentaje de faltantes de cada columna?</strong></li>
 </ul>
-<div id="2bc13e09" class="cell" data-execution_count="4">
+<div id="482c1620" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -456,7 +456,7 @@ Autoridad que reportó                           38024        33 %</code></pre>
 <ul>
 <li><strong>¿Cuál es el porcentaje de valores faltantes en general?</strong></li>
 </ul>
-<div id="77d4c89d" class="cell" data-execution_count="5">
+<div id="eb1fb440" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -510,8 +510,8 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 <ul>
 <li><strong>¿Cómo podemos encontrar registros duplicados?</strong></li>
 </ul>
-<p>Para encontrar registros duplicados primero necesitamos limpiar el dataset con el siguiente codigo:</p>
-<div id="fd1c27a2" class="cell" data-execution_count="6">
+<p>Para encontrar registros duplicados primero necesitamos limpiar el dataset quitando filas que contengan todos sus datos como ELIMINADO y reemplazando los vacíos por NaN, para luego buscar filas que coincidan en las siguientes columnas: nombre, apellido paterno, apellido materno, fecha de desaparición, entidad de desaparición y autoridad que reportó. Estas columnas se consideran relevantes para identificar registros duplicados, ya que una persona puede tener múltiples reportes en diferentes instituciones o momentos, pero si coinciden en estas características clave es probable que se trate del mismo caso registrado varias veces.</p>
+<div id="89cd2da3" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -534,75 +534,61 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.dropna(subset<span class="op">=</span>columnas_relevantes, how<span class="op">=</span><span class="st">"all"</span>)</span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalizar texto</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalizamos texto</span></span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>cols_texto <span class="op">=</span> [<span class="st">"Sexo"</span>, <span class="st">"Nacionalidad"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span>]</span>
 <span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_texto:</span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    dataset[col] <span class="op">=</span> dataset[col].<span class="bu">str</span>.upper().<span class="bu">str</span>.strip()</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># guardamos parte del dataset limpio</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>dataset.to_csv(<span class="st">"dataset_limpio.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. cambiamos INDETERMINADO como NaN</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"Sexo"</span>] <span class="op">=</span> dataset[<span class="st">"Sexo"</span>].replace(<span class="st">"INDETERMINADO"</span>, np.nan)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Convertimos la columna de consecutivo a entero nullable</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"Consecutivo Reportes por Persona"</span>] <span class="op">=</span> dataset[<span class="st">"Consecutivo Reportes por Persona"</span>].astype(<span class="st">"Int64"</span>)</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Buscamos si hay duplicados </span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>duplicados <span class="op">=</span> dataset[dataset.duplicated(</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>[</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre"</span>, <span class="st">"Primer Apellido"</span>, <span class="st">"Segundo Apellido"</span>,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha de desaparición"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    keep<span class="op">=</span><span class="va">False</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Ejemplo de registros duplicados:")</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="co"># print(duplicados.head(20))</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Duplicados encontrados:"</span>, <span class="bu">len</span>(duplicados))</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Eliminamos duplicados</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.drop_duplicates(</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>[</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre"</span>, <span class="st">"Primer Apellido"</span>, <span class="st">"Segundo Apellido"</span>,</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha de desaparición"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>    keep<span class="op">=</span><span class="st">"first"</span> </span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. Confirmamos que ya no hay duplicados</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>duplicados <span class="op">=</span> dataset[dataset.duplicated(</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>[</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre"</span>, <span class="st">"Primer Apellido"</span>, <span class="st">"Segundo Apellido"</span>,</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha de desaparición"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>    keep<span class="op">=</span><span class="va">False</span></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Nuevos duplicados encontrados:"</span>, <span class="bu">len</span>(duplicados))</span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a><span class="co"># 9. Guardar dataset limpio</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>dataset.to_csv(<span class="st">"dataset_limpio.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset guardado como dataset_limpio.csv"</span>)</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total de registros finales:"</span>, <span class="bu">len</span>(dataset))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total de registros iniciales: 116945</code></pre>
-</div>
-</div>
-<p>Ahora, para encontrar duplicados utilizamos el sig codigo:</p>
-<div id="56a1836a" class="cell" data-execution_count="7">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Cargamos dataset </span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> pd.read_csv(<span class="st">"RNPDNO-22-08-2023.csv"</span>, encoding<span class="op">=</span><span class="st">"latin-1"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Convertimos la columna de consecutivo a entero nullable</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"Consecutivo Reportes por Persona"</span>] <span class="op">=</span> dataset[<span class="st">"Consecutivo Reportes por Persona"</span>].astype(<span class="st">"Int64"</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Buscamos si hay duplicados </span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>duplicados <span class="op">=</span> dataset[dataset.duplicated(</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>[</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre"</span>, <span class="st">"Primer Apellido"</span>, <span class="st">"Segundo Apellido"</span>,</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha de desaparición"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    keep<span class="op">=</span><span class="va">False</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>)]</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Ejemplo de registros duplicados:")</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># print(duplicados.head(20))</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Duplicados encontrados:"</span>, <span class="bu">len</span>(duplicados))</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Eliminamos duplicados</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.drop_duplicates(</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>[</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre"</span>, <span class="st">"Primer Apellido"</span>, <span class="st">"Segundo Apellido"</span>,</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha de desaparición"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    keep<span class="op">=</span><span class="st">"first"</span> </span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. Confirmamos que ya no hay duplicados</span></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>duplicados <span class="op">=</span> dataset[dataset.duplicated(</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>[</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre"</span>, <span class="st">"Primer Apellido"</span>, <span class="st">"Segundo Apellido"</span>,</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha de desaparición"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Autoridad que reportó"</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    keep<span class="op">=</span><span class="va">False</span></span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>)]</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Nuevos duplicados encontrados:"</span>, <span class="bu">len</span>(duplicados))</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 9. Guardar dataset limpio</span></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>dataset.to_csv(<span class="st">"dataset_limpio.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset guardado como dataset_limpio.csv"</span>)</span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total de registros finales:"</span>, <span class="bu">len</span>(dataset))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Duplicados encontrados: 37842
+<pre><code>Total de registros iniciales: 116945
+Duplicados encontrados: 385
 Nuevos duplicados encontrados: 0
 Dataset guardado como dataset_limpio.csv
-Total de registros finales: 79295</code></pre>
+Total de registros finales: 79285</code></pre>
 </div>
 </div>
 <ul>
@@ -616,36 +602,36 @@ Total de registros finales: 79295</code></pre>
 <section id="análisis-de-series-de-tiempo" class="level4">
 <h4 class="anchored" data-anchor-id="análisis-de-series-de-tiempo">1. Análisis de Series de Tiempo</h4>
 <p>Este modelo busca identificar la tendencia temporal del volumen de personas desaparecidas a lo largo de los meses.</p>
-<div id="39fe31bf" class="cell" data-execution_count="8">
+<div id="c410a378" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumiendo que df_limpio es nuestro dataframe después del Data Preparation</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Agrupamos por año y mes usando la fecha de desaparición</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Fecha de desaparición"</span> <span class="kw">in</span> df_limpio.columns:</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    df_limpio[<span class="st">"Fecha de desaparición"</span>] <span class="op">=</span> pd.to_datetime(df_limpio[<span class="st">"Fecha de desaparición"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    df_ts <span class="op">=</span> df_limpio.dropna(subset<span class="op">=</span>[<span class="st">"Fecha de desaparición"</span>]).copy()</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    serie_tiempo <span class="op">=</span> df_ts.groupby(df_ts[<span class="st">"Fecha de desaparición"</span>].dt.to_period(<span class="st">"M"</span>)).size().reset_index(name<span class="op">=</span><span class="st">"Total"</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    serie_tiempo[<span class="st">"Fecha de desaparición"</span>] <span class="op">=</span> serie_tiempo[<span class="st">"Fecha de desaparición"</span>].dt.to_timestamp()</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    plt.plot(serie_tiempo[<span class="st">"Fecha de desaparición"</span>], serie_tiempo[<span class="st">"Total"</span>], marker<span class="op">=</span><span class="st">''</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'b'</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Tendencia Histórica de Desapariciones (Agrupado por Mes)"</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Año y Mes"</span>)</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Cantidad de Desapariciones"</span>)</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>)</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"La columna 'Fecha de desaparición' no está disponible para analizar."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumiendo que df_limpio es nuestro dataframe después del Data Preparation</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Agrupamos por año y mes usando la fecha de desaparición</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Fecha de desaparición"</span> <span class="kw">in</span> df_limpio.columns:</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    df_limpio[<span class="st">"Fecha de desaparición"</span>] <span class="op">=</span> pd.to_datetime(df_limpio[<span class="st">"Fecha de desaparición"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    df_ts <span class="op">=</span> df_limpio.dropna(subset<span class="op">=</span>[<span class="st">"Fecha de desaparición"</span>]).copy()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    serie_tiempo <span class="op">=</span> df_ts.groupby(df_ts[<span class="st">"Fecha de desaparición"</span>].dt.to_period(<span class="st">"M"</span>)).size().reset_index(name<span class="op">=</span><span class="st">"Total"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    serie_tiempo[<span class="st">"Fecha de desaparición"</span>] <span class="op">=</span> serie_tiempo[<span class="st">"Fecha de desaparición"</span>].dt.to_timestamp()</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    plt.plot(serie_tiempo[<span class="st">"Fecha de desaparición"</span>], serie_tiempo[<span class="st">"Total"</span>], marker<span class="op">=</span><span class="st">''</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, color<span class="op">=</span><span class="st">'b'</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Tendencia Histórica de Desapariciones (Agrupado por Mes)"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Año y Mes"</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Cantidad de Desapariciones"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"La columna 'Fecha de desaparición' no está disponible para analizar."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-9-output-1.png" width="965" height="524" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-8-output-1.png" width="965" height="524" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -654,50 +640,50 @@ Total de registros finales: 79295</code></pre>
 <section id="clustering-k-means" class="level4">
 <h4 class="anchored" data-anchor-id="clustering-k-means">2. Clustering (K-Means)</h4>
 <p>Agruparemos las entidades federativas (estados) con base en dos características numéricas: la <strong>cantidad total de desapariciones</strong> y la <strong>edad promedio</strong> de los desaparecidos.</p>
-<div id="f07adae0" class="cell" data-execution_count="9">
+<div id="d5375bf9" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Entidad de desaparición"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Edad"</span> <span class="kw">in</span> df_limpio.columns:</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    df_limpio[<span class="st">"Edad"</span>] <span class="op">=</span> pd.to_numeric(df_limpio[<span class="st">"Edad"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    df_cluster <span class="op">=</span> df_limpio.groupby(<span class="st">"Entidad de desaparición"</span>).agg({</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Edad"</span>: <span class="st">"mean"</span>,</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Consecutivo Registro"</span>: <span class="st">"count"</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    }).reset_index()</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    df_cluster.rename(columns<span class="op">=</span>{<span class="st">"Consecutivo Registro"</span>: <span class="st">"Total_Desapariciones"</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    df_cluster.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    X_scaled <span class="op">=</span> scaler.fit_transform(df_cluster[[<span class="st">"Edad"</span>, <span class="st">"Total_Desapariciones"</span>]])</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    df_cluster[<span class="st">"Cluster"</span>] <span class="op">=</span> kmeans.fit_predict(X_scaled)</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Visualizar los clusters</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(data<span class="op">=</span>df_cluster, x<span class="op">=</span><span class="st">"Edad"</span>, y<span class="op">=</span><span class="st">"Total_Desapariciones"</span>, hue<span class="op">=</span><span class="st">"Cluster"</span>, palette<span class="op">=</span><span class="st">"viridis"</span>, s<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Clustering de Entidades: Volumen de Desapariciones vs Edad Promedio"</span>)</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Edad Promedio"</span>)</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Total de Desapariciones"</span>)</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, txt <span class="kw">in</span> <span class="bu">enumerate</span>(df_cluster[<span class="st">"Entidad de desaparición"</span>]):</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_cluster[<span class="st">"Total_Desapariciones"</span>][i] <span class="op">&gt;</span> df_cluster[<span class="st">"Total_Desapariciones"</span>].quantile(<span class="fl">0.85</span>): <span class="co"># Solo estados con alto volumen</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>            plt.annotate(txt, (df_cluster[<span class="st">"Edad"</span>][i], df_cluster[<span class="st">"Total_Desapariciones"</span>][i]), fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Faltan columnas numéricas requeridas para el clustering."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Entidad de desaparición"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Edad"</span> <span class="kw">in</span> df_limpio.columns:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    df_limpio[<span class="st">"Edad"</span>] <span class="op">=</span> pd.to_numeric(df_limpio[<span class="st">"Edad"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    df_cluster <span class="op">=</span> df_limpio.groupby(<span class="st">"Entidad de desaparición"</span>).agg({</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Edad"</span>: <span class="st">"mean"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Consecutivo Registro"</span>: <span class="st">"count"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    }).reset_index()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    df_cluster.rename(columns<span class="op">=</span>{<span class="st">"Consecutivo Registro"</span>: <span class="st">"Total_Desapariciones"</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    df_cluster.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    X_scaled <span class="op">=</span> scaler.fit_transform(df_cluster[[<span class="st">"Edad"</span>, <span class="st">"Total_Desapariciones"</span>]])</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    df_cluster[<span class="st">"Cluster"</span>] <span class="op">=</span> kmeans.fit_predict(X_scaled)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Visualizar los clusters</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(data<span class="op">=</span>df_cluster, x<span class="op">=</span><span class="st">"Edad"</span>, y<span class="op">=</span><span class="st">"Total_Desapariciones"</span>, hue<span class="op">=</span><span class="st">"Cluster"</span>, palette<span class="op">=</span><span class="st">"viridis"</span>, s<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Clustering de Entidades: Volumen de Desapariciones vs Edad Promedio"</span>)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Edad Promedio"</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Total de Desapariciones"</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, txt <span class="kw">in</span> <span class="bu">enumerate</span>(df_cluster[<span class="st">"Entidad de desaparición"</span>]):</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_cluster[<span class="st">"Total_Desapariciones"</span>][i] <span class="op">&gt;</span> df_cluster[<span class="st">"Total_Desapariciones"</span>].quantile(<span class="fl">0.85</span>): <span class="co"># Solo estados con alto volumen</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>            plt.annotate(txt, (df_cluster[<span class="st">"Edad"</span>][i], df_cluster[<span class="st">"Total_Desapariciones"</span>][i]), fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Faltan columnas numéricas requeridas para el clustering."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-10-output-1.png" width="833" height="523" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-9-output-1.png" width="833" height="523" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -706,46 +692,46 @@ Total de registros finales: 79295</code></pre>
 <section id="clasificación-con-árboles-de-decisión" class="level4">
 <h4 class="anchored" data-anchor-id="clasificación-con-árboles-de-decisión">3. Clasificación con Árboles de Decisión</h4>
 <p>Este modelo ayuda a identificar reglas que separan a las personas desaparecidas según su sexo, utilizando su Edad y el Estado donde desaparecieron.</p>
-<div id="1324af22" class="cell" data-execution_count="10">
+<div id="f39ce8dc" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Sexo"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Entidad de desaparición"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Edad"</span> <span class="kw">in</span> df_limpio.columns:</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    df_tree <span class="op">=</span> df_limpio.dropna(subset<span class="op">=</span>[<span class="st">"Edad"</span>, <span class="st">"Sexo"</span>, <span class="st">"Entidad de desaparición"</span>]).copy()</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    df_tree <span class="op">=</span> df_tree[df_tree[<span class="st">"Sexo"</span>].isin([<span class="st">"HOMBRE"</span>, <span class="st">"MUJER"</span>])]</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    le_sexo <span class="op">=</span> LabelEncoder()</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    df_tree[<span class="st">"Sexo_encoded"</span>] <span class="op">=</span> le_sexo.fit_transform(df_tree[<span class="st">"Sexo"</span>])</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    le_entidad <span class="op">=</span> LabelEncoder()</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    df_tree[<span class="st">"Entidad_encoded"</span>] <span class="op">=</span> le_entidad.fit_transform(df_tree[<span class="st">"Entidad de desaparición"</span>])</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> df_tree[[<span class="st">"Edad"</span>, <span class="st">"Entidad_encoded"</span>]]</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df_tree[<span class="st">"Sexo_encoded"</span>]</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    clf <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span><span class="st">"balanced"</span>)</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    clf.fit(X, y)</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>))</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    plot_tree(clf, </span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>              feature_names<span class="op">=</span>[<span class="st">"Edad"</span>, <span class="st">"Entidad (Codificada)"</span>], </span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>              class_names<span class="op">=</span>le_sexo.classes_, </span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>              filled<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>              rounded<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>              fontsize<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>              proportion<span class="op">=</span><span class="va">True</span>) <span class="co"># Mostrar en proporciones para mayor legibilidad</span></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Árbol de Decisión: Reglas del perfil de Desaparición por Sexo"</span>)</span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Faltan columnas necesarias para ejecutar el Árbol de Decisión."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Sexo"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Entidad de desaparición"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Edad"</span> <span class="kw">in</span> df_limpio.columns:</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    df_tree <span class="op">=</span> df_limpio.dropna(subset<span class="op">=</span>[<span class="st">"Edad"</span>, <span class="st">"Sexo"</span>, <span class="st">"Entidad de desaparición"</span>]).copy()</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    df_tree <span class="op">=</span> df_tree[df_tree[<span class="st">"Sexo"</span>].isin([<span class="st">"HOMBRE"</span>, <span class="st">"MUJER"</span>])]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    le_sexo <span class="op">=</span> LabelEncoder()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    df_tree[<span class="st">"Sexo_encoded"</span>] <span class="op">=</span> le_sexo.fit_transform(df_tree[<span class="st">"Sexo"</span>])</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    le_entidad <span class="op">=</span> LabelEncoder()</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    df_tree[<span class="st">"Entidad_encoded"</span>] <span class="op">=</span> le_entidad.fit_transform(df_tree[<span class="st">"Entidad de desaparición"</span>])</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> df_tree[[<span class="st">"Edad"</span>, <span class="st">"Entidad_encoded"</span>]]</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df_tree[<span class="st">"Sexo_encoded"</span>]</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    clf <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span><span class="st">"balanced"</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    clf.fit(X, y)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>))</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    plot_tree(clf, </span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>              feature_names<span class="op">=</span>[<span class="st">"Edad"</span>, <span class="st">"Entidad (Codificada)"</span>], </span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>              class_names<span class="op">=</span>le_sexo.classes_, </span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>              filled<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>              rounded<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>              fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>              proportion<span class="op">=</span><span class="va">True</span>) <span class="co"># Mostrar en proporciones para mayor legibilidad</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Árbol de Decisión: Reglas del perfil de Desaparición por Sexo"</span>)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Faltan columnas necesarias para ejecutar el Árbol de Decisión."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-11-output-1.png" width="1212" height="634" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-10-output-1.png" width="1212" height="634" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -754,50 +740,50 @@ Total de registros finales: 79295</code></pre>
 <section id="predicción-de-nacionalidad-random-forest" class="level4">
 <h4 class="anchored" data-anchor-id="predicción-de-nacionalidad-random-forest">4. Predicción de Nacionalidad (Random Forest)</h4>
 <p>Este modelo evalúa la importancia de variables demográficas y geográficas para predecir si una persona reportada es de origen extranjero o mexicano, ayudando a detectar patrones de migración vulnerada.</p>
-<div id="0131d029" class="cell" data-execution_count="11">
+<div id="e865ce19" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Nacionalidad"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Entidad de desaparición"</span> <span class="kw">in</span> df_limpio.columns:</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    df_rf <span class="op">=</span> df_limpio.dropna(subset<span class="op">=</span>[<span class="st">"Edad"</span>, <span class="st">"Sexo"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Nacionalidad"</span>]).copy()</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Binarizamos Nacionalidad: 0 = Mexicana, 1 = Extranjera/Otra</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    es_mexicano <span class="op">=</span> df_rf[<span class="st">"Nacionalidad"</span>].<span class="bu">str</span>.contains(<span class="st">"MEXICAN"</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    df_rf[<span class="st">"Es_Extranjero"</span>] <span class="op">=</span> np.where(es_mexicano, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    df_rf <span class="op">=</span> df_rf[df_rf[<span class="st">"Sexo"</span>].isin([<span class="st">"HOMBRE"</span>, <span class="st">"MUJER"</span>])]</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    le_sexo <span class="op">=</span> LabelEncoder()</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    df_rf[<span class="st">"Sexo_encoded"</span>] <span class="op">=</span> le_sexo.fit_transform(df_rf[<span class="st">"Sexo"</span>])</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    le_entidad <span class="op">=</span> LabelEncoder()</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    df_rf[<span class="st">"Entidad_encoded"</span>] <span class="op">=</span> le_entidad.fit_transform(df_rf[<span class="st">"Entidad de desaparición"</span>])</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> df_rf[[<span class="st">"Edad"</span>, <span class="st">"Sexo_encoded"</span>, <span class="st">"Entidad_encoded"</span>]]</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df_rf[<span class="st">"Es_Extranjero"</span>]</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Entrenamiento de Bosque Aleatorio balanceado para manejar grupos minoritarios (extranjeros)</span></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    rf <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">50</span>, max_depth<span class="op">=</span><span class="dv">5</span>, class_weight<span class="op">=</span><span class="st">"balanced"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    rf.fit(X, y)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obtenemos la importancia de cada variable (cuál predice mejor el origen)</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    importances <span class="op">=</span> rf.feature_importances_</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    features <span class="op">=</span> [<span class="st">"Edad"</span>, <span class="st">"Sexo"</span>, <span class="st">"Entidad"</span>]</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    plt.barh(features, importances, color<span class="op">=</span><span class="st">'teal'</span>)</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Importancia de Factores para Predecir Población Extranjera"</span>)</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Nivel de Importancia (Importancia de Gini)"</span>)</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Faltan columnas necesarias para el modelo de Nacionalidad."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"Nacionalidad"</span> <span class="kw">in</span> df_limpio.columns <span class="kw">and</span> <span class="st">"Entidad de desaparición"</span> <span class="kw">in</span> df_limpio.columns:</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    df_rf <span class="op">=</span> df_limpio.dropna(subset<span class="op">=</span>[<span class="st">"Edad"</span>, <span class="st">"Sexo"</span>, <span class="st">"Entidad de desaparición"</span>, <span class="st">"Nacionalidad"</span>]).copy()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Binarizamos Nacionalidad: 0 = Mexicana, 1 = Extranjera/Otra</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    es_mexicano <span class="op">=</span> df_rf[<span class="st">"Nacionalidad"</span>].<span class="bu">str</span>.contains(<span class="st">"MEXICAN"</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    df_rf[<span class="st">"Es_Extranjero"</span>] <span class="op">=</span> np.where(es_mexicano, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    df_rf <span class="op">=</span> df_rf[df_rf[<span class="st">"Sexo"</span>].isin([<span class="st">"HOMBRE"</span>, <span class="st">"MUJER"</span>])]</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    le_sexo <span class="op">=</span> LabelEncoder()</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    df_rf[<span class="st">"Sexo_encoded"</span>] <span class="op">=</span> le_sexo.fit_transform(df_rf[<span class="st">"Sexo"</span>])</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    le_entidad <span class="op">=</span> LabelEncoder()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    df_rf[<span class="st">"Entidad_encoded"</span>] <span class="op">=</span> le_entidad.fit_transform(df_rf[<span class="st">"Entidad de desaparición"</span>])</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> df_rf[[<span class="st">"Edad"</span>, <span class="st">"Sexo_encoded"</span>, <span class="st">"Entidad_encoded"</span>]]</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df_rf[<span class="st">"Es_Extranjero"</span>]</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Entrenamiento de Bosque Aleatorio balanceado para manejar grupos minoritarios (extranjeros)</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    rf <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">50</span>, max_depth<span class="op">=</span><span class="dv">5</span>, class_weight<span class="op">=</span><span class="st">"balanced"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    rf.fit(X, y)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obtenemos la importancia de cada variable (cuál predice mejor el origen)</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    importances <span class="op">=</span> rf.feature_importances_</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    features <span class="op">=</span> [<span class="st">"Edad"</span>, <span class="st">"Sexo"</span>, <span class="st">"Entidad"</span>]</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    plt.barh(features, importances, color<span class="op">=</span><span class="st">'teal'</span>)</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Importancia de Factores para Predecir Población Extranjera"</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Nivel de Importancia (Importancia de Gini)"</span>)</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Faltan columnas necesarias para el modelo de Nacionalidad."</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-12-output-1.png" width="674" height="450" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-11-output-1.png" width="674" height="450" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -867,64 +853,64 @@ interpretación breve, formal y contextualizada en el caso del dataset de person
 <p>Para el análisis de las medidas de localización se utilizó la variable edad, calculando la media, mediana y moda. A partir del histograma, se observa que la edad con mayor frecuencia de desaparición es de 18 años (moda), lo cual sugiere una concentración preocupante en la población adolescente.</p>
 <p>Asimismo, la mediana (29) es menor que la media (31.7), lo que indica que la distribución presenta un sesgo hacia la derecha. Esto implica que existen algunos casos de mayor edad que elevan el promedio.</p>
 <p>Por otro lado, los percentiles permiten comprender mejor la distribución de la variable. Por ejemplo, el percentil 90 indica que el 90% de las personas desaparecidas tiene una edad menor o igual a 52 años. Estas medidas son útiles para identificar valores extremos y analizar la dispersión de los datos.</p>
-<div id="8ce5315e" class="cell" data-execution_count="12">
+<div id="d4ad5b99" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset limpio</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Edad'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Edad'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>edad <span class="op">=</span> df[<span class="st">'Edad'</span>].dropna().values</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas de localización </span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>mean   <span class="op">=</span> edad.mean()</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>median <span class="op">=</span> np.median(edad)</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Moda aproximada: centro del bin con mayor frecuencia</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> <span class="dv">50</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>counts, bin_edges <span class="op">=</span> np.histogram(edad, bins<span class="op">=</span>bins)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>max_bin_idx <span class="op">=</span> np.argmax(counts)</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>mode_approx <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (bin_edges[max_bin_idx] <span class="op">+</span> bin_edges[max_bin_idx <span class="op">+</span> <span class="dv">1</span>])</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media            = </span><span class="sc">{</span>mean<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana          = </span><span class="sc">{</span>median<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (aprox)     = </span><span class="sc">{</span>mode_approx<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma con líneas de localización </span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>plt.hist(edad, bins<span class="op">=</span>bins, alpha<span class="op">=</span><span class="fl">0.45</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Personas desaparecidas en México: histograma de edad"</span>)</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Edad (años)"</span>)</span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frecuencia"</span>)</span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>plt.axvline(mean,        color<span class="op">=</span><span class="st">"tab:blue"</span>,   linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Media = </span><span class="sc">{</span>mean<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>plt.axvline(median,      color<span class="op">=</span><span class="st">"tab:orange"</span>, linestyle<span class="op">=</span><span class="st">"-"</span>,  linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana = </span><span class="sc">{</span>median<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>plt.axvline(mode_approx, color<span class="op">=</span><span class="st">"tab:red"</span>,  linestyle<span class="op">=</span><span class="st">":"</span>,  linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Moda (aprox) = </span><span class="sc">{</span>mode_approx<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ECDF para percentiles y cola</span></span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>x_sorted <span class="op">=</span> np.sort(edad)</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.arange(<span class="dv">1</span>, x_sorted.size <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> x_sorted.size</span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>plt.step(x_sorted, y, where<span class="op">=</span><span class="st">"post"</span>)</span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Personas desaparecidas en México: ECDF de edad"</span>)</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Edad (años)"</span>)</span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Proporción acumulada"</span>)</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">1.01</span>)</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentiles</span></span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>p25, p50, p75, p90, p95 <span class="op">=</span> np.quantile(edad, [<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>])</span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P25=</span><span class="sc">{</span>p25<span class="sc">:.0f}</span><span class="ss"> años,  P50=</span><span class="sc">{</span>p50<span class="sc">:.0f}</span><span class="ss"> años,  P75=</span><span class="sc">{</span>p75<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P90=</span><span class="sc">{</span>p90<span class="sc">:.0f}</span><span class="ss"> años,  P95=</span><span class="sc">{</span>p95<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset limpio</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Edad'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Edad'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>edad <span class="op">=</span> df[<span class="st">'Edad'</span>].dropna().values</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas de localización </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>mean   <span class="op">=</span> edad.mean()</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>median <span class="op">=</span> np.median(edad)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Moda aproximada: centro del bin con mayor frecuencia</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>counts, bin_edges <span class="op">=</span> np.histogram(edad, bins<span class="op">=</span>bins)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>max_bin_idx <span class="op">=</span> np.argmax(counts)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>mode_approx <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (bin_edges[max_bin_idx] <span class="op">+</span> bin_edges[max_bin_idx <span class="op">+</span> <span class="dv">1</span>])</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media            = </span><span class="sc">{</span>mean<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana          = </span><span class="sc">{</span>median<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (aprox)     = </span><span class="sc">{</span>mode_approx<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma con líneas de localización </span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>plt.hist(edad, bins<span class="op">=</span>bins, alpha<span class="op">=</span><span class="fl">0.45</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Personas desaparecidas en México: histograma de edad"</span>)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Edad (años)"</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frecuencia"</span>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>plt.axvline(mean,        color<span class="op">=</span><span class="st">"tab:blue"</span>,   linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Media = </span><span class="sc">{</span>mean<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>plt.axvline(median,      color<span class="op">=</span><span class="st">"tab:orange"</span>, linestyle<span class="op">=</span><span class="st">"-"</span>,  linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana = </span><span class="sc">{</span>median<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>plt.axvline(mode_approx, color<span class="op">=</span><span class="st">"tab:red"</span>,  linestyle<span class="op">=</span><span class="st">":"</span>,  linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Moda (aprox) = </span><span class="sc">{</span>mode_approx<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ECDF para percentiles y cola</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>x_sorted <span class="op">=</span> np.sort(edad)</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.arange(<span class="dv">1</span>, x_sorted.size <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> x_sorted.size</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>plt.step(x_sorted, y, where<span class="op">=</span><span class="st">"post"</span>)</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Personas desaparecidas en México: ECDF de edad"</span>)</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Edad (años)"</span>)</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Proporción acumulada"</span>)</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">1.01</span>)</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentiles</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>p25, p50, p75, p90, p95 <span class="op">=</span> np.quantile(edad, [<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>])</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P25=</span><span class="sc">{</span>p25<span class="sc">:.0f}</span><span class="ss"> años,  P50=</span><span class="sc">{</span>p50<span class="sc">:.0f}</span><span class="ss"> años,  P75=</span><span class="sc">{</span>p75<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P90=</span><span class="sc">{</span>p90<span class="sc">:.0f}</span><span class="ss"> años,  P95=</span><span class="sc">{</span>p95<span class="sc">:.0f}</span><span class="ss"> años"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Media            = 31.71 años
@@ -934,14 +920,14 @@ Moda (aprox)     = 18 años</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-13-output-2.png" width="662" height="470" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-12-output-2.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-13-output-3.png" width="663" height="470" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-12-output-3.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -951,10 +937,10 @@ P90=52 años,  P95=60 años</code></pre>
 </div>
 </div>
 <p>Finalmente, en ambas gráficas se observa claramente la presencia de un sesgo. Esto se debe a un valor atípico considerablemente alejado del resto (1832), lo cual puede confirmarse con el siguiente código.</p>
-<div id="f65ab486" class="cell" data-execution_count="13">
+<div id="bec1a241" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'Edad'</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'Edad'</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>1832.0</code></pre>
@@ -967,51 +953,51 @@ P90=52 años,  P95=60 años</code></pre>
 <h3 class="anchored" data-anchor-id="varianza-y-desviación-estándar">Varianza y desviación estándar</h3>
 <p>Para interpretar la varianza nos ayudamos de la desviación estandar, en este caso tenemos una desviación estándar de 17 años, esto significa que las edades de las personas registradas como desaparecidas se dispersan, en promedio, aproximadamente 17 años por encima o por debajo de la media. Esto implica que el rango típico de edades oscila entre los 14 años (31 − 17) y los 48 años (31 + 17), abarcando desde adolescentes hasta adultos de mediana edad como el perfil más frecuente.</p>
 <p>Esto refleja que la desaparición de personas en México no se limita a un grupo específico, sino que afecta a individuos en distintas edades, sin embargo se puede ver una mayor concentración en edades jóvenes, lo cual vimos también con la moda, esto sugiere que la población adolescente y adulta joven enfrenta un riesgo particularmente elevado.</p>
-<div id="d93b8f05" class="cell" data-execution_count="14">
+<div id="be8176ed" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar CSV limpio</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Edad'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Edad'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>edad <span class="op">=</span> df[<span class="st">'Edad'</span>].dropna()</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas de variabilidad </span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>varianza <span class="op">=</span> edad.var(ddof<span class="op">=</span><span class="dv">1</span>)        </span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>desv_std <span class="op">=</span> edad.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>media    <span class="op">=</span> edad.mean()</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Varianza:            </span><span class="sc">{</span>varianza<span class="sc">:.4f}</span><span class="ss"> años"</span>)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desviación estándar: </span><span class="sc">{</span>desv_std<span class="sc">:.4f}</span><span class="ss"> años"</span>)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media:               </span><span class="sc">{</span>media<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica </span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>ax.hist(edad, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">121</span>, <span class="dv">5</span>), color<span class="op">=</span><span class="st">'#3266ad'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>,</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>        edgecolor<span class="op">=</span><span class="st">'white'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Distribución de edades'</span>)</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Línea de la media</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>ax.axvline(media, color<span class="op">=</span><span class="st">'#E24B4A'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="ss">f'Media: </span><span class="sc">{</span>media<span class="sc">:.1f}</span><span class="ss"> años'</span>)</span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Banda de ±1 desviación estándar</span></span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>ax.axvspan(media <span class="op">-</span> desv_std, media <span class="op">+</span> desv_std,</span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>           alpha<span class="op">=</span><span class="fl">0.15</span>, color<span class="op">=</span><span class="st">'#EF9F27'</span>,</span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="ss">f'±1 σ (</span><span class="sc">{</span>media <span class="op">-</span> desv_std<span class="sc">:.1f}</span><span class="ss"> – </span><span class="sc">{</span>media <span class="op">+</span> desv_std<span class="sc">:.1f}</span><span class="ss"> años)'</span>)</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Varianza y desviación estándar — edad de personas desaparecidas'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, pad<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Edad (años)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Número de personas'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(x)<span class="sc">:,}</span><span class="ss">'</span>))</span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'variabilidad_edad.png'</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
-<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar CSV limpio</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Edad'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Edad'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>edad <span class="op">=</span> df[<span class="st">'Edad'</span>].dropna()</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas de variabilidad </span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>varianza <span class="op">=</span> edad.var(ddof<span class="op">=</span><span class="dv">1</span>)        </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>desv_std <span class="op">=</span> edad.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>media    <span class="op">=</span> edad.mean()</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Varianza:            </span><span class="sc">{</span>varianza<span class="sc">:.4f}</span><span class="ss"> años"</span>)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desviación estándar: </span><span class="sc">{</span>desv_std<span class="sc">:.4f}</span><span class="ss"> años"</span>)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media:               </span><span class="sc">{</span>media<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica </span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>ax.hist(edad, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">121</span>, <span class="dv">5</span>), color<span class="op">=</span><span class="st">'#3266ad'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>        edgecolor<span class="op">=</span><span class="st">'white'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Distribución de edades'</span>)</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Línea de la media</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>ax.axvline(media, color<span class="op">=</span><span class="st">'#E24B4A'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="ss">f'Media: </span><span class="sc">{</span>media<span class="sc">:.1f}</span><span class="ss"> años'</span>)</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Banda de ±1 desviación estándar</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>ax.axvspan(media <span class="op">-</span> desv_std, media <span class="op">+</span> desv_std,</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>           alpha<span class="op">=</span><span class="fl">0.15</span>, color<span class="op">=</span><span class="st">'#EF9F27'</span>,</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="ss">f'±1 σ (</span><span class="sc">{</span>media <span class="op">-</span> desv_std<span class="sc">:.1f}</span><span class="ss"> – </span><span class="sc">{</span>media <span class="op">+</span> desv_std<span class="sc">:.1f}</span><span class="ss"> años)'</span>)</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Varianza y desviación estándar — edad de personas desaparecidas'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, pad<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Edad (años)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Número de personas'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(x)<span class="sc">:,}</span><span class="ss">'</span>))</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'variabilidad_edad.png'</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Varianza:            292.7119 años
@@ -1021,7 +1007,7 @@ Media:               31.71 años</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-15-output-2.png" width="949" height="469" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-14-output-2.png" width="949" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1034,38 +1020,38 @@ Media:               31.71 años</code></pre>
 <li><p><strong>Rango Intercuartílico (IQR)</strong> El IQR de 19 años representa la amplitud del 50% central de los datos, es decir, la mitad de las personas desaparecidas tenía entre 21 y 40 años,mostrando que la mayor concentración de edades se encuentra dentro de ese intervalo.</p></li>
 <li><p><strong>Rango y valores atípicos</strong> Los límites calculados a partir del IQR establecen que valores fuera del rango de −7.50 a 68.50 años se consideran atípicos estadísticamente. Dado que una edad negativa no tiene interpretación posible, el límite inferior efectivo es 0 años. Esto significa que cualquier persona registrada con más de 68 años representa un caso atípico dentro del dataset, esto puede implicar que dichos casos sean errores o que se trate de desapariciones menos frecuentes en grupos de edad avanzada.</p></li>
 </ul>
-<div id="31c95356" class="cell" data-execution_count="15">
+<div id="2652c581" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar CSV limpio</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Edad'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Edad'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>edad <span class="op">=</span> df[<span class="st">'Edad'</span>].dropna()</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas </span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>q1  <span class="op">=</span> np.quantile(edad, <span class="fl">0.25</span>)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>q3  <span class="op">=</span> np.quantile(edad, <span class="fl">0.75</span>)</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> q3 <span class="op">-</span> q1</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>low  <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>high <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Q1:    </span><span class="sc">{</span>q1<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Q3:    </span><span class="sc">{</span>q3<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR:   </span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Límite inferior: </span><span class="sc">{</span>low<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Límite superior: </span><span class="sc">{</span>high<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot </span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>plt.boxplot(edad, vert<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"Boxplot edad: IQR=</span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss">, límites [</span><span class="sc">{</span>low<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>high<span class="sc">:.2f}</span><span class="ss">]"</span>)</span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Edad (años)"</span>)</span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar CSV limpio</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Edad'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Edad'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>edad <span class="op">=</span> df[<span class="st">'Edad'</span>].dropna()</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas </span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>q1  <span class="op">=</span> np.quantile(edad, <span class="fl">0.25</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>q3  <span class="op">=</span> np.quantile(edad, <span class="fl">0.75</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> q3 <span class="op">-</span> q1</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>low  <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>high <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Q1:    </span><span class="sc">{</span>q1<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Q3:    </span><span class="sc">{</span>q3<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR:   </span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Límite inferior: </span><span class="sc">{</span>low<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Límite superior: </span><span class="sc">{</span>high<span class="sc">:.2f}</span><span class="ss"> años"</span>)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot </span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>plt.boxplot(edad, vert<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"Boxplot edad: IQR=</span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss">, límites [</span><span class="sc">{</span>low<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>high<span class="sc">:.2f}</span><span class="ss">]"</span>)</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Edad (años)"</span>)</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Q1:    21.00 años
@@ -1077,7 +1063,7 @@ Límite superior: 68.50 años</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-16-output-2.png" width="662" height="470" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-15-output-2.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1086,46 +1072,44 @@ Límite superior: 68.50 años</code></pre>
 </section>
 <section id="medidas-de-heterogeneidad" class="level2">
 <h2 class="anchored" data-anchor-id="medidas-de-heterogeneidad">Medidas de heterogeneidad</h2>
-<div id="0ab32b96" class="cell" data-execution_count="16">
+<div id="ec79d8f1" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Conteo y porcentaje por sexo</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>sexo_counts <span class="op">=</span> df[<span class="st">'Sexo'</span>].value_counts(dropna<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>sexo_pct <span class="op">=</span> df[<span class="st">'Sexo'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>, dropna<span class="op">=</span><span class="va">True</span>) <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>resumen_sexo <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Frecuencia'</span>: sexo_counts,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Porcentaje'</span>: sexo_pct.<span class="bu">round</span>(<span class="dv">1</span>).astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">' %'</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resumen_sexo)</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de barras</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>sexo_counts.plot(kind<span class="op">=</span><span class="st">'bar'</span>, color<span class="op">=</span>[<span class="st">'#3266ad'</span>, <span class="st">'#e05c5c'</span>], edgecolor<span class="op">=</span><span class="st">'white'</span>)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribución de desapariciones por sexo'</span>)</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sexo'</span>)</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Número de personas'</span>)</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'dataset_limpio.csv'</span>, encoding<span class="op">=</span><span class="st">'latin1'</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Conteo y porcentaje por sexo</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>sexo_counts <span class="op">=</span> df[<span class="st">'Sexo'</span>].value_counts(dropna<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>sexo_pct <span class="op">=</span> df[<span class="st">'Sexo'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>, dropna<span class="op">=</span><span class="va">True</span>) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>resumen_sexo <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Frecuencia'</span>: sexo_counts,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Porcentaje'</span>: sexo_pct.<span class="bu">round</span>(<span class="dv">1</span>).astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">' %'</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resumen_sexo)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de barras</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>sexo_counts.plot(kind<span class="op">=</span><span class="st">'bar'</span>, color<span class="op">=</span>[<span class="st">'#3266ad'</span>, <span class="st">'#e05c5c'</span>], edgecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribución de desapariciones por sexo'</span>)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sexo'</span>)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Número de personas'</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>               Frecuencia Porcentaje
-Sexo                                
-HOMBRE              59938     75.6 %
-MUJER               18733     23.6 %
-INDETERMINADO         614      0.8 %
-ELIMINADO 3            10      0.0 %</code></pre>
+<pre><code>        Frecuencia Porcentaje
+Sexo                         
+HOMBRE       59938     76.2 %
+MUJER        18733     23.8 %</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-17-output-2.png" width="663" height="374" class="figure-img"></p>
+<p><img src="index_files/figure-html/cell-16-output-2.png" width="663" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>

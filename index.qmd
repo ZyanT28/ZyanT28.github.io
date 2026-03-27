@@ -279,7 +279,8 @@ Finalmente, el poco porcentaje de registros con fecha disponible se pueden utili
 
 - **¿Cómo podemos encontrar registros duplicados?** 
 
-Para encontrar registros duplicados primero necesitamos limpiar el dataset con el siguiente codigo:
+Para encontrar registros duplicados primero necesitamos limpiar el dataset quitando filas que contengan todos sus datos como ELIMINADO y reemplazando los vacíos por NaN, para luego buscar filas que coincidan en las siguientes columnas: nombre, apellido paterno, apellido materno, fecha de desaparición, entidad de desaparición y autoridad que reportó. Estas columnas se consideran relevantes para identificar registros duplicados, ya que una persona puede tener múltiples reportes en diferentes instituciones o momentos, pero si coinciden en estas características clave es probable que se trate del mismo caso registrado varias veces.
+
 
 ```{python}
 import pandas as pd
@@ -302,27 +303,14 @@ columnas_relevantes = [
 ]
 dataset = dataset.dropna(subset=columnas_relevantes, how="all")
 
-# Normalizar texto
+# Normalizamos texto
 cols_texto = ["Sexo", "Nacionalidad", "Entidad de desaparición", "Autoridad que reportó"]
 
 for col in cols_texto:
     dataset[col] = dataset[col].str.upper().str.strip()
     
-# guardamos parte del dataset limpio
-dataset.to_csv("dataset_limpio.csv", index=False)
-
-```
-
-
-Ahora, para encontrar duplicados utilizamos el sig codigo:
-
-```{python}
-import pandas as pd
-import numpy as np
-
-# 1. Cargamos dataset 
-dataset = pd.read_csv("RNPDNO-22-08-2023.csv", encoding="latin-1")
-
+# 6. cambiamos INDETERMINADO como NaN
+dataset["Sexo"] = dataset["Sexo"].replace("INDETERMINADO", np.nan)
 
 # 5. Convertimos la columna de consecutivo a entero nullable
 dataset["Consecutivo Reportes por Persona"] = dataset["Consecutivo Reportes por Persona"].astype("Int64")
