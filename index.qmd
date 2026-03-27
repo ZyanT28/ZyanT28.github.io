@@ -353,6 +353,8 @@ print("Dataset guardado como dataset_limpio.csv")
 print("Total de registros finales:", len(dataset))
 ```
 
+
+
 - **¿Qué acciones se tomaron respecto a los registros duplicados y por qué?**
 
 Eliminamos únicamente los registros que coincidieran en nombre, apellido paterno, materno, fecha de desaparición, Entidad de desaparición y Autoridad que reportó puesto que el nombre y apellido no son suficiente para eliminar registros duplicados pues esa persona puede tener reportes en diferentes instituciones.  
@@ -388,7 +390,18 @@ if "Fecha de desaparición" in df_limpio.columns:
     plt.show()
 else:
     print("La columna 'Fecha de desaparición' no está disponible para analizar.")
+
+
+    plt.figure(figsize=(5, 5))
+    sexo_counts.plot(kind='pie', autopct='%1.1f%%', colors=['#3266ad', '#e05c5c'])
+    plt.title('Proporción por sexo')
+    plt.ylabel('')
+    plt.tight_layout()
+    plt.show()     
 ```
+
+De esta grafica podemos encontrar que el porcentaje de hombres desaparecidos es mayor al de mujeres, sin embargo, el porcentaje de datos faltantes en la columna de sexo es del 30%, por lo que esta información no se puede considerar completamente confiable.
+
 
 #### 2. Clustering (K-Means)
 Agruparemos las entidades federativas (estados) con base en dos características numéricas: la **cantidad total de desapariciones** y la **edad promedio** de los desaparecidos.
@@ -798,7 +811,14 @@ desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 %
 tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y
 juvenil. 
 
-4. Presencia de valores atípicos extremos en la variable Edad
+4. Estados que concentran la mayoría de las desapariciones registradas
+El análisis de clustering K-Means (k=4) sobre el total de desapariciones por entidad revela una
+concentración geográfica marcada. Los 5 estados con mayor volumen son: Tamaulipas (~11,000
+casos), Estado de México (~8,500), Veracruz (~6,000), Michoacán (~4,500) y Sinaloa (~4,000). Estos
+estados forman un cluster propio (Cluster 0) muy separado del resto del país, y coinciden con zonas
+de alta actividad del crimen organizado, corredores de tránsito y fronteras de alto riesgo. La gran
+mayoría de entidades registra menos de 2,000 casos, lo que evidencia una distribución altamente
+desigual del fenómeno a nivel nacional.
 
 
 --- 
