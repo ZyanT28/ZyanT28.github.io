@@ -800,26 +800,36 @@ plt.show()
 # Hallazgos importantes y limitaciones del análisis
 
 1. Alto porcentaje de datos faltantes en la columna Fecha de desaparición 
+
 El 80 % de los registros carece de fecha de desaparición, lo que limita significativamente el análisis temporal y la identificación de tendencias a lo largo del tiempo.
 
 2. Concentración de desapariciones en población joven (moda: 18 años)
-La distribución de edades muestra que la moda es de 18 años, lo que indica una concentración
-preocupante en población adolescente. 
+
+La distribución de edades muestra que la moda es de 18 años, lo que indica una concentración preocupante en población adolescente. 
 
 3. Rango típico de riesgo: entre 14 y 48 años
-Encontramos una desviación estándar de 17 años sobre la media de 31 años, el perfil típico de persona
-desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 % central de los casos
-tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y
+
+Encontramos una desviación estándar de 17 años sobre la media de 31 años, el perfil típico de persona desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 % central de los casos tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y
 juvenil. 
 
 4. Estados que concentran la mayoría de las desapariciones registradas
-El análisis de clustering K-Means (k=4) sobre el total de desapariciones por entidad revela una
-concentración geográfica marcada. Los 5 estados con mayor volumen son: Tamaulipas (~11,000
-casos), Estado de México (~8,500), Veracruz (~6,000), Michoacán (~4,500) y Sinaloa (~4,000). Estos
-estados forman un cluster propio (Cluster 0) muy separado del resto del país, y coinciden con zonas
-de alta actividad del crimen organizado, corredores de tránsito y fronteras de alto riesgo. La gran
-mayoría de entidades registra menos de 2,000 casos, lo que evidencia una distribución altamente
-desigual del fenómeno a nivel nacional.
+
+El análisis de clustering K-Means (k=4) sobre el total de desapariciones por entidad revela una concentración geográfica marcada. Los 5 estados con mayor volumen son: Tamaulipas, Estado de México, Veracruz, Michoacán y Sinaloa. Estos estados forman un cluster propio (Cluster 0) muy separado del resto del país, y coinciden con zonas de alta actividad del crimen organizado, corredores de tránsito y fronteras de alto riesgo.
+
+5. Registros duplicados identificados por combinación de variables clave
+
+Se detectaron registros duplicados comparando Nombre, Primer Apellido, Segundo Apellido, Fecha de desaparición Entidad y Autoridad que reportó. Se optó por este subconjunto de variables porque el mismo nombre puede corresponder a reportes legítimos en distintas instituciones o entidades. Se conservó el primer registro de cada grupo duplicado con keep='first'. 
+
+6. Existencia de registros ELIMINADO: anonimización sistemática de datos
+
+El dataset contiene filas donde todas las columnas presentan valores como 'ELIMINADO 1', 'ELIMINADO 2', etc., indicando un mecanismo MNAR (Missing Not At Random). Estas filas fueron eliminadas durante la limpieza al no aportar información analítica. Su existencia sugiere procesos intencionales de anonimización o censura de datos.
+
+7. Las desapariciones afectan predominantemente a hombres (76.2 %) 
+
+Del total de registros con sexo registrado, el 76.2 % corresponde a hombres y el 23.8 % a mujeres. No obstante, dado que 38,076 registros (33 % del total) carecen de dato de sexo, la proporción real podría diferir de estos valores.
+
+8. 
+
 
 
 --- 

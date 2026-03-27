@@ -244,7 +244,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de filas:</strong> 116945</li>
 </ul>
-<div id="9afa1002" class="cell" data-execution_count="1">
+<div id="ad4953e3" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -265,7 +265,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Número de columnas:</strong> 11</li>
 </ul>
-<div id="ffbf6f32" class="cell" data-execution_count="2">
+<div id="828e97cf" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -286,7 +286,7 @@ Fuente: <a href="https://learn.microsoft.com/en-us/analysis-services/data-mining
 <ul>
 <li><strong>Periodo de fechas cubierto:</strong> Se cubrió desde el periodo del 01-05-1968 al 20-08-2023</li>
 </ul>
-<div id="b744fc86" class="cell" data-execution_count="3">
+<div id="285c6d0e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -412,7 +412,7 @@ Figura&nbsp;1: Tabla de columnas
 <ul>
 <li><strong>¿Cuál es el porcentaje de faltantes de cada columna?</strong></li>
 </ul>
-<div id="d9634247" class="cell" data-execution_count="4">
+<div id="c44195a3" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -456,7 +456,7 @@ Autoridad que reportó                           38024        33 %</code></pre>
 <ul>
 <li><strong>¿Cuál es el porcentaje de valores faltantes en general?</strong></li>
 </ul>
-<div id="b6f54baf" class="cell" data-execution_count="5">
+<div id="75ac656e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -511,7 +511,7 @@ Porcentaje total de datos faltantes: 32 %</code></pre>
 <li><strong>¿Cómo podemos encontrar registros duplicados?</strong></li>
 </ul>
 <p>Para encontrar registros duplicados primero necesitamos limpiar el dataset quitando filas que contengan todos sus datos como ELIMINADO y reemplazando los vacíos por NaN, para luego buscar filas que coincidan en las siguientes columnas: nombre, apellido paterno, apellido materno, fecha de desaparición, entidad de desaparición y autoridad que reportó. Estas columnas se consideran relevantes para identificar registros duplicados, ya que una persona puede tener múltiples reportes en diferentes instituciones o momentos, pero si coinciden en estas características clave es probable que se trate del mismo caso registrado varias veces.</p>
-<div id="b38cde12" class="cell" data-execution_count="6">
+<div id="daf3c262" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -602,7 +602,7 @@ Total de registros finales: 79285</code></pre>
 <section id="análisis-de-series-de-tiempo" class="level4">
 <h4 class="anchored" data-anchor-id="análisis-de-series-de-tiempo">1. Análisis de Series de Tiempo</h4>
 <p>Este modelo busca identificar la tendencia temporal del volumen de personas desaparecidas a lo largo de los meses.</p>
-<div id="38daff1f" class="cell" data-execution_count="7">
+<div id="d88aecb3" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -649,7 +649,7 @@ Total de registros finales: 79285</code></pre>
 <section id="clustering-k-means" class="level4">
 <h4 class="anchored" data-anchor-id="clustering-k-means">2. Clustering (K-Means)</h4>
 <p>Agruparemos las entidades federativas (estados) con base en dos características numéricas: la <strong>cantidad total de desapariciones</strong> y la <strong>edad promedio</strong> de los desaparecidos.</p>
-<div id="f17620eb" class="cell" data-execution_count="8">
+<div id="dcb6ed95" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -701,7 +701,7 @@ Total de registros finales: 79285</code></pre>
 <section id="clasificación-con-árboles-de-decisión" class="level4">
 <h4 class="anchored" data-anchor-id="clasificación-con-árboles-de-decisión">3. Clasificación con Árboles de Decisión</h4>
 <p>Este modelo ayuda a identificar reglas que separan a las personas desaparecidas según su sexo, utilizando su Edad y el Estado donde desaparecieron.</p>
-<div id="9fbc947a" class="cell" data-execution_count="9">
+<div id="16edefc4" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
@@ -749,7 +749,7 @@ Total de registros finales: 79285</code></pre>
 <section id="predicción-de-nacionalidad-random-forest" class="level4">
 <h4 class="anchored" data-anchor-id="predicción-de-nacionalidad-random-forest">4. Predicción de Nacionalidad (Random Forest)</h4>
 <p>Este modelo evalúa la importancia de variables demográficas y geográficas para predecir si una persona reportada es de origen extranjero o mexicano, ayudando a detectar patrones de migración vulnerada.</p>
-<div id="681c738f" class="cell" data-execution_count="10">
+<div id="0cf05e5a" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
@@ -862,7 +862,7 @@ interpretación breve, formal y contextualizada en el caso del dataset de person
 <p>Para el análisis de las medidas de localización se utilizó la variable edad, calculando la media, mediana y moda. A partir del histograma, se observa que la edad con mayor frecuencia de desaparición es de 18 años (moda), lo cual sugiere una concentración preocupante en la población adolescente.</p>
 <p>Asimismo, la mediana (29) es menor que la media (31.7), lo que indica que la distribución presenta un sesgo hacia la derecha. Esto implica que existen algunos casos de mayor edad que elevan el promedio.</p>
 <p>Por otro lado, los percentiles permiten comprender mejor la distribución de la variable. Por ejemplo, el percentil 90 indica que el 90% de las personas desaparecidas tiene una edad menor o igual a 52 años. Estas medidas son útiles para identificar valores extremos y analizar la dispersión de los datos.</p>
-<div id="e539cab1" class="cell" data-execution_count="11">
+<div id="dd5c0399" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -946,7 +946,7 @@ P90=52 años,  P95=60 años</code></pre>
 </div>
 </div>
 <p>Finalmente, en ambas gráficas se observa claramente la presencia de un sesgo. Esto se debe a un valor atípico considerablemente alejado del resto (1832), lo cual puede confirmarse con el siguiente código.</p>
-<div id="c1b4bb84" class="cell" data-execution_count="12">
+<div id="06d86177" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'Edad'</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -962,7 +962,7 @@ P90=52 años,  P95=60 años</code></pre>
 <h3 class="anchored" data-anchor-id="varianza-y-desviación-estándar">Varianza y desviación estándar</h3>
 <p>Para interpretar la varianza nos ayudamos de la desviación estandar, en este caso tenemos una desviación estándar de 17 años, esto significa que las edades de las personas registradas como desaparecidas se dispersan, en promedio, aproximadamente 17 años por encima o por debajo de la media. Esto implica que el rango típico de edades oscila entre los 14 años (31 − 17) y los 48 años (31 + 17), abarcando desde adolescentes hasta adultos de mediana edad como el perfil más frecuente.</p>
 <p>Esto refleja que la desaparición de personas en México no se limita a un grupo específico, sino que afecta a individuos en distintas edades, sin embargo se puede ver una mayor concentración en edades jóvenes, lo cual vimos también con la moda, esto sugiere que la población adolescente y adulta joven enfrenta un riesgo particularmente elevado.</p>
-<div id="4f961e7b" class="cell" data-execution_count="13">
+<div id="374f8adc" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1029,7 +1029,7 @@ Media:               31.71 años</code></pre>
 <li><p><strong>Rango Intercuartílico (IQR)</strong> El IQR de 19 años representa la amplitud del 50% central de los datos, es decir, la mitad de las personas desaparecidas tenía entre 21 y 40 años,mostrando que la mayor concentración de edades se encuentra dentro de ese intervalo.</p></li>
 <li><p><strong>Rango y valores atípicos</strong> Los límites calculados a partir del IQR establecen que valores fuera del rango de −7.50 a 68.50 años se consideran atípicos estadísticamente. Dado que una edad negativa no tiene interpretación posible, el límite inferior efectivo es 0 años. Esto significa que cualquier persona registrada con más de 68 años representa un caso atípico dentro del dataset, esto puede implicar que dichos casos sean errores o que se trate de desapariciones menos frecuentes en grupos de edad avanzada.</p></li>
 </ul>
-<div id="e60f33da" class="cell" data-execution_count="14">
+<div id="394c645f" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1081,7 +1081,7 @@ Límite superior: 68.50 años</code></pre>
 </section>
 <section id="medidas-de-heterogeneidad" class="level2">
 <h2 class="anchored" data-anchor-id="medidas-de-heterogeneidad">Medidas de heterogeneidad</h2>
-<div id="c4ef57a5" class="cell" data-execution_count="15">
+<div id="8e83f49e" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1141,10 +1141,35 @@ MUJER        18733     23.8 %</code></pre>
 <section id="hallazgos-importantes-y-limitaciones-del-análisis" class="level1">
 <h1>Hallazgos importantes y limitaciones del análisis</h1>
 <ol type="1">
-<li><p>Alto porcentaje de datos faltantes en la columna Fecha de desaparición El 80 % de los registros carece de fecha de desaparición, lo que limita significativamente el análisis temporal y la identificación de tendencias a lo largo del tiempo.</p></li>
-<li><p>Concentración de desapariciones en población joven (moda: 18 años) La distribución de edades muestra que la moda es de 18 años, lo que indica una concentración preocupante en población adolescente.</p></li>
-<li><p>Rango típico de riesgo: entre 14 y 48 años Encontramos una desviación estándar de 17 años sobre la media de 31 años, el perfil típico de persona desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 % central de los casos tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y juvenil.</p></li>
-<li><p>Estados que concentran la mayoría de las desapariciones registradas El análisis de clustering K-Means (k=4) sobre el total de desapariciones por entidad revela una concentración geográfica marcada. Los 5 estados con mayor volumen son: Tamaulipas (~11,000 casos), Estado de México (~8,500), Veracruz (~6,000), Michoacán (~4,500) y Sinaloa (~4,000). Estos estados forman un cluster propio (Cluster 0) muy separado del resto del país, y coinciden con zonas de alta actividad del crimen organizado, corredores de tránsito y fronteras de alto riesgo. La gran mayoría de entidades registra menos de 2,000 casos, lo que evidencia una distribución altamente desigual del fenómeno a nivel nacional.</p></li>
+<li>Alto porcentaje de datos faltantes en la columna Fecha de desaparición</li>
+</ol>
+<p>El 80 % de los registros carece de fecha de desaparición, lo que limita significativamente el análisis temporal y la identificación de tendencias a lo largo del tiempo.</p>
+<ol start="2" type="1">
+<li>Concentración de desapariciones en población joven (moda: 18 años)</li>
+</ol>
+<p>La distribución de edades muestra que la moda es de 18 años, lo que indica una concentración preocupante en población adolescente.</p>
+<ol start="3" type="1">
+<li>Rango típico de riesgo: entre 14 y 48 años</li>
+</ol>
+<p>Encontramos una desviación estándar de 17 años sobre la media de 31 años, el perfil típico de persona desaparecida oscila entre los 14 y 48 años. Los cuartiles confirman que el 50 % central de los casos tiene entre 21 años (Q1) y 40 años (Q3), afectando principalmente a población en etapa productiva y juvenil.</p>
+<ol start="4" type="1">
+<li>Estados que concentran la mayoría de las desapariciones registradas</li>
+</ol>
+<p>El análisis de clustering K-Means (k=4) sobre el total de desapariciones por entidad revela una concentración geográfica marcada. Los 5 estados con mayor volumen son: Tamaulipas, Estado de México, Veracruz, Michoacán y Sinaloa. Estos estados forman un cluster propio (Cluster 0) muy separado del resto del país, y coinciden con zonas de alta actividad del crimen organizado, corredores de tránsito y fronteras de alto riesgo.</p>
+<ol start="5" type="1">
+<li>Registros duplicados identificados por combinación de variables clave</li>
+</ol>
+<p>Se detectaron registros duplicados comparando Nombre, Primer Apellido, Segundo Apellido, Fecha de desaparición Entidad y Autoridad que reportó. Se optó por este subconjunto de variables porque el mismo nombre puede corresponder a reportes legítimos en distintas instituciones o entidades. Se conservó el primer registro de cada grupo duplicado con keep=‘first’.</p>
+<ol start="6" type="1">
+<li>Existencia de registros ELIMINADO: anonimización sistemática de datos</li>
+</ol>
+<p>El dataset contiene filas donde todas las columnas presentan valores como ‘ELIMINADO 1’, ‘ELIMINADO 2’, etc., indicando un mecanismo MNAR (Missing Not At Random). Estas filas fueron eliminadas durante la limpieza al no aportar información analítica. Su existencia sugiere procesos intencionales de anonimización o censura de datos.</p>
+<ol start="7" type="1">
+<li>Las desapariciones afectan predominantemente a hombres (76.2 %)</li>
+</ol>
+<p>Del total de registros con sexo registrado, el 76.2 % corresponde a hombres y el 23.8 % a mujeres. No obstante, dado que 38,076 registros (33 % del total) carecen de dato de sexo, la proporción real podría diferir de estos valores.</p>
+<ol start="8" type="1">
+<li></li>
 </ol>
 <hr>
 </section>
