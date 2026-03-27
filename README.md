@@ -52,8 +52,8 @@ Python >=3.11
     $pip install jupyter nbformat ipykernel    
 10. Ejecutar quarto desde la terminal y con el entorno activo,
     ```bash
-    $ quarto render Tarea2.qmd
-    $ quarto preview Tarea2.qmd
+    $ quarto render index.qmd
+    $ quarto preview index.qmd
 
 Se deberan instalar dependencias y bibliotecas que quarto te pide con python, como: TinyTex,Jupyter.
 Para verificar que quarto esta bien instalado se utiliza el comando:
