@@ -5,6 +5,7 @@ author:
   - "José Eduardo Cruz Campos"
   - "Paola Mildred Martínez Hidalgo"
   - "Eric Toporek Coca"
+
 date: "2026-03-19"
 format: 
   html:    
@@ -797,7 +798,7 @@ plt.show()
 
 --- 
 
-# Hallazgos importantes y limitaciones del análisis
+# Hallazgos importantes
 
 1. Alto porcentaje de datos faltantes en la columna Fecha de desaparición 
 
@@ -830,15 +831,43 @@ Del total de registros con sexo registrado, el 76.2 % corresponde a hombres y el
 
 8. 
 
+--- 
 
+# Limitaciones del análisis
+1. Calidad de los datos: 
+
+El dataset presenta problemas estructurales de calidad que limitan la profundidad del análisis.
+- El 80 % de la columna Fecha de desaparición es nulo.
+- Variables como Edad, Sexo y Nacionalidad presentan entre 30 % y 40 % de valores faltantes.
+- Se identificó al menos un valor atípico extremo en Edad (1,832 años), producto de error de captura.
+- Los valores 'ELIMINADO' en múltiples columnas apuntan a registros intencionalmente anonimizados.
+
+2. Sesgos de captura y registro:
+
+Los datos reflejan únicamente los casos efectivamente registrados y reportados, no el total real de
+desapariciones en México. Esto introduce los siguientes sesgos:
+- Sesgo temporal: los picos en la serie de tiempo pueden reflejar épocas de mayor registro burocrático, no necesariamente mayor incidencia real.
+- Las autoridades con mayor capacidad administrativa generan más registros, por lo que estados con instituciones más robustas pueden aparecer con más casos no porque tengan más desapariciones, sino porque reportan mejor.
+
+3. Variables faltantes estructurales
+
+El dataset carece de variables que serían de alto valor analítico:
+- Condición de localización posterior (si fue encontrada la persona y en qué estado). 
+- Condición socioeconómica o nivel educativo. 
+- Variables de seguimiento institucional (si se inició investigación, resultado)
 
 --- 
 
-# Reporte final: hallazgos y limitaciones
-Entregar un reporte en PDF que incluya:
-- Objetivo y preguntas de análisis
-- Descripción del dataset asignado al equipo
-- Al menos 8 hallazgos principales sustentados con evidencia gráfica o tablas
-- Limitaciones del análisis: calidad de los datos, sesgos, variables faltantes y decisiones
-de limpieza
-- Conclusión.
+# Decisiones de limpieza
+
+Se eliminaron filas que tenían todos sus valores eliminados pues no aportaban información útil para el análisis, de igual forma de cambió el valor de "ELIMINADO" y datos vacíospor NaN para mantener la integridad de los datos disponibles y evitar sesgos a través de imputaciones, es decir que no se eliminaron filas con datos faltantes ya que podían aportar información para algún análisis específico y eliminar estas filas implicaría perder una gran cantidad de información valiosa para el análisis demográfico, geográfico e institucional.
+
+--- 
+
+# Conclusión
+
+El análisis del RNPDNO-22-08-2023 revela que México enfrenta una crisis documentada de más de 116,000 registros de personas desaparecidas, pero con severas limitaciones de calidad en los datos. El 80 % de ausencia en Fecha de desaparición, junto con los registros intencionalmente anonimizados (ELIMINADO), indican que las cifras oficiales representan únicamente una fracción del fenómeno real.
+Los hallazgos estadísticos muestran de manera consistente que los grupos más afectados son jóvenes de entre 18 y 40 años. La moda de 18 años es especialmente alarmante, señalando a la población adolescente como la más expuesta. Las diferencias geográficas identificadas por el clustering y el modelo de Random Forest confirman que ciertos estados concentran una desproporcionada cantidad de casos, coincidiendo con zonas de influencia del crimen organizado y corredores migratorios.
+
+
+
