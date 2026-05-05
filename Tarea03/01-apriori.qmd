@@ -2,10 +2,6 @@
 sidebar: tarea03
 ---
 
-# Implementación de algoritmo de asociación
-
-Implementación del algoritmo Apriori en Python.
-
 ## Funciones auxiliares
 
 Las siguientes funciones de soporte calculan las métricas fundamentales utilizadas por el algoritmo Apriori propio.
@@ -18,23 +14,27 @@ Las siguientes funciones de soporte calculan las métricas fundamentales utiliza
 from itertools import combinations
 
 def get_support(itemset, transactions, n):
+    # Soporte = proporción de transacciones que contienen el itemset
     count = sum(1 for t in transactions if itemset.issubset(t))
     return count / n
 
 def get_confidence(sup_itemset, sup_ant):
+    # Confianza = soporte del conjunto completo / soporte del antecedente
     return sup_itemset / sup_ant if sup_ant > 0 else 0
 
 def get_lift(confidence, sup_cons):
+    # Lift = qué tanto mejora la regla respecto a la casualidad
     return confidence / sup_cons if sup_cons > 0 else 0
-
 ```
 
 ## Implementación de Apriori propio
 
+Implementamos el algoritmo apriori propio utilizando las funciones auxiliares anteriores
+
 ```{python}
 
 #| label: funciones-auxiliares-01
-#| code-summary: "Funciones de soporte (support, confidence, lift)"
+#| code-summary: "Apriori propio"
 
 from itertools import combinations
 
@@ -54,14 +54,20 @@ def apriori_propio(transactions, min_support, min_confidence):
     Implementación propia del algoritmo Apriori.
     Retorna (frequent_itemsets_dict, rules_list)
     """
+
     n = len(transactions)
+
+    # extraemos todos los items únicos del dataset
     all_items = set(item for t in transactions for item in t)
 
-    # Itemsets frecuentes de tamaño 1
+    # itemsets frecuentes de tamaño 1
     freq = {}
     L1 = {}
+
     for item in all_items:
+        # calculamos el soporte de cada item individual
         sup = get_support(frozenset([item]), transactions, n)
+        # dejamos solo los que cumplan con el soporte mínimo
         if sup >= min_support:
             L1[frozenset([item])] = sup
     freq.update(L1)
@@ -69,23 +75,29 @@ def apriori_propio(transactions, min_support, min_confidence):
     Lk = L1
     k = 2
     while Lk:
-        prev_keys = list(Lk.keys())
-        candidates = set()
+        prev_keys = list(Lk.keys())  # itemsets frecuentes del nivel anterior
+        candidates = set() 
+
         for i in range(len(prev_keys)):
             for j in range(i + 1, len(prev_keys)):
                 union = prev_keys[i] | prev_keys[j]
+                # consideramos solo los itemset de tamaño k
                 if len(union) == k:
                     candidates.add(union)
-
         Lk_new = {}
+
         for c in candidates:
+            # poda: verificamos que todos los subconjuntos sean frecuentes
             subsets_freq = all(
                 frozenset(sub) in Lk
                 for sub in combinations(c, k - 1)
             )
             if not subsets_freq:
                 continue
+            
+            # calculamos soporte del candidato
             sup = get_support(c, transactions, n)
+            # cumple con soporte minimo
             if sup >= min_support:
                 Lk_new[c] = sup
 
@@ -96,18 +108,26 @@ def apriori_propio(transactions, min_support, min_confidence):
     # Generar reglas
     rules = []
     for itemset, sup_itemset in freq.items():
+        # solo los itemsets de tamaño >= 2 generan reglas
         if len(itemset) < 2:
             continue
+        
+        # generar todas las posibles particiones antecedente/consecuente
         for size in range(1, len(itemset)):
             for antecedent in combinations(itemset, size):
                 antecedent = frozenset(antecedent)
                 consequent = itemset - antecedent
+                # soporte del antecedente
                 sup_ant = freq.get(antecedent, get_support(antecedent, transactions, n))
                 if sup_ant == 0:
                     continue
+                # calculamos confianza
                 confidence = get_confidence(sup_itemset, sup_ant)
+                # soporte del consecuente
                 sup_cons = freq.get(consequent, get_support(consequent, transactions, n))
+                # calculamos lift
                 lift = get_lift(confidence, sup_cons)
+                # filtrar por confianza mínima
                 if confidence >= min_confidence:
                     rules.append({
                         "antecedents": antecedent,

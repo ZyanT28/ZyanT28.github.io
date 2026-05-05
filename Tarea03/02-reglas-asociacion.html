@@ -199,7 +199,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Tarea03/01-apriori.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Implementación de algoritmo de asociación</span></a>
+ <span class="menu-text">Funciones auxiliares</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -711,7 +711,7 @@ window.Quarto = {
 </section>
 <section id="código-completo" class="level2">
 <h2 class="anchored" data-anchor-id="código-completo">Código completo:</h2>
-<div id="04de24c5" class="cell" data-execution_count="7">
+<div id="7eeb1978" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1106,7 +1106,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.065  conf=0.600  lift=1.263
 
   [mlxtend Apriori] Ejecutando...
-    Tiempo: 0.01 s  |  Itemsets: 126  |  Reglas: 185
+    Tiempo: 0.00 s  |  Itemsets: 126  |  Reglas: 185
   Top-5 reglas (mlxtend Apriori) por lift:
     [MES_DESAPARICION=Mayo]
     → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
@@ -1139,9 +1139,9 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
     [ENTIDAD=SONORA]
     → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
       sup=0.042  conf=0.962  lift=1.276
-    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Enero, SEXO=HOMBRE]
+    [MES_DESAPARICION=Enero, SEXO=HOMBRE]
     → [GRUPO_EDAD=30-59]
-      sup=0.060  conf=0.600  lift=1.263
+      sup=0.065  conf=0.600  lift=1.263
 
   ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): 22 ───
     [MES_DESAPARICION=Mayo] → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
@@ -1157,7 +1157,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
 
   ─── Comparativa de tiempos (Fox (2000-2006)) ───
     Apriori propio  : 0.03 s
-    mlxtend Apriori : 0.01 s
+    mlxtend Apriori : 0.00 s
     FP-Growth       : 0.01 s
 
 =================================================================
@@ -1167,7 +1167,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
   Parámetros → min_support=0.04, min_confidence=0.4
 
   [Apriori propio] Ejecutando...
-    Tiempo: 0.42 s  |  Itemsets: 140  |  Reglas: 230
+    Tiempo: 0.32 s  |  Itemsets: 140  |  Reglas: 230
   Top-5 reglas (Apriori propio) por lift:
     [SEXO=MUJER]
     → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
@@ -1186,7 +1186,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.071  conf=0.481  lift=1.163
 
   [mlxtend Apriori] Ejecutando...
-    Tiempo: 0.02 s  |  Itemsets: 140  |  Reglas: 230
+    Tiempo: 0.01 s  |  Itemsets: 140  |  Reglas: 230
   Top-5 reglas (mlxtend Apriori) por lift:
     [SEXO=MUJER]
     → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
@@ -1205,7 +1205,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.071  conf=0.481  lift=1.163
 
   [FP-Growth] Ejecutando...
-    Tiempo: 0.04 s  |  Itemsets: 140  |  Reglas: 230
+    Tiempo: 0.02 s  |  Itemsets: 140  |  Reglas: 230
   Top-5 reglas (FP-Growth) por lift:
     [SEXO=MUJER]
     → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
@@ -1230,9 +1230,9 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.111  conf=0.464  lift=1.201
 
   ─── Comparativa de tiempos (Calderon (2006-2012)) ───
-    Apriori propio  : 0.42 s
-    mlxtend Apriori : 0.02 s
-    FP-Growth       : 0.04 s
+    Apriori propio  : 0.32 s
+    mlxtend Apriori : 0.01 s
+    FP-Growth       : 0.02 s
 
 =================================================================
   SEXENIO: PeñaNieto (2012-2018)  (11,751 registros)
@@ -1241,7 +1241,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
   Parámetros → min_support=0.04, min_confidence=0.4
 
   [Apriori propio] Ejecutando...
-    Tiempo: 0.69 s  |  Itemsets: 135  |  Reglas: 183
+    Tiempo: 0.51 s  |  Itemsets: 135  |  Reglas: 183
   Top-5 reglas (Apriori propio) por lift:
     [GRUPO_EDAD=12-17]
     → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
@@ -1279,7 +1279,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.051  conf=0.607  lift=3.044
 
   [FP-Growth] Ejecutando...
-    Tiempo: 0.05 s  |  Itemsets: 135  |  Reglas: 183
+    Tiempo: 0.04 s  |  Itemsets: 135  |  Reglas: 183
   Top-5 reglas (FP-Growth) por lift:
     [GRUPO_EDAD=12-17]
     → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
@@ -1310,9 +1310,9 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.051  conf=0.607  lift=3.044
 
   ─── Comparativa de tiempos (PeñaNieto (2012-2018)) ───
-    Apriori propio  : 0.69 s
+    Apriori propio  : 0.51 s
     mlxtend Apriori : 0.02 s
-    FP-Growth       : 0.05 s
+    FP-Growth       : 0.04 s
 
 =================================================================
   SEXENIO: AMLO (2018-2024)  (24,729 registros)
@@ -1321,7 +1321,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
   Parámetros → min_support=0.04, min_confidence=0.4
 
   [Apriori propio] Ejecutando...
-    Tiempo: 1.56 s  |  Itemsets: 125  |  Reglas: 157
+    Tiempo: 1.15 s  |  Itemsets: 125  |  Reglas: 157
   Top-5 reglas (Apriori propio) por lift:
     [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
     → [SEXO=MUJER]
@@ -1340,7 +1340,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.050  conf=0.874  lift=1.185
 
   [mlxtend Apriori] Ejecutando...
-    Tiempo: 0.04 s  |  Itemsets: 125  |  Reglas: 157
+    Tiempo: 0.03 s  |  Itemsets: 125  |  Reglas: 157
   Top-5 reglas (mlxtend Apriori) por lift:
     [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
     → [SEXO=MUJER]
@@ -1359,7 +1359,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.050  conf=0.874  lift=1.185
 
   [FP-Growth] Ejecutando...
-    Tiempo: 0.11 s  |  Itemsets: 125  |  Reglas: 157
+    Tiempo: 0.07 s  |  Itemsets: 125  |  Reglas: 157
   Top-5 reglas (FP-Growth) por lift:
     [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
     → [SEXO=MUJER]
@@ -1386,9 +1386,9 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.047  conf=0.492  lift=2.504
 
   ─── Comparativa de tiempos (AMLO (2018-2024)) ───
-    Apriori propio  : 1.56 s
-    mlxtend Apriori : 0.04 s
-    FP-Growth       : 0.11 s
+    Apriori propio  : 1.15 s
+    mlxtend Apriori : 0.03 s
+    FP-Growth       : 0.07 s
 
 =================================================================
   SEXENIO: Sheinbaum (2024-)  (6,515 registros)
@@ -1397,7 +1397,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
   Parámetros → min_support=0.04, min_confidence=0.4
 
   [Apriori propio] Ejecutando...
-    Tiempo: 0.38 s  |  Itemsets: 133  |  Reglas: 191
+    Tiempo: 0.30 s  |  Itemsets: 133  |  Reglas: 191
   Top-5 reglas (Apriori propio) por lift:
     [GRUPO_EDAD=12-17]
     → [SEXO=MUJER]
@@ -1435,7 +1435,7 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.042  conf=0.441  lift=1.271
 
   [FP-Growth] Ejecutando...
-    Tiempo: 0.03 s  |  Itemsets: 133  |  Reglas: 191
+    Tiempo: 0.02 s  |  Itemsets: 133  |  Reglas: 191
   Top-5 reglas (FP-Growth) por lift:
     [GRUPO_EDAD=12-17]
     → [SEXO=MUJER]
@@ -1466,28 +1466,28 @@ REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growt
       sup=0.042  conf=0.441  lift=1.271
 
   ─── Comparativa de tiempos (Sheinbaum (2024-)) ───
-    Apriori propio  : 0.38 s
+    Apriori propio  : 0.30 s
     mlxtend Apriori : 0.01 s
-    FP-Growth       : 0.03 s
+    FP-Growth       : 0.02 s
 
 =================================================================
 RESUMEN COMPARATIVO DE TIEMPOS POR SEXENIO
 =================================================================
               sexenio  registros  t_propio    t_mlx     t_fp  reglas_propio  reglas_mlx  reglas_fp
-      Fox (2000-2006)        600  0.031952 0.007143 0.009173            185         185        185
- Calderon (2006-2012)       7039  0.424697 0.016848 0.035670            230         230        230
-PeñaNieto (2012-2018)      11705  0.689520 0.024960 0.054716            183         183        183
-     AMLO (2018-2024)      24632  1.564772 0.038330 0.106081            157         157        157
-    Sheinbaum (2024-)       6476  0.377962 0.012213 0.032240            191         191        191
+      Fox (2000-2006)        600  0.026176 0.004520 0.006019            185         185        185
+ Calderon (2006-2012)       7039  0.315631 0.012045 0.024357            230         230        230
+PeñaNieto (2012-2018)      11705  0.508532 0.017326 0.037774            183         183        183
+     AMLO (2018-2024)      24632  1.154390 0.027968 0.073865            157         157        157
+    Sheinbaum (2024-)       6476  0.295351 0.009399 0.022036            191         191        191
 
 =================================================================
 RESUMEN FINAL
 =================================================================
 
 Tiempos algoritmos Apriori:
-  Apriori propio  : 0.38 s  (O(2^n) candidatos, el mas lento)
+  Apriori propio  : 0.30 s  (O(2^n) candidatos, el mas lento)
   mlxtend Apriori : 0.01 s
-  FP-Growth       : 0.03 s  (sin generación de candidatos, el más rápido)</code></pre>
+  FP-Growth       : 0.02 s  (sin generación de candidatos, el más rápido)</code></pre>
 </div>
 </div>
 

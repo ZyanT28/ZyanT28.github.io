@@ -9,9 +9,9 @@ website:
     left:
       - href: index.qmd
         text: Inicio
-      - href: Tarea02.html
+      - href: Tarea02.qmd
         text: Tarea 02
-      - href: Tarea03.html
+      - href: Tarea03.qmd
         text: Tarea 03
   sidebar:
     - id: tarea03
