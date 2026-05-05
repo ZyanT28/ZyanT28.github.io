@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>reglas-asociacion – Mineria de Datos</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9346f0f317ce86ad72de196d5d03cf6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Mineria de Datos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Tarea02.html"> 
+<span class="menu-text">Tarea 02</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../Tarea03.html" aria-current="page"> 
+<span class="menu-text">Tarea 03</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Tarea03/02-reglas-asociacion.html">Reglas de asociación</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Tarea03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tarea 03 — Reglas de asociación y clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Tarea03/01-apriori.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementación de algoritmo de asociación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Tarea03/02-reglas-asociacion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Reglas de asociación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Tarea03/03-clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Algoritmos: Clasificación</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#reglas-de-asociación" id="toc-reglas-de-asociación" class="nav-link active" data-scroll-target="#reglas-de-asociación">Reglas de asociación</a>
+  <ul class="collapse">
+  <li><a href="#preparación-del-dataset" id="toc-preparación-del-dataset" class="nav-link" data-scroll-target="#preparación-del-dataset">Preparación del dataset</a></li>
+  <li><a href="#implementación-de-los-algoritmos" id="toc-implementación-de-los-algoritmos" class="nav-link" data-scroll-target="#implementación-de-los-algoritmos">Implementación de los algoritmos</a></li>
+  <li><a href="#resultados-por-sexenio" id="toc-resultados-por-sexenio" class="nav-link" data-scroll-target="#resultados-por-sexenio">Resultados por sexenio</a></li>
+  <li><a href="#comparativa-entre-los-tres-algoritmos" id="toc-comparativa-entre-los-tres-algoritmos" class="nav-link" data-scroll-target="#comparativa-entre-los-tres-algoritmos">Comparativa entre los tres algoritmos</a></li>
+  <li><a href="#interpretación-general-de-los-patrones" id="toc-interpretación-general-de-los-patrones" class="nav-link" data-scroll-target="#interpretación-general-de-los-patrones">Interpretación general de los patrones</a></li>
+  <li><a href="#limitaciones-y-posibles-sesgos" id="toc-limitaciones-y-posibles-sesgos" class="nav-link" data-scroll-target="#limitaciones-y-posibles-sesgos">Limitaciones y posibles sesgos</a></li>
+  <li><a href="#código-completo" id="toc-código-completo" class="nav-link" data-scroll-target="#código-completo">Código completo:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Descubrimiento de patrones</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="reglas-de-asociación" class="level1">
+<h1>Reglas de asociación</h1>
+<p>Descubrir patrones del tipo:</p>
+<ul>
+<li><code>SEXO = Femenino</code> y <code>GRUPO_EDAD = 12–17</code> <span class="math inline">\(\rightarrow\)</span> <code>ENTIDAD = ...</code></li>
+<li><code>ENTIDAD = ...</code> y <code>MES_DESAPARICION = ...</code> <span class="math inline">\(\rightarrow\)</span> <code>ESTATUS_VICTIMA = ...</code></li>
+</ul>
+<p>Se aplican los 3 algoritmos: Apriori propio (implementado en el capítulo anterior), mlxtend Apriori y FP-Growth, justificando cuál tarda más, cuál tarda menos y si generan las mismas reglas.</p>
+<section id="preparación-del-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-del-dataset">Preparación del dataset</h2>
+<p>Antes de aplicar los algoritmos de asociación, se preparó el dataset resolviendo tres aspectos clave: el manejo de datos <code>CONFIDENCIAL</code>, la discretización de variables continuas y la selección de columnas para las transacciones.</p>
+<section id="manejo-de-datos-confidenciales" class="level3">
+<h3 class="anchored" data-anchor-id="manejo-de-datos-confidenciales">Manejo de datos confidenciales</h3>
+<p>Se eliminaron las filas que contienen algún dato confidencial en las variables clave, puesto que no aportan información semántica útil para descubrir patrones o construir modelos analíticos. Mantener estos valores como categoría podría producir reglas triviales, por ejemplo: <em>“confidencial → confidencial”</em>, sin valor interpretativo real.</p>
+</section>
+<section id="discretización-de-variables-continuas" class="level3">
+<h3 class="anchored" data-anchor-id="discretización-de-variables-continuas">Discretización de variables continuas</h3>
+<p>Apriori requiere ítems categóricos, por lo que se obtuvieron las siguientes categorías principales:</p>
+<table class="caption-top table">
+<caption>Discretización de variables</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Tipo</th>
+<th>Transformación</th>
+<th>Justificación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Edad</td>
+<td>Numérica</td>
+<td>0-11, 12-17, 18-29, 30-59, 60+</td>
+<td>Etapas con diferente perfil de riesgo. Se calculó obteniendo la diferencia entre la fecha de desaparición y la fecha de nacimiento, expresada en días y convertida a años completos mediante división entera entre 365.</td>
+</tr>
+<tr class="even">
+<td>Mes de desaparición</td>
+<td>Numérica (1-12)</td>
+<td>Nombre del mes</td>
+<td>Para tener mejor interpretación y legibilidad en el análisis.</td>
+</tr>
+<tr class="odd">
+<td>Entidad</td>
+<td>Categórica</td>
+<td>Sin cambios</td>
+<td>Ya es categórica con 32 estados.</td>
+</tr>
+<tr class="even">
+<td>Sexo</td>
+<td>Categórica</td>
+<td>Sin cambios</td>
+<td>Variable categórica importante para el análisis.</td>
+</tr>
+<tr class="odd">
+<td>Estatus de la víctima</td>
+<td>Categórica</td>
+<td>Sin cambios</td>
+<td>Variable clave incluida en las reglas de asociación.</td>
+</tr>
+<tr class="even">
+<td>Año de desaparición</td>
+<td>Numérica</td>
+<td>Sexenio presidencial: Fox (2000-2006), Calderón (2006-2012), Peña Nieto (2012-2018), AMLO (2018-2024), Sheinbaum (2024-)</td>
+<td>Permite analizar cambios en patrones según el sexenio. Se extrajo el año de la fecha de desaparición y se clasificó en los rangos correspondientes.</td>
+</tr>
+</tbody>
+</table>
+<p>Se discretizaron las variables numéricas y se incluyeron variables categóricas existentes como sexo, entidad y estatus de la víctima para construir los ítems del algoritmo.</p>
+</section>
+</section>
+<section id="implementación-de-los-algoritmos" class="level2">
+<h2 class="anchored" data-anchor-id="implementación-de-los-algoritmos">Implementación de los algoritmos</h2>
+<section id="implementación-de-mlxtend-apriori-y-fp-growth" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-de-mlxtend-apriori-y-fp-growth">Implementación de mlxtend Apriori y FP-Growth</h3>
+<div id="apriori-mlxtend" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Apriori de mlxtend</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori <span class="im">as</span> mlx_apriori</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> fpgrowth</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> association_rules</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apriori_mlxtend(df_te, min_support, min_confidence):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Apriori de mlxtend.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna (freq_itemsets, rules_df, elapsed_seconds)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.time()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> mlx_apriori(df_te, min_support, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    rules <span class="op">=</span> association_rules(freq, metric<span class="op">=</span><span class="st">"confidence"</span>, min_threshold<span class="op">=</span>min_confidence)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    elapsed <span class="op">=</span> time.time() <span class="op">-</span> t0</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> freq, rules, elapsed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="apriori-fp-growth" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Apriori de FP-Growth</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori <span class="im">as</span> mlx_apriori</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> fpgrowth</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> association_rules</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apriori_fpgrowth(df_te, min_support, min_confidence):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    FP-Growth de mlxtend.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna (freq_itemsets, rules_df, elapsed_seconds)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.time()</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> fpgrowth(df_te, min_support, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    rules <span class="op">=</span> association_rules(freq, metric<span class="op">=</span><span class="st">"confidence"</span>, min_threshold<span class="op">=</span>min_confidence)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    elapsed <span class="op">=</span> time.time() <span class="op">-</span> t0</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> freq, rules, elapsed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Se siguieron los siguientes pasos:</p>
+</section>
+<section id="paso-1-codificación-de-transacciones" class="level3">
+<h3 class="anchored" data-anchor-id="paso-1-codificación-de-transacciones">Paso 1 — Codificación de transacciones</h3>
+<div id="encode-transactions" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Codificación de transacciones para Apriori propio</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> encode_transactions(df_enc, columns):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Transforma los valores del dataset a la forma {col}={val},</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    como SEXO=MUJER. Lo utiliza Apriori propio.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    transactions <span class="op">=</span> []</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> df_enc.iterrows():</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        items <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col <span class="kw">in</span> columns:</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            val <span class="op">=</span> row[col]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pd.notna(val) <span class="kw">and</span> <span class="bu">str</span>(val).strip() <span class="kw">not</span> <span class="kw">in</span> (<span class="st">""</span>, <span class="st">"nan"</span>):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                items.add(<span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">=</span><span class="sc">{</span>val<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        transactions.append(<span class="bu">frozenset</span>(items))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> transactions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Esta función cambia el formato de cada registro del dataset en una transacción, representándola como un conjunto de ítems. Cada ítem se construye concatenando el nombre de la variable con su valor (por ejemplo, <code>SEXO=MUJER</code>), lo que permite generar representaciones atómicas e interpretables para el algoritmo. Esto es necesario porque Apriori trabaja con conjuntos de ítems categóricos.</p>
+<div id="transactions-to-df" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Conversión a DataFrame booleano para mlxtend y FP-Growth</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.preprocessing <span class="im">import</span> TransactionEncoder</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> transactions_to_df(transactions):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Convierte lista de frozensets al DataFrame booleano</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">    que requiere mlxtend y FP-Growth.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    te <span class="op">=</span> TransactionEncoder()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    te_array <span class="op">=</span> te.fit_transform([<span class="bu">list</span>(t) <span class="cf">for</span> t <span class="kw">in</span> transactions])</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(te_array, columns<span class="op">=</span>te.columns_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Esta función transforma el formato del dataset a un conjunto de columnas con filas booleanas, útil para los otros dos algoritmos implementados.</p>
+</section>
+<section id="paso-2-búsqueda-de-ítems-frecuentes" class="level3">
+<h3 class="anchored" data-anchor-id="paso-2-búsqueda-de-ítems-frecuentes">Paso 2 — Búsqueda de ítems frecuentes</h3>
+<p>Los 3 algoritmos reciben las transacciones con el formato específico y buscan combinaciones de ítems (<em>itemsets</em>) que aparezcan en al menos el <strong>4%</strong> de las transacciones (<span class="math inline">\(\text{min\_support} = 0.04\)</span>).</p>
+<p>Un <strong>itemset frecuente</strong> es cualquier combinación de categorías que supera ese umbral mínimo. Por ejemplo:</p>
+<ul>
+<li><code>{SEXO=Masculino}</code> → 1-itemset frecuente si aparece en <span class="math inline">\(\geq 4\%\)</span> de las transacciones</li>
+<li><code>{SEXO=Femenino, GRUPO_EDAD=12-17}</code> → 2-itemset frecuente si ocurren en <span class="math inline">\(\geq 4\%\)</span></li>
+<li><code>{SEXO=Femenino, GRUPO_EDAD=12-17, ESTATUS=No Localizado}</code> → 3-itemset</li>
+</ul>
+<p>Solo los itemsets que superan el soporte mínimo se mantienen. Esta fase produce el conjunto de todos los itemsets frecuentes, que en el paso siguiente se particionan en antecedente y consecuente para generar las reglas de asociación.</p>
+<ul>
+<li><strong>Apriori propio</strong>: genera combinaciones nivel a nivel (1-itemsets → 2-itemsets → 3-itemsets…), quitando los que no cumplen el soporte mínimo. Es el algoritmo más lento porque escanea todas las transacciones en cada nivel.</li>
+<li><strong>mlxtend Apriori</strong>: tiene la misma lógica, pero su implementación está optimizada en C.</li>
+<li><strong>FP-Growth</strong>: construye un árbol compacto (FP-Tree) del dataset y extrae patrones directamente del árbol sin enumerar combinaciones posibles. Es el más rápido por la estructura de datos que utiliza.</li>
+</ul>
+<p>Sin embargo, los tres llegan a los mismos itemsets frecuentes; la diferencia es solo la velocidad.</p>
+</section>
+<section id="paso-3-generación-de-reglas-y-métricas" class="level3">
+<h3 class="anchored" data-anchor-id="paso-3-generación-de-reglas-y-métricas">Paso 3 — Generación de reglas y métricas</h3>
+<p>De cada itemset frecuente de tamaño <span class="math inline">\(\geq 2\)</span>, se generan todas las particiones posibles de la forma antecedente <span class="math inline">\(\rightarrow\)</span> consecuente y se conservan las que cumplan <span class="math inline">\(\text{min\_confidence} = 0.04\)</span>.</p>
+<table class="caption-top table">
+<caption>Métricas de asociación</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 40%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Métrica</th>
+<th>Fórmula</th>
+<th>Explicación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Support</td>
+<td><span class="math inline">\(s(A \rightarrow B) = \dfrac{|\{T \in D \mid A \cup B \subseteq T\}|}{|D|}\)</span></td>
+<td>Qué tan frecuente es el patrón en el dataset.</td>
+</tr>
+<tr class="even">
+<td>Confidence</td>
+<td><span class="math inline">\(c(A \rightarrow B) = \dfrac{|\{T \in D \mid A \cup B \subseteq T\}|}{|\{T \in D \mid A \subseteq T\}|}\)</span></td>
+<td>Probabilidad de que ocurra <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>Lift</td>
+<td><span class="math inline">\(\text{lift}(X \Rightarrow Y) = \dfrac{\text{soporte}(X \cup Y)}{\text{soporte}(X) \cdot \text{soporte}(Y)}\)</span></td>
+<td>Fuerza de la asociación entre antecedente y consecuente.</td>
+</tr>
+</tbody>
+</table>
+<div id="metricas" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Funciones de cálculo de métricas (Apriori propio)</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_support(itemset, transactions, n):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> transactions <span class="cf">if</span> itemset.issubset(t))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count <span class="op">/</span> n</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_confidence(A, B, transactions):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    support_AB <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> transactions <span class="cf">if</span> A.union(B).issubset(t))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    support_A  <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> transactions <span class="cf">if</span> A.issubset(t))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> support_AB <span class="op">/</span> support_A</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_lift(confidence, sup_cons):</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> confidence <span class="op">/</span> sup_cons <span class="cf">if</span> sup_cons <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<blockquote class="blockquote">
+<p>Las funciones anteriores son utilizadas únicamente por <strong>Apriori propio</strong>. Los algoritmos de mlxtend calculan estas métricas internamente con <code>mlx_apriori</code>, <code>fpgrowth</code> y <code>association_rules</code>.</p>
+</blockquote>
+</section>
+<section id="paso-4-filtración-de-reglas" class="level3">
+<h3 class="anchored" data-anchor-id="paso-4-filtración-de-reglas">Paso 4 — Filtración de reglas</h3>
+<p>Se aplica un filtro adicional con <span class="math inline">\(\text{lift} &gt; 1.2\)</span> y <span class="math inline">\(\text{confidence} &gt; 0.4\)</span> para mantener únicamente patrones con una relación estadísticamente fuerte.</p>
+<div id="filtro-reglas" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Filtro de reglas interesantes</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reglas interesantes (lift &gt; 1.2, conf &gt; 0.4)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(rules_fp) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> (rules_fp[<span class="st">"lift"</span>] <span class="op">&gt;</span> <span class="fl">1.2</span>) <span class="op">&amp;</span> (rules_fp[<span class="st">"confidence"</span>] <span class="op">&gt;</span> <span class="fl">0.4</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    interesting <span class="op">=</span> rules_fp[mask].sort_values(<span class="st">"lift"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): </span><span class="sc">{</span><span class="bu">len</span>(interesting)<span class="sc">}</span><span class="ss"> ───"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, r <span class="kw">in</span> interesting.head(<span class="dv">5</span>).iterrows():</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        ant <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(r[<span class="st">"antecedents"</span>]))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        con <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(r[<span class="st">"consequents"</span>]))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"    [</span><span class="sc">{</span>ant<span class="sc">}</span><span class="ss">] → [</span><span class="sc">{</span>con<span class="sc">}</span><span class="ss">]"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"      sup=</span><span class="sc">{</span>r[<span class="st">'support'</span>]<span class="sc">:.3f}</span><span class="ss">  conf=</span><span class="sc">{</span>r[<span class="st">'confidence'</span>]<span class="sc">:.3f}</span><span class="ss">  lift=</span><span class="sc">{</span>r[<span class="st">'lift'</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="resultados-por-sexenio" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-por-sexenio">Resultados por sexenio</h2>
+<p>Para cada sexenio se reportan: el número de transacciones utilizadas, los tiempos de ejecución de cada algoritmo, el número de itemsets frecuentes y reglas generadas, las cinco reglas con mayor lift, y las reglas bajo el criterio <span class="math inline">\(\text{lift} &gt; 1.2\)</span> y <span class="math inline">\(\text{confianza} &gt; 0.4\)</span>.</p>
+<section id="tabla-resumen-de-tiempos" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-de-tiempos">Tabla resumen de tiempos</h3>
+<table class="caption-top table">
+<caption>Tiempos de ejecución y número de reglas por sexenio</caption>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 10%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sexenio</th>
+<th style="text-align: right;">Transacciones</th>
+<th style="text-align: right;">t_propio (s)</th>
+<th style="text-align: right;">t_mlxtend (s)</th>
+<th style="text-align: right;">t_fp (s)</th>
+<th style="text-align: right;">Reglas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fox (2000–2006)</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">197</td>
+</tr>
+<tr class="even">
+<td>Calderón (2006–2012)</td>
+<td style="text-align: right;">7 039</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">239</td>
+</tr>
+<tr class="odd">
+<td>Peña Nieto (2012–2018)</td>
+<td style="text-align: right;">11 705</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">198</td>
+</tr>
+<tr class="even">
+<td>AMLO (2018–2024)</td>
+<td style="text-align: right;">24 632</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">174</td>
+</tr>
+<tr class="odd">
+<td>Sheinbaum (2024–)</td>
+<td style="text-align: right;">6 476</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">232</td>
+</tr>
+</tbody>
+</table>
+<p>Los tres algoritmos producen exactamente el mismo número de reglas en cada sexenio. Esto confirma que <strong>Apriori propio, mlxtend Apriori y FP-Growth son matemáticamente equivalentes</strong>, ya que parten del mismo umbral de soporte mínimo y recorren el mismo espacio de itemsets frecuentes. La diferencia radica únicamente en la estrategia de búsqueda y en la eficiencia de implementación.</p>
+<hr>
+</section>
+<section id="fox-20002006-600-transacciones" class="level3">
+<h3 class="anchored" data-anchor-id="fox-20002006-600-transacciones">Fox (2000–2006) — 600 transacciones</h3>
+<p>Con 600 registros válidos (el sexenio con menos registros en el dataset) se encontraron <strong>22 reglas de asociación</strong> con <span class="math inline">\(\text{lift}&gt;1.2\)</span> y <span class="math inline">\(\text{conf}&gt;0.4\)</span>.</p>
+<p>La regla de mayor lift en este período es:</p>
+<p><span class="math display">\[
+\texttt{MES\_DESAPARICION = Mayo}
+\rightarrow
+\texttt{GRUPO\_EDAD = 18-29,\ ESTATUS\_VICTIMA = DESAPARECIDA}
+\]</span> <span class="math display">\[
+\text{support}=0.045,\quad \text{confidence}=0.50,\quad \text{lift}=1.622
+\]</span></p>
+<p>Durante el sexenio de Fox, las desapariciones registradas en mayo tenían un 62% más de probabilidad de involucrar a jóvenes de 18 a 29 años aún no localizados, en comparación con lo esperado por azar.</p>
+<p>Otra regla destacable es:</p>
+<p><span class="math display">\[
+\texttt{ENTIDAD=ESTADO DE MÉXICO} \;\rightarrow\; \texttt{SEXO=MUJER,\;ESTATUS\_VICTIMA=DESAPARECIDA} \quad \text{lift}=1.52
+\]</span></p>
+<p>Apunta al Estado de México como entidad con mayor proporción de mujeres desaparecidas no localizadas durante ese período.</p>
+<hr>
+</section>
+<section id="calderón-20062012-7-039-transacciones" class="level3">
+<h3 class="anchored" data-anchor-id="calderón-20062012-7-039-transacciones">Calderón (2006–2012) — 7 039 transacciones</h3>
+<p>En el sexenio de Calderón, el número de registros válidos aumenta considerablemente. Sin embargo, el número de reglas de asociación se reduce a <strong>2</strong>, lo que indica que los patrones son más dispersos y no se encuentra ninguna combinación de variables con suficiente fuerza estadística.</p>
+<p>Las dos reglas que superan los umbrales son:</p>
+<p><span class="math display">\[
+\{SEXO = MUJER\}
+\rightarrow
+\{GRUPO\_EDAD = 18\text{-}29,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 1.204
+\]</span></p>
+<p><span class="math display">\[
+\{ENTIDAD = TAMAULIPAS\}
+\rightarrow
+\{GRUPO\_EDAD = 18\text{-}29,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 1.201
+\]</span></p>
+<p>Tamaulipas fue entidad clave del sexenio de Calderón, con confianza de 0.464 y soporte de 0.111 —el soporte más alto de todas las reglas de asociación en cualquier sexenio. El perfil predominante es <strong>Mujer, 18-29 años, Tamaulipas, Desaparecida</strong>.</p>
+<hr>
+</section>
+<section id="peña-nieto-20122018-11-705-transacciones" class="level3">
+<h3 class="anchored" data-anchor-id="peña-nieto-20122018-11-705-transacciones">Peña Nieto (2012–2018) — 11 705 transacciones</h3>
+<p>Este sexenio produce las reglas con mayor lift de todo el análisis. Se encontraron <strong>13 reglas de asociación</strong>. La regla principal es:</p>
+<p><span class="math display">\[
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 3.131
+\]</span></p>
+<p>Con un lift de 3.13, la probabilidad de que una víctima de 12 a 17 años sea mujer y no localizada es más del triple de lo que se esperaría si sexo, edad y estatus fueran independientes. Esta regla es estadísticamente robusta (<span class="math inline">\(\text{conf}=0.602\)</span>, <span class="math inline">\(\text{sup}=0.051\)</span>, equivalente a 596 casos reales sobre 11 705).</p>
+<p>Otra regla destacable es que el Estado de México concentra el patrón de adolescentes desaparecidos:</p>
+<p><span class="math display">\[
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{ENTIDAD = ESTADO\ DE\ MÉXICO,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 3.070
+\]</span></p>
+<p>Estas reglas no reflejan que el fenómeno sea exclusivo del <strong>Estado de México</strong>, sino que concentra el mayor número de registros en esta categoría.</p>
+<hr>
+</section>
+<section id="amlo-20182024-24-632-transacciones" class="level3">
+<h3 class="anchored" data-anchor-id="amlo-20182024-24-632-transacciones">AMLO (2018–2024) — 24 632 transacciones</h3>
+<p>Fue el sexenio con la mayor cantidad de transacciones, lo que permite deducir que fue el período con más desapariciones. Es donde más tiempo tardó el algoritmo de Apriori propio (1.56 s), confirmando el comportamiento <span class="math inline">\(O(n)\)</span> en el número de transacciones, a diferencia de FP-Growth y mlxtend que se mantuvieron por debajo de 0.12 s.</p>
+<p>Se encontraron <strong>2 reglas de asociación</strong>:</p>
+<p><span class="math display">\[
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER\}
+\qquad \text{lift} = 2.562
+\]</span></p>
+<p><span class="math display">\[
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 2.504
+\]</span></p>
+<p>El patrón de <strong>niñas y adolescentes (12–17 años) desaparecidas y no localizadas</strong> se mantiene pero con un lift menor que en el período anterior (2.5), lo que sugiere que las desapariciones se volvieron más generalizadas y distribuidas geográficamente, ya no concentradas explícitamente en el Estado de México (aunque éste conserva un lift de 1.747 para mujeres desaparecidas).</p>
+<hr>
+</section>
+<section id="sheinbaum-2024presente-6-476-transacciones" class="level3">
+<h3 class="anchored" data-anchor-id="sheinbaum-2024presente-6-476-transacciones">Sheinbaum (2024–presente) — 6 476 transacciones</h3>
+<p>Este sexenio es el actual; los datos llegan hasta septiembre de 2025. A pesar de eso, se encontraron <strong>12 reglas de asociación</strong>, el segundo mayor número después del período de Fox.</p>
+<p>La regla más fuerte sigue siendo el patrón de adolescentes mujeres:</p>
+<p><span class="math display">\[
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 2.218
+\]</span></p>
+<p>Aparece además una regla nueva que no existía en sexenios anteriores:</p>
+<p><span class="math display">\[
+\{ENTIDAD = SINALOA\}
+\rightarrow
+\{GRUPO\_EDAD = 30\text{-}59,\ SEXO = HOMBRE,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 1.274
+\]</span></p>
+<p>Lo que apunta a un desplazamiento del perfil de víctimas en Sinaloa hacia hombres adultos en este nuevo período.</p>
+<hr>
+</section>
+</section>
+<section id="comparativa-entre-los-tres-algoritmos" class="level2">
+<h2 class="anchored" data-anchor-id="comparativa-entre-los-tres-algoritmos">Comparativa entre los tres algoritmos</h2>
+<p><strong>¿Generan las mismas reglas?</strong></p>
+<p>Sí, en todos los sexenios los tres algoritmos producen exactamente el mismo conjunto de itemsets frecuentes y el mismo número de reglas. Esto se debe a que los tres resuelven el mismo problema matemático (encontrar todos los itemsets cuyo soporte supere el umbral mínimo) y usan la misma métrica de confianza para generar reglas. La equivalencia se garantiza siempre que se use el mismo <span class="math inline">\(\text{min\_support}\)</span> y <span class="math inline">\(\text{min\_confidence}\)</span>.</p>
+<p><strong>¿Cuál tarda más?</strong></p>
+<p>El algoritmo <strong>Apriori propio</strong> es el más lento en todos los sexenios, puesto que genera combinaciones de tamaño <span class="math inline">\(k\)</span> enumerando todos los pares de itemsets frecuentes de tamaño <span class="math inline">\(k-1\)</span>, y luego escanea todas las transacciones para calcular el soporte de cada candidato. Al estar implementado en Python puro, sin vectorización, cada operación de subconjunto recorre listas con bucles nativos y su tiempo crece de forma aproximadamente lineal con el número de transacciones.</p>
+<p><strong>¿Cuál tarda menos?</strong></p>
+<p>El algoritmo <strong>mlxtend Apriori</strong> es el más rápido en los sexenios de menor tamaño, mientras que <strong>FP-Growth</strong> es ligeramente más lento que mlxtend en este dataset en específico, pero escalaría mejor en datasets mucho más grandes, ya que no enumera combinaciones: comprime el dataset en un árbol FP-Tree y extrae patrones frecuentes recorriéndolo, eliminando el cuello de botella de generar y podar combinaciones.</p>
+</section>
+<section id="interpretación-general-de-los-patrones" class="level2">
+<h2 class="anchored" data-anchor-id="interpretación-general-de-los-patrones">Interpretación general de los patrones</h2>
+<p>Del análisis por sexenio emergen tres patrones transversales:</p>
+<ol type="1">
+<li><p><strong>Desaparición de niñas y adolescentes (12–17 años):</strong> Es el patrón más fuerte y consistente a lo largo del tiempo, presente desde Peña Nieto hasta Sheinbaum con lifts entre 2.2 y 3.1. El Estado de México, Sonora y Tamaulipas concentran la mayor parte de estos casos durante 2012–2024.</p></li>
+<li><p><strong>Desaparición de hombres en edad de 30–59 años:</strong> Durante el sexenio de Calderón, Tamaulipas destaca como la entidad con mayor asociación con desapariciones de hombres de 18–29 años, reflejando el período de mayor intensidad del conflicto entre organizaciones criminales en esa zona. En el período de Sheinbaum, Sinaloa toma un rol similar para hombres adultos (30–59 años).</p></li>
+<li><p><strong>Estacionalidad incipiente en Fox:</strong> Durante el sexenio de Fox, el mes de mayo aparece asociado a desapariciones de jóvenes, aunque con soporte muy bajo. Este patrón no se reproduce en sexenios posteriores.</p></li>
+</ol>
+</section>
+<section id="limitaciones-y-posibles-sesgos" class="level2">
+<h2 class="anchored" data-anchor-id="limitaciones-y-posibles-sesgos">Limitaciones y posibles sesgos</h2>
+<ul>
+<li><p><strong>Sesgo de registro:</strong> El 37% de los registros originales son <code>CONFIDENCIAL</code> y fueron excluidos del análisis. Si la confidencialidad no es aleatoria (por ejemplo, si las fiscalías de ciertos estados clasifican más casos como confidenciales), las reglas pueden estar sesgadas hacia las entidades con mayor transparencia en el registro.</p></li>
+<li><p><strong>Dominio de estatus DESAPARECIDA:</strong> El estatus de desaparecido representa el 94.6% de los registros válidos. Las reglas que incluyen este consecuente tienen soporte y confianza altos simplemente porque es el valor mayoritario, no necesariamente porque exista una asociación real. El lift corrige parcialmente esto, por lo que las reglas con <span class="math inline">\(\text{lift} &gt; 1.2\)</span> son las que realmente aportan información.</p></li>
+<li><p><strong>Cobertura desigual por sexenio:</strong> Fox tiene apenas 600 registros mientras que AMLO tiene 24 632. Hay diferentes razones: en el sexenio de Fox no existía la tecnología actual y podrían haberse perdido registros, o realmente hubo mayor número de desapariciones durante el sexenio de AMLO. Por lo tanto, las comparaciones entre sexenios deben hacerse con reservas.</p></li>
+</ul>
+</section>
+<section id="código-completo" class="level2">
+<h2 class="anchored" data-anchor-id="código-completo">Código completo:</h2>
+<div id="04de24c5" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.preprocessing <span class="im">import</span> TransactionEncoder</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori <span class="im">as</span> mlx_apriori</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> fpgrowth, association_rules</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Algoritmos implementados</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apriori_propio(transactions, min_support, min_confidence):</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">    Implementación propia del algoritmo Apriori.</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna (frequent_itemsets_dict, rules_list)</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(transactions)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    all_items <span class="op">=</span> <span class="bu">set</span>(item <span class="cf">for</span> t <span class="kw">in</span> transactions <span class="cf">for</span> item <span class="kw">in</span> t)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Itemsets frecuentes de tamaño 1</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> {}</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    L1 <span class="op">=</span> {}</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> all_items:</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        sup <span class="op">=</span> get_support(<span class="bu">frozenset</span>([item]), transactions, n)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> sup <span class="op">&gt;=</span> min_support:</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>            L1[<span class="bu">frozenset</span>([item])] <span class="op">=</span> sup</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    freq.update(L1)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    Lk <span class="op">=</span> L1</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> Lk:</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        prev_keys <span class="op">=</span> <span class="bu">list</span>(Lk.keys())</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        candidates <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(prev_keys)):</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(prev_keys)):</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>                union <span class="op">=</span> prev_keys[i] <span class="op">|</span> prev_keys[j]</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="bu">len</span>(union) <span class="op">==</span> k:</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>                    candidates.add(union)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        Lk_new <span class="op">=</span> {}</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> candidates:</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>            subsets_freq <span class="op">=</span> <span class="bu">all</span>(</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>                <span class="bu">frozenset</span>(sub) <span class="kw">in</span> Lk</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> sub <span class="kw">in</span> combinations(c, k <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> subsets_freq:</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>            sup <span class="op">=</span> get_support(c, transactions, n)</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> sup <span class="op">&gt;=</span> min_support:</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>                Lk_new[c] <span class="op">=</span> sup</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        freq.update(Lk_new)</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>        Lk <span class="op">=</span> Lk_new</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>        k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generar reglas</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    rules <span class="op">=</span> []</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> itemset, sup_itemset <span class="kw">in</span> freq.items():</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(itemset) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> size <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(itemset)):</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> antecedent <span class="kw">in</span> combinations(itemset, size):</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>                antecedent <span class="op">=</span> <span class="bu">frozenset</span>(antecedent)</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>                consequent <span class="op">=</span> itemset <span class="op">-</span> antecedent</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>                sup_ant <span class="op">=</span> freq.get(antecedent, get_support(antecedent, transactions, n))</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> sup_ant <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>                confidence <span class="op">=</span> get_confidence(sup_itemset, sup_ant) <span class="co"># calculamos confidence</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>                sup_cons <span class="op">=</span> freq.get(consequent, get_support(consequent, transactions, n))</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>                lift <span class="op">=</span> get_lift(confidence, sup_cons) <span class="co"># calculamos lift</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> confidence <span class="op">&gt;=</span> min_confidence:</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>                    rules.append({</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"antecedents"</span>: antecedent,</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"consequents"</span>: consequent,</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"support"</span>:     <span class="bu">round</span>(sup_itemset, <span class="dv">4</span>),</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"confidence"</span>:  <span class="bu">round</span>(confidence, <span class="dv">4</span>),</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"lift"</span>:        <span class="bu">round</span>(lift, <span class="dv">4</span>)</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>                    })</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> freq, rules</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apriori_mlxtend(df_te, min_support, min_confidence):</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="co">    Apriori de mlxtend.</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna (freq_itemsets, rules_df, elapsed_seconds)</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.time()</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> mlx_apriori(df_te, min_support, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>    rules <span class="op">=</span> association_rules(freq, metric<span class="op">=</span><span class="st">"confidence"</span>, min_threshold<span class="op">=</span>min_confidence)</span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>    elapsed <span class="op">=</span> time.time() <span class="op">-</span> t0</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> freq, rules, elapsed</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apriori_fpgrowth(df_te, min_support, min_confidence):</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="co">    FP-Growth de mlxtend.</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna (freq_itemsets, rules_df, elapsed_seconds)</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.time()</span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> fpgrowth(df_te, min_support, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    rules <span class="op">=</span> association_rules(freq, metric<span class="op">=</span><span class="st">"confidence"</span>, min_threshold<span class="op">=</span>min_confidence)</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    elapsed <span class="op">=</span> time.time() <span class="op">-</span> t0</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> freq, rules, elapsed</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a><span class="co"># Codificación de transacciones</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> encode_transactions(df_enc, columns):</span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Transforma los valores del dataset a la forma {col}={val}, como SEXO=mujer, lo utiliza Apriori propio"""</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>    transactions <span class="op">=</span> []</span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> df_enc.iterrows():</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>        items <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col <span class="kw">in</span> columns:</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>            val <span class="op">=</span> row[col]</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pd.notna(val) <span class="kw">and</span> <span class="bu">str</span>(val).strip() <span class="kw">not</span> <span class="kw">in</span> (<span class="st">""</span>, <span class="st">"nan"</span>):</span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a>                items.add(<span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">=</span><span class="sc">{</span>val<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>        transactions.append(<span class="bu">frozenset</span>(items))</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> transactions</span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> transactions_to_df(transactions):</span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convierte lista de frozensets al DataFrame booleano que requiere mlxtend y fp-growth"""</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a>    te <span class="op">=</span> TransactionEncoder()</span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>    te_array <span class="op">=</span> te.fit_transform([<span class="bu">list</span>(t) <span class="cf">for</span> t <span class="kw">in</span> transactions])</span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(te_array, columns<span class="op">=</span>te.columns_)</span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="co">#  Calculamos Support, confidence, lift</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_support(itemset, transactions, n):</span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> transactions <span class="cf">if</span> itemset.issubset(t))</span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count <span class="op">/</span> n</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_confidence(sup_itemset, sup_ant):</span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sup_itemset <span class="op">/</span> sup_ant <span class="cf">if</span> sup_ant <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_lift(confidence, sup_cons):</span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> confidence <span class="op">/</span> sup_cons <span class="cf">if</span> sup_cons <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a><span class="co"># 0. CARGA Y PREPROCESAMIENTO</span></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"0. CARGA Y PREPROCESAMIENTO"</span>)</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>df_raw <span class="op">=</span> pd.read_csv(<span class="st">"data_secretariado.csv"</span>)</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Registros originales : </span><span class="sc">{</span><span class="bu">len</span>(df_raw)<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Columnas             : </span><span class="sc">{</span><span class="bu">list</span>(df_raw.columns)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>CONF <span class="op">=</span> <span class="st">"CONFIDENCIAL"</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrar CONFIDENCIAL para reglas de asociación</span></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_raw[df_raw[<span class="st">"SEXO"</span>] <span class="op">!=</span> CONF].copy()</span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">"FECHA_DESAPARICION"</span>] <span class="op">!=</span> CONF].copy()</span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">"FECHA_NACIMIENTO"</span>] <span class="op">!=</span> CONF].copy()</span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">"ESTATUS_VICTIMA"</span>] <span class="op">!=</span> CONF].copy()</span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Registros tras filtrar CONFIDENCIAL: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"FECHA_NACIMIENTO"</span>]   <span class="op">=</span> pd.to_datetime(df[<span class="st">"FECHA_NACIMIENTO"</span>],   errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"FECHA_DESAPARICION"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"FECHA_DESAPARICION"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>df.dropna(subset<span class="op">=</span>[<span class="st">"FECHA_NACIMIENTO"</span>, <span class="st">"FECHA_DESAPARICION"</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"EDAD"</span>] <span class="op">=</span> (df[<span class="st">"FECHA_DESAPARICION"</span>] <span class="op">-</span> df[<span class="st">"FECHA_NACIMIENTO"</span>]).dt.days <span class="op">//</span> <span class="dv">365</span></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">"EDAD"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">"EDAD"</span>] <span class="op">&lt;=</span> <span class="dv">110</span>)]</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Registros tras filtrar edades inválidas: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>bins_edad <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">29</span>, <span class="dv">59</span>, <span class="dv">110</span>]</span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>labs_edad <span class="op">=</span> [<span class="st">"0-11"</span>, <span class="st">"12-17"</span>, <span class="st">"18-29"</span>, <span class="st">"30-59"</span>, <span class="st">"60+"</span>]</span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"GRUPO_EDAD"</span>] <span class="op">=</span> pd.cut(df[<span class="st">"EDAD"</span>], bins<span class="op">=</span>bins_edad, labels<span class="op">=</span>labs_edad, right<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"MES_DESAPARICION"</span>] <span class="op">=</span> df[<span class="st">"FECHA_DESAPARICION"</span>].dt.month.<span class="bu">map</span>(</span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>    {<span class="dv">1</span>:<span class="st">"Enero"</span>,<span class="dv">2</span>:<span class="st">"Febrero"</span>,<span class="dv">3</span>:<span class="st">"Marzo"</span>,<span class="dv">4</span>:<span class="st">"Abril"</span>,<span class="dv">5</span>:<span class="st">"Mayo"</span>,<span class="dv">6</span>:<span class="st">"Junio"</span>,</span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>     <span class="dv">7</span>:<span class="st">"Julio"</span>,<span class="dv">8</span>:<span class="st">"Agosto"</span>,<span class="dv">9</span>:<span class="st">"Septiembre"</span>,<span class="dv">10</span>:<span class="st">"Octubre"</span>,<span class="dv">11</span>:<span class="st">"Noviembre"</span>,<span class="dv">12</span>:<span class="st">"Diciembre"</span>}</span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"SEXO"</span>] <span class="op">=</span> df[<span class="st">"SEXO"</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>df.drop_duplicates(subset<span class="op">=</span><span class="st">"ID_VICTIMA"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Registros finales para asociación: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">"SEXO"</span>, <span class="st">"GRUPO_EDAD"</span>, <span class="st">"ESTATUS_VICTIMA"</span>]:</span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">:</span><span class="ch">\n</span><span class="sc">{</span>df[col]<span class="sc">.</span>value_counts()<span class="sc">.</span>to_string()<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Segmentación temporal por sexenio</span></span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> asignar_sexenio(fecha):</span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> fecha.year</span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> y <span class="op">&lt;=</span> <span class="dv">2006</span>:   <span class="cf">return</span> <span class="st">"Fox (2000-2006)"</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> y <span class="op">&lt;=</span> <span class="dv">2012</span>: <span class="cf">return</span> <span class="st">"Calderon (2006-2012)"</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> y <span class="op">&lt;=</span> <span class="dv">2018</span>: <span class="cf">return</span> <span class="st">"PeñaNieto (2012-2018)"</span></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> y <span class="op">&lt;=</span> <span class="dv">2024</span>: <span class="cf">return</span> <span class="st">"AMLO (2018-2024)"</span></span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:           <span class="cf">return</span> <span class="st">"Sheinbaum (2024-)"</span></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"SEXENIO"</span>] <span class="op">=</span> df[<span class="st">"FECHA_DESAPARICION"</span>].<span class="bu">apply</span>(asignar_sexenio)</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Distribución por sexenio:"</span>)</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">"SEXENIO"</span>].value_counts().sort_index().to_string(), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 y 2. REGLAS DE ASOCIACIÓN — 3 algoritmos por sexenio</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="co"># ──────────────────────────────────────────────────────────────</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growth"</span>)</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>MIN_SUPPORT    <span class="op">=</span> <span class="fl">0.04</span></span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>MIN_CONFIDENCE <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>cols_assoc     <span class="op">=</span> [<span class="st">"SEXO"</span>, <span class="st">"GRUPO_EDAD"</span>, <span class="st">"ENTIDAD"</span>, <span class="st">"MES_DESAPARICION"</span>, <span class="st">"ESTATUS_VICTIMA"</span>]</span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>ORDEN_SEXENIOS <span class="op">=</span> [</span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fox (2000-2006)"</span>,</span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Calderon (2006-2012)"</span>,</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PeñaNieto (2012-2018)"</span>,</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AMLO (2018-2024)"</span>,</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sheinbaum (2024-)"</span>,</span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _print_top5(rules_df, label):</span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Top-5 reglas (</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">) por lift:"</span>)</span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>    top <span class="op">=</span> rules_df.sort_values(<span class="st">"lift"</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">5</span>)</span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, r <span class="kw">in</span> top.iterrows():</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>        ant <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(r[<span class="st">"antecedents"</span>]))</span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>        con <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(r[<span class="st">"consequents"</span>]))</span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"    [</span><span class="sc">{</span>ant<span class="sc">}</span><span class="ss">]"</span>)</span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"    → [</span><span class="sc">{</span>con<span class="sc">}</span><span class="ss">]"</span>)</span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"      sup=</span><span class="sc">{</span>r[<span class="st">'support'</span>]<span class="sc">:.3f}</span><span class="ss">  conf=</span><span class="sc">{</span>r[<span class="st">'confidence'</span>]<span class="sc">:.3f}</span><span class="ss">  lift=</span><span class="sc">{</span>r[<span class="st">'lift'</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>resumen_tiempos <span class="op">=</span> []</span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sexenio <span class="kw">in</span> ORDEN_SEXENIOS:</span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>    df_seg <span class="op">=</span> df[df[<span class="st">"SEXENIO"</span>] <span class="op">==</span> sexenio]</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(df_seg) <span class="op">&lt;</span> <span class="dv">500</span>:</span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">  [Saltando </span><span class="sc">{</span>sexenio<span class="sc">}</span><span class="ss">: solo </span><span class="sc">{</span><span class="bu">len</span>(df_seg)<span class="sc">}</span><span class="ss"> registros]</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span> <span class="op">*</span> <span class="dv">65</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  SEXENIO: </span><span class="sc">{</span>sexenio<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">len</span>(df_seg)<span class="sc">:,}</span><span class="ss"> registros)"</span>)</span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span> <span class="op">*</span> <span class="dv">65</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>    df_assoc <span class="op">=</span> df_seg[cols_assoc].dropna().copy()</span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>    transactions <span class="op">=</span> encode_transactions(df_assoc, cols_assoc)</span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>    df_te <span class="op">=</span> transactions_to_df(transactions)</span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Transacciones usadas: </span><span class="sc">{</span><span class="bu">len</span>(transactions)<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Parámetros → min_support=</span><span class="sc">{</span>MIN_SUPPORT<span class="sc">}</span><span class="ss">, min_confidence=</span><span class="sc">{</span>MIN_CONFIDENCE<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apriori propio</span></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  [Apriori propio] Ejecutando..."</span>)</span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.time()</span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a>    freq_propio, rules_propio <span class="op">=</span> apriori_propio(transactions, MIN_SUPPORT, MIN_CONFIDENCE)</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a>    t_propio <span class="op">=</span> time.time() <span class="op">-</span> t0</span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Tiempo: </span><span class="sc">{</span>t_propio<span class="sc">:.2f}</span><span class="ss"> s  |  Itemsets: </span><span class="sc">{</span><span class="bu">len</span>(freq_propio)<span class="sc">}</span><span class="ss">  |  Reglas: </span><span class="sc">{</span><span class="bu">len</span>(rules_propio)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rules_propio:</span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>        rules_propio_df <span class="op">=</span> pd.DataFrame(rules_propio).sort_values(<span class="st">"lift"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>        _print_top5(rules_propio_df, <span class="st">"Apriori propio"</span>)</span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mlxtend Apriori</span></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">  [mlxtend Apriori] Ejecutando..."</span>)</span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>    freq_mlx, rules_mlx, t_mlx <span class="op">=</span> apriori_mlxtend(df_te, MIN_SUPPORT, MIN_CONFIDENCE)</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Tiempo: </span><span class="sc">{</span>t_mlx<span class="sc">:.2f}</span><span class="ss"> s  |  Itemsets: </span><span class="sc">{</span><span class="bu">len</span>(freq_mlx)<span class="sc">}</span><span class="ss">  |  Reglas: </span><span class="sc">{</span><span class="bu">len</span>(rules_mlx)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(rules_mlx) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>        _print_top5(rules_mlx, <span class="st">"mlxtend Apriori"</span>)</span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>    <span class="co"># FP-Growth</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">  [FP-Growth] Ejecutando..."</span>)</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a>    freq_fp, rules_fp, t_fp <span class="op">=</span> apriori_fpgrowth(df_te, MIN_SUPPORT, MIN_CONFIDENCE)</span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Tiempo: </span><span class="sc">{</span>t_fp<span class="sc">:.2f}</span><span class="ss"> s  |  Itemsets: </span><span class="sc">{</span><span class="bu">len</span>(freq_fp)<span class="sc">}</span><span class="ss">  |  Reglas: </span><span class="sc">{</span><span class="bu">len</span>(rules_fp)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(rules_fp) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a>        _print_top5(rules_fp, <span class="st">"FP-Growth"</span>)</span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reglas interesantes (lift &gt; 1.2, conf &gt; 0.4)</span></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(rules_fp) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a>        mask <span class="op">=</span> (rules_fp[<span class="st">"lift"</span>] <span class="op">&gt;</span> <span class="fl">1.2</span>) <span class="op">&amp;</span> (rules_fp[<span class="st">"confidence"</span>] <span class="op">&gt;</span> <span class="fl">0.4</span>)</span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a>        interesting <span class="op">=</span> rules_fp[mask].sort_values(<span class="st">"lift"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): </span><span class="sc">{</span><span class="bu">len</span>(interesting)<span class="sc">}</span><span class="ss"> ───"</span>)</span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _, r <span class="kw">in</span> interesting.head(<span class="dv">5</span>).iterrows():</span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a>            ant <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(r[<span class="st">"antecedents"</span>]))</span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a>            con <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(r[<span class="st">"consequents"</span>]))</span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"    [</span><span class="sc">{</span>ant<span class="sc">}</span><span class="ss">] → [</span><span class="sc">{</span>con<span class="sc">}</span><span class="ss">]"</span>)</span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"      sup=</span><span class="sc">{</span>r[<span class="st">'support'</span>]<span class="sc">:.3f}</span><span class="ss">  conf=</span><span class="sc">{</span>r[<span class="st">'confidence'</span>]<span class="sc">:.3f}</span><span class="ss">  lift=</span><span class="sc">{</span>r[<span class="st">'lift'</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">  ─── Comparativa de tiempos (</span><span class="sc">{</span>sexenio<span class="sc">}</span><span class="ss">) ───"</span>)</span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Apriori propio  : </span><span class="sc">{</span>t_propio<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    mlxtend Apriori : </span><span class="sc">{</span>t_mlx<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    FP-Growth       : </span><span class="sc">{</span>t_fp<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a>    resumen_tiempos.append({</span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sexenio"</span>: sexenio, <span class="st">"registros"</span>: <span class="bu">len</span>(df_assoc),</span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t_propio"</span>: t_propio, <span class="st">"t_mlx"</span>: t_mlx, <span class="st">"t_fp"</span>: t_fp,</span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a>        <span class="st">"reglas_propio"</span>: <span class="bu">len</span>(rules_propio),</span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a>        <span class="st">"reglas_mlx"</span>: <span class="bu">len</span>(rules_mlx), <span class="st">"reglas_fp"</span>: <span class="bu">len</span>(rules_fp),</span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RESUMEN COMPARATIVO DE TIEMPOS POR SEXENIO"</span>)</span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a>resumen_df <span class="op">=</span> pd.DataFrame(resumen_tiempos)</span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resumen_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="co"># variable dummy para que el bloque de RESUMEN FINAL no falle</span></span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="co"># (toma los tiempos del último sexenio procesado)</span></span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resumen_tiempos:</span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a>    t_propio <span class="op">=</span> resumen_tiempos[<span class="op">-</span><span class="dv">1</span>][<span class="st">"t_propio"</span>]</span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a>    t_mlx    <span class="op">=</span> resumen_tiempos[<span class="op">-</span><span class="dv">1</span>][<span class="st">"t_mlx"</span>]</span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a>    t_fp     <span class="op">=</span> resumen_tiempos[<span class="op">-</span><span class="dv">1</span>][<span class="st">"t_fp"</span>]</span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RESUMEN FINAL"</span>)</span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Tiempos algoritmos Apriori:"</span>)</span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Apriori propio  : </span><span class="sc">{</span>t_propio<span class="sc">:.2f}</span><span class="ss"> s  (O(2^n) candidatos, el mas lento)"</span>)</span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  mlxtend Apriori : </span><span class="sc">{</span>t_mlx<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  FP-Growth       : </span><span class="sc">{</span>t_fp<span class="sc">:.2f}</span><span class="ss"> s  (sin generación de candidatos, el más rápido)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>=================================================================
+0. CARGA Y PREPROCESAMIENTO
+=================================================================
+Registros originales : 133,887
+Columnas             : ['ID_VICTIMA', 'ORIGEN_REPORTE', 'FECHA_NACIMIENTO', 'SEXO', 'FECHA_DESAPARICION', 'FECHA_REGISTRO', 'ESTATUS_VICTIMA', 'CVE_ENT', 'ENTIDAD', 'CVE_MUN', 'MUNICIPIO']
+
+Registros tras filtrar CONFIDENCIAL: 84,738
+Registros tras filtrar edades inválidas: 50,651
+
+Registros finales para asociación: 50,651
+
+  SEXO:
+SEXO
+HOMBRE           40178
+MUJER            10418
+INDETERMINADO       55
+
+  GRUPO_EDAD:
+GRUPO_EDAD
+30-59    23389
+18-29    18291
+12-17     4473
+60+       2406
+0-11      1893
+
+  ESTATUS_VICTIMA:
+ESTATUS_VICTIMA
+DESAPARECIDA     47899
+NO LOCALIZADA     2752
+
+Distribución por sexenio:
+SEXENIO
+AMLO (2018-2024)         24729
+Calderon (2006-2012)      7043
+Fox (2000-2006)            613
+PeñaNieto (2012-2018)    11751
+Sheinbaum (2024-)         6515 
+
+=================================================================
+REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growth
+=================================================================
+
+=================================================================
+  SEXENIO: Fox (2000-2006)  (613 registros)
+=================================================================
+  Transacciones usadas: 600
+  Parámetros → min_support=0.04, min_confidence=0.4
+
+  [Apriori propio] Ejecutando...
+    Tiempo: 0.03 s  |  Itemsets: 126  |  Reglas: 185
+  Top-5 reglas (Apriori propio) por lift:
+    [MES_DESAPARICION=Mayo]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.622
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Mayo]
+    → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.509  lift=1.567
+    [MES_DESAPARICION=Mayo]
+    → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.538
+    [ENTIDAD=SONORA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.042  conf=0.962  lift=1.276
+    [MES_DESAPARICION=Enero, SEXO=HOMBRE]
+    → [GRUPO_EDAD=30-59]
+      sup=0.065  conf=0.600  lift=1.263
+
+  [mlxtend Apriori] Ejecutando...
+    Tiempo: 0.01 s  |  Itemsets: 126  |  Reglas: 185
+  Top-5 reglas (mlxtend Apriori) por lift:
+    [MES_DESAPARICION=Mayo]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.622
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Mayo]
+    → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.509  lift=1.567
+    [MES_DESAPARICION=Mayo]
+    → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.538
+    [ENTIDAD=SONORA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.042  conf=0.962  lift=1.276
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Enero, SEXO=HOMBRE]
+    → [GRUPO_EDAD=30-59]
+      sup=0.060  conf=0.600  lift=1.263
+
+  [FP-Growth] Ejecutando...
+    Tiempo: 0.01 s  |  Itemsets: 126  |  Reglas: 185
+  Top-5 reglas (FP-Growth) por lift:
+    [MES_DESAPARICION=Mayo]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.622
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Mayo]
+    → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.509  lift=1.567
+    [MES_DESAPARICION=Mayo]
+    → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.538
+    [ENTIDAD=SONORA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.042  conf=0.962  lift=1.276
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Enero, SEXO=HOMBRE]
+    → [GRUPO_EDAD=30-59]
+      sup=0.060  conf=0.600  lift=1.263
+
+  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): 22 ───
+    [MES_DESAPARICION=Mayo] → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.622
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Mayo] → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.509  lift=1.567
+    [MES_DESAPARICION=Mayo] → [GRUPO_EDAD=18-29]
+      sup=0.045  conf=0.500  lift=1.538
+    [ENTIDAD=SONORA] → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.042  conf=0.962  lift=1.276
+    [ESTATUS_VICTIMA=DESAPARECIDA, MES_DESAPARICION=Enero, SEXO=HOMBRE] → [GRUPO_EDAD=30-59]
+      sup=0.060  conf=0.600  lift=1.263
+
+  ─── Comparativa de tiempos (Fox (2000-2006)) ───
+    Apriori propio  : 0.03 s
+    mlxtend Apriori : 0.01 s
+    FP-Growth       : 0.01 s
+
+=================================================================
+  SEXENIO: Calderon (2006-2012)  (7,043 registros)
+=================================================================
+  Transacciones usadas: 7,039
+  Parámetros → min_support=0.04, min_confidence=0.4
+
+  [Apriori propio] Ejecutando...
+    Tiempo: 0.42 s  |  Itemsets: 140  |  Reglas: 230
+  Top-5 reglas (Apriori propio) por lift:
+    [SEXO=MUJER]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.465  lift=1.204
+    [ENTIDAD=TAMAULIPAS]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.111  conf=0.464  lift=1.201
+    [ENTIDAD=TAMAULIPAS, SEXO=HOMBRE]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.091  conf=0.453  lift=1.172
+    [SEXO=MUJER]
+    → [GRUPO_EDAD=18-29]
+      sup=0.073  conf=0.482  lift=1.165
+    [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+    → [GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.481  lift=1.163
+
+  [mlxtend Apriori] Ejecutando...
+    Tiempo: 0.02 s  |  Itemsets: 140  |  Reglas: 230
+  Top-5 reglas (mlxtend Apriori) por lift:
+    [SEXO=MUJER]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.465  lift=1.204
+    [ENTIDAD=TAMAULIPAS]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.111  conf=0.464  lift=1.201
+    [ENTIDAD=TAMAULIPAS, SEXO=HOMBRE]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.091  conf=0.453  lift=1.172
+    [SEXO=MUJER]
+    → [GRUPO_EDAD=18-29]
+      sup=0.073  conf=0.482  lift=1.165
+    [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+    → [GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.481  lift=1.163
+
+  [FP-Growth] Ejecutando...
+    Tiempo: 0.04 s  |  Itemsets: 140  |  Reglas: 230
+  Top-5 reglas (FP-Growth) por lift:
+    [SEXO=MUJER]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.465  lift=1.204
+    [ENTIDAD=TAMAULIPAS]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.111  conf=0.464  lift=1.201
+    [ENTIDAD=TAMAULIPAS, SEXO=HOMBRE]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.091  conf=0.453  lift=1.172
+    [SEXO=MUJER]
+    → [GRUPO_EDAD=18-29]
+      sup=0.073  conf=0.482  lift=1.165
+    [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+    → [GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.481  lift=1.163
+
+  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): 2 ───
+    [SEXO=MUJER] → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.071  conf=0.465  lift=1.204
+    [ENTIDAD=TAMAULIPAS] → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=18-29]
+      sup=0.111  conf=0.464  lift=1.201
+
+  ─── Comparativa de tiempos (Calderon (2006-2012)) ───
+    Apriori propio  : 0.42 s
+    mlxtend Apriori : 0.02 s
+    FP-Growth       : 0.04 s
+
+=================================================================
+  SEXENIO: PeñaNieto (2012-2018)  (11,751 registros)
+=================================================================
+  Transacciones usadas: 11,705
+  Parámetros → min_support=0.04, min_confidence=0.4
+
+  [Apriori propio] Ejecutando...
+    Tiempo: 0.69 s  |  Itemsets: 135  |  Reglas: 183
+  Top-5 reglas (Apriori propio) por lift:
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.051  conf=0.602  lift=3.131
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.499  lift=3.088
+    [GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO, ESTATUS_VICTIMA=DESAPARECIDA]
+      sup=0.042  conf=0.496  lift=3.070
+    [GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.496  lift=3.067
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.051  conf=0.607  lift=3.044
+
+  [mlxtend Apriori] Ejecutando...
+    Tiempo: 0.02 s  |  Itemsets: 135  |  Reglas: 183
+  Top-5 reglas (mlxtend Apriori) por lift:
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.051  conf=0.602  lift=3.131
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.499  lift=3.088
+    [GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO, ESTATUS_VICTIMA=DESAPARECIDA]
+      sup=0.042  conf=0.496  lift=3.070
+    [GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.496  lift=3.067
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.051  conf=0.607  lift=3.044
+
+  [FP-Growth] Ejecutando...
+    Tiempo: 0.05 s  |  Itemsets: 135  |  Reglas: 183
+  Top-5 reglas (FP-Growth) por lift:
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.051  conf=0.602  lift=3.131
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.499  lift=3.088
+    [GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO, ESTATUS_VICTIMA=DESAPARECIDA]
+      sup=0.042  conf=0.496  lift=3.070
+    [GRUPO_EDAD=12-17]
+    → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.496  lift=3.067
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.051  conf=0.607  lift=3.044
+
+  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): 13 ───
+    [GRUPO_EDAD=12-17] → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.051  conf=0.602  lift=3.131
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17] → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.499  lift=3.088
+    [GRUPO_EDAD=12-17] → [ENTIDAD=ESTADO DE MÉXICO, ESTATUS_VICTIMA=DESAPARECIDA]
+      sup=0.042  conf=0.496  lift=3.070
+    [GRUPO_EDAD=12-17] → [ENTIDAD=ESTADO DE MÉXICO]
+      sup=0.042  conf=0.496  lift=3.067
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17] → [SEXO=MUJER]
+      sup=0.051  conf=0.607  lift=3.044
+
+  ─── Comparativa de tiempos (PeñaNieto (2012-2018)) ───
+    Apriori propio  : 0.69 s
+    mlxtend Apriori : 0.02 s
+    FP-Growth       : 0.05 s
+
+=================================================================
+  SEXENIO: AMLO (2018-2024)  (24,729 registros)
+=================================================================
+  Transacciones usadas: 24,632
+  Parámetros → min_support=0.04, min_confidence=0.4
+
+  [Apriori propio] Ejecutando...
+    Tiempo: 1.56 s  |  Itemsets: 125  |  Reglas: 157
+  Top-5 reglas (Apriori propio) por lift:
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.047  conf=0.542  lift=2.586
+    [GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.051  conf=0.537  lift=2.562
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.047  conf=0.492  lift=2.504
+    [ENTIDAD=MICHOACÁN, SEXO=HOMBRE]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59]
+      sup=0.050  conf=0.522  lift=1.195
+    [ENTIDAD=SINALOA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.050  conf=0.874  lift=1.185
+
+  [mlxtend Apriori] Ejecutando...
+    Tiempo: 0.04 s  |  Itemsets: 125  |  Reglas: 157
+  Top-5 reglas (mlxtend Apriori) por lift:
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.047  conf=0.542  lift=2.586
+    [GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.051  conf=0.537  lift=2.562
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.047  conf=0.492  lift=2.504
+    [ENTIDAD=MICHOACÁN, SEXO=HOMBRE]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59]
+      sup=0.050  conf=0.522  lift=1.195
+    [ENTIDAD=SINALOA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.050  conf=0.874  lift=1.185
+
+  [FP-Growth] Ejecutando...
+    Tiempo: 0.11 s  |  Itemsets: 125  |  Reglas: 157
+  Top-5 reglas (FP-Growth) por lift:
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.047  conf=0.542  lift=2.586
+    [GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.051  conf=0.537  lift=2.562
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.047  conf=0.492  lift=2.504
+    [ENTIDAD=MICHOACÁN, SEXO=HOMBRE]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59]
+      sup=0.050  conf=0.522  lift=1.195
+    [ENTIDAD=SINALOA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=HOMBRE]
+      sup=0.050  conf=0.874  lift=1.185
+
+  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): 3 ───
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17] → [SEXO=MUJER]
+      sup=0.047  conf=0.542  lift=2.586
+    [GRUPO_EDAD=12-17] → [SEXO=MUJER]
+      sup=0.051  conf=0.537  lift=2.562
+    [GRUPO_EDAD=12-17] → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.047  conf=0.492  lift=2.504
+
+  ─── Comparativa de tiempos (AMLO (2018-2024)) ───
+    Apriori propio  : 1.56 s
+    mlxtend Apriori : 0.04 s
+    FP-Growth       : 0.11 s
+
+=================================================================
+  SEXENIO: Sheinbaum (2024-)  (6,515 registros)
+=================================================================
+  Transacciones usadas: 6,476
+  Parámetros → min_support=0.04, min_confidence=0.4
+
+  [Apriori propio] Ejecutando...
+    Tiempo: 0.38 s  |  Itemsets: 133  |  Reglas: 191
+  Top-5 reglas (Apriori propio) por lift:
+    [GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ENTIDAD=SINALOA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.274
+    [ENTIDAD=SINALOA]
+    → [GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.271
+
+  [mlxtend Apriori] Ejecutando...
+    Tiempo: 0.01 s  |  Itemsets: 133  |  Reglas: 191
+  Top-5 reglas (mlxtend Apriori) por lift:
+    [GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ENTIDAD=SINALOA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.274
+    [ENTIDAD=SINALOA]
+    → [GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.271
+
+  [FP-Growth] Ejecutando...
+    Tiempo: 0.03 s  |  Itemsets: 133  |  Reglas: 191
+  Top-5 reglas (FP-Growth) por lift:
+    [GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [GRUPO_EDAD=12-17]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17]
+    → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ENTIDAD=SINALOA]
+    → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.274
+    [ENTIDAD=SINALOA, ESTATUS_VICTIMA=DESAPARECIDA]
+    → [GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.271
+
+  ─── Reglas interesantes (lift&gt;1.2, conf&gt;0.4): 12 ───
+    [GRUPO_EDAD=12-17] → [ESTATUS_VICTIMA=DESAPARECIDA, SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [GRUPO_EDAD=12-17] → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=12-17] → [SEXO=MUJER]
+      sup=0.082  conf=0.562  lift=2.218
+    [ENTIDAD=SINALOA] → [ESTATUS_VICTIMA=DESAPARECIDA, GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.274
+    [ENTIDAD=SINALOA, ESTATUS_VICTIMA=DESAPARECIDA] → [GRUPO_EDAD=30-59, SEXO=HOMBRE]
+      sup=0.042  conf=0.441  lift=1.271
+
+  ─── Comparativa de tiempos (Sheinbaum (2024-)) ───
+    Apriori propio  : 0.38 s
+    mlxtend Apriori : 0.01 s
+    FP-Growth       : 0.03 s
+
+=================================================================
+RESUMEN COMPARATIVO DE TIEMPOS POR SEXENIO
+=================================================================
+              sexenio  registros  t_propio    t_mlx     t_fp  reglas_propio  reglas_mlx  reglas_fp
+      Fox (2000-2006)        600  0.031952 0.007143 0.009173            185         185        185
+ Calderon (2006-2012)       7039  0.424697 0.016848 0.035670            230         230        230
+PeñaNieto (2012-2018)      11705  0.689520 0.024960 0.054716            183         183        183
+     AMLO (2018-2024)      24632  1.564772 0.038330 0.106081            157         157        157
+    Sheinbaum (2024-)       6476  0.377962 0.012213 0.032240            191         191        191
+
+=================================================================
+RESUMEN FINAL
+=================================================================
+
+Tiempos algoritmos Apriori:
+  Apriori propio  : 0.38 s  (O(2^n) candidatos, el mas lento)
+  mlxtend Apriori : 0.01 s
+  FP-Growth       : 0.03 s  (sin generación de candidatos, el más rápido)</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

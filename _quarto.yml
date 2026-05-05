@@ -3,13 +3,33 @@ project:
   output-dir: .
 
 website:
+  title:  "Mineria de Datos"
+
   navbar:
-        file: index.qmd
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: Tarea02.html
+        text: Tarea 02
+      - href: Tarea03.html
+        text: Tarea 03
+  sidebar:
+    - id: tarea03
+      title: "Tarea 03"
+      contents:
+        - Tarea03.qmd
+        - Tarea03/01-apriori.qmd
+        - Tarea03/02-reglas-asociacion.qmd
+        - Tarea03/03-clasificacion.qmd
 
 format:
   html:
     theme: cosmo
-    css: styles.css
-    echo: true
-  pdf: 
-    echo: false
+    #css: styles.css
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    code-fold: true
+    #echo: true
+  #pdf: 
+    #echo: false

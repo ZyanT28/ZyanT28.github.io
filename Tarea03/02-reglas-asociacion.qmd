@@ -1,0 +1,714 @@
+---
+sidebar: tarea03
+---
+
+# Reglas de asociación
+
+Descubrir patrones del tipo:
+
+- `SEXO = Femenino` y `GRUPO_EDAD = 12–17` $\rightarrow$ `ENTIDAD = ...`
+- `ENTIDAD = ...` y `MES_DESAPARICION = ...` $\rightarrow$ `ESTATUS_VICTIMA = ...`
+
+Se aplican los 3 algoritmos: Apriori propio (implementado en el capítulo anterior), mlxtend Apriori y FP-Growth, justificando cuál tarda más, cuál tarda menos y si generan las mismas reglas.
+
+## Preparación del dataset
+
+Antes de aplicar los algoritmos de asociación, se preparó el dataset resolviendo tres aspectos clave: el manejo de datos `CONFIDENCIAL`, la discretización de variables continuas y la selección de columnas para las transacciones.
+
+### Manejo de datos confidenciales
+
+Se eliminaron las filas que contienen algún dato confidencial en las variables clave, puesto que no aportan información semántica útil para descubrir patrones o construir modelos analíticos. Mantener estos valores como categoría podría producir reglas triviales, por ejemplo: *"confidencial → confidencial"*, sin valor interpretativo real.
+
+### Discretización de variables continuas
+
+Apriori requiere ítems categóricos, por lo que se obtuvieron las siguientes categorías principales:
+
+| Variable | Tipo | Transformación | Justificación |
+|---|---|---|---|
+| Edad | Numérica | 0-11, 12-17, 18-29, 30-59, 60+ | Etapas con diferente perfil de riesgo. Se calculó obteniendo la diferencia entre la fecha de desaparición y la fecha de nacimiento, expresada en días y convertida a años completos mediante división entera entre 365. |
+| Mes de desaparición | Numérica (1-12) | Nombre del mes | Para tener mejor interpretación y legibilidad en el análisis. |
+| Entidad | Categórica | Sin cambios | Ya es categórica con 32 estados. |
+| Sexo | Categórica | Sin cambios | Variable categórica importante para el análisis. |
+| Estatus de la víctima | Categórica | Sin cambios | Variable clave incluida en las reglas de asociación. |
+| Año de desaparición | Numérica | Sexenio presidencial: Fox (2000-2006), Calderón (2006-2012), Peña Nieto (2012-2018), AMLO (2018-2024), Sheinbaum (2024-) | Permite analizar cambios en patrones según el sexenio. Se extrajo el año de la fecha de desaparición y se clasificó en los rangos correspondientes. |
+
+: Discretización de variables {tbl-colwidths="[15,15,25,45]"}
+
+Se discretizaron las variables numéricas y se incluyeron variables categóricas existentes como sexo, entidad y estatus de la víctima para construir los ítems del algoritmo.
+
+## Implementación de los algoritmos
+
+### Implementación de mlxtend Apriori y FP-Growth
+
+```{python}
+#| eval: false
+#| label: apriori-mlxtend
+#| code-summary: "Apriori de mlxtend"
+
+import time
+from mlxtend.frequent_patterns import apriori as mlx_apriori
+from mlxtend.frequent_patterns import fpgrowth
+from mlxtend.frequent_patterns import association_rules
+
+def apriori_mlxtend(df_te, min_support, min_confidence):
+    """
+    Apriori de mlxtend.
+    Retorna (freq_itemsets, rules_df, elapsed_seconds)
+    """
+    t0 = time.time()
+    freq = mlx_apriori(df_te, min_support, use_colnames=True)
+    rules = association_rules(freq, metric="confidence", min_threshold=min_confidence)
+    elapsed = time.time() - t0
+    return freq, rules, elapsed
+```
+```{python}
+#| eval: false
+#| label: apriori-FP-growth
+#| code-summary: "Apriori de FP-Growth"
+
+import time
+from mlxtend.frequent_patterns import apriori as mlx_apriori
+from mlxtend.frequent_patterns import fpgrowth
+from mlxtend.frequent_patterns import association_rules
+
+def apriori_fpgrowth(df_te, min_support, min_confidence):
+    """
+    FP-Growth de mlxtend.
+    Retorna (freq_itemsets, rules_df, elapsed_seconds)
+    """
+    t0 = time.time()
+    freq = fpgrowth(df_te, min_support, use_colnames=True)
+    rules = association_rules(freq, metric="confidence", min_threshold=min_confidence)
+    elapsed = time.time() - t0
+    return freq, rules, elapsed
+```
+
+## Descubrimiento de patrones
+
+Se siguieron los siguientes pasos:
+
+### Paso 1 — Codificación de transacciones
+
+```{python}
+#| eval: false
+#| label: encode-transactions
+#| code-summary: "Codificación de transacciones para Apriori propio"
+
+import pandas as pd
+
+def encode_transactions(df_enc, columns):
+    """
+    Transforma los valores del dataset a la forma {col}={val},
+    como SEXO=MUJER. Lo utiliza Apriori propio.
+    """
+    transactions = []
+    for _, row in df_enc.iterrows():
+        items = set()
+        for col in columns:
+            val = row[col]
+            if pd.notna(val) and str(val).strip() not in ("", "nan"):
+                items.add(f"{col}={val}")
+        transactions.append(frozenset(items))
+    return transactions
+```
+
+Esta función cambia el formato de cada registro del dataset en una transacción, representándola como un conjunto de ítems. Cada ítem se construye concatenando el nombre de la variable con su valor (por ejemplo, `SEXO=MUJER`), lo que permite generar representaciones atómicas e interpretables para el algoritmo. Esto es necesario porque Apriori trabaja con conjuntos de ítems categóricos.
+
+```{python}
+#| eval: false
+#| label: transactions-to-df
+#| code-summary: "Conversión a DataFrame booleano para mlxtend y FP-Growth"
+
+from mlxtend.preprocessing import TransactionEncoder
+
+def transactions_to_df(transactions):
+    """
+    Convierte lista de frozensets al DataFrame booleano
+    que requiere mlxtend y FP-Growth.
+    """
+    te = TransactionEncoder()
+    te_array = te.fit_transform([list(t) for t in transactions])
+    return pd.DataFrame(te_array, columns=te.columns_)
+```
+
+Esta función transforma el formato del dataset a un conjunto de columnas con filas booleanas, útil para los otros dos algoritmos implementados.
+
+### Paso 2 — Búsqueda de ítems frecuentes
+
+Los 3 algoritmos reciben las transacciones con el formato específico y buscan combinaciones de ítems (*itemsets*) que aparezcan en al menos el **4%** de las transacciones ($\text{min\_support} = 0.04$).
+
+Un **itemset frecuente** es cualquier combinación de categorías que supera ese umbral mínimo. Por ejemplo:
+
+- `{SEXO=Masculino}` → 1-itemset frecuente si aparece en $\geq 4\%$ de las transacciones
+- `{SEXO=Femenino, GRUPO_EDAD=12-17}` → 2-itemset frecuente si ocurren en $\geq 4\%$
+- `{SEXO=Femenino, GRUPO_EDAD=12-17, ESTATUS=No Localizado}` → 3-itemset
+
+Solo los itemsets que superan el soporte mínimo se mantienen. Esta fase produce el conjunto de todos los itemsets frecuentes, que en el paso siguiente se particionan en antecedente y consecuente para generar las reglas de asociación.
+
+- **Apriori propio**: genera combinaciones nivel a nivel (1-itemsets → 2-itemsets → 3-itemsets...), quitando los que no cumplen el soporte mínimo. Es el algoritmo más lento porque escanea todas las transacciones en cada nivel.
+- **mlxtend Apriori**: tiene la misma lógica, pero su implementación está optimizada en C.
+- **FP-Growth**: construye un árbol compacto (FP-Tree) del dataset y extrae patrones directamente del árbol sin enumerar combinaciones posibles. Es el más rápido por la estructura de datos que utiliza.
+
+Sin embargo, los tres llegan a los mismos itemsets frecuentes; la diferencia es solo la velocidad.
+
+### Paso 3 — Generación de reglas y métricas
+
+De cada itemset frecuente de tamaño $\geq 2$, se generan todas las particiones posibles de la forma antecedente $\rightarrow$ consecuente y se conservan las que cumplan $\text{min\_confidence} = 0.04$.
+
+| Métrica | Fórmula | Explicación |
+|---|---|---|
+| Support | $s(A \rightarrow B) = \dfrac{|\{T \in D \mid A \cup B \subseteq T\}|}{|D|}$ | Qué tan frecuente es el patrón en el dataset. |
+| Confidence | $c(A \rightarrow B) = \dfrac{|\{T \in D \mid A \cup B \subseteq T\}|}{|\{T \in D \mid A \subseteq T\}|}$ | Probabilidad de que ocurra $B$ dado $A$. |
+| Lift | $\text{lift}(X \Rightarrow Y) = \dfrac{\text{soporte}(X \cup Y)}{\text{soporte}(X) \cdot \text{soporte}(Y)}$ | Fuerza de la asociación entre antecedente y consecuente. |
+
+: Métricas de asociación {tbl-colwidths="[10,40,50]"}
+
+```{python}
+#| eval: false
+#| label: metricas
+#| code-summary: "Funciones de cálculo de métricas (Apriori propio)"
+
+def get_support(itemset, transactions, n):
+    count = sum(1 for t in transactions if itemset.issubset(t))
+    return count / n
+
+def get_confidence(A, B, transactions):
+    support_AB = sum(1 for t in transactions if A.union(B).issubset(t))
+    support_A  = sum(1 for t in transactions if A.issubset(t))
+    return support_AB / support_A
+
+def get_lift(confidence, sup_cons):
+    return confidence / sup_cons if sup_cons > 0 else 0
+```
+
+> Las funciones anteriores son utilizadas únicamente por **Apriori propio**. Los algoritmos de mlxtend calculan estas métricas internamente con `mlx_apriori`, `fpgrowth` y `association_rules`.
+
+### Paso 4 — Filtración de reglas
+
+Se aplica un filtro adicional con $\text{lift} > 1.2$ y $\text{confidence} > 0.4$ para mantener únicamente patrones con una relación estadísticamente fuerte.
+
+```{python}
+#| eval: false
+#| label: filtro-reglas
+#| code-summary: "Filtro de reglas interesantes"
+
+# Reglas interesantes (lift > 1.2, conf > 0.4)
+if len(rules_fp) > 0:
+    mask = (rules_fp["lift"] > 1.2) & (rules_fp["confidence"] > 0.4)
+    interesting = rules_fp[mask].sort_values("lift", ascending=False)
+    print(f"\n  ─── Reglas interesantes (lift>1.2, conf>0.4): {len(interesting)} ───")
+    for _, r in interesting.head(5).iterrows():
+        ant = ", ".join(sorted(r["antecedents"]))
+        con = ", ".join(sorted(r["consequents"]))
+        print(f"    [{ant}] → [{con}]")
+        print(f"      sup={r['support']:.3f}  conf={r['confidence']:.3f}  lift={r['lift']:.3f}")
+```
+
+## Resultados por sexenio
+
+Para cada sexenio se reportan: el número de transacciones utilizadas, los tiempos de ejecución de cada algoritmo, el número de itemsets frecuentes y reglas generadas, las cinco reglas con mayor lift, y las reglas bajo el criterio $\text{lift} > 1.2$ y $\text{confianza} > 0.4$.
+
+### Tabla resumen de tiempos
+
+| Sexenio | Transacciones | t_propio (s) | t_mlxtend (s) | t_fp (s) | Reglas |
+|---|---:|---:|---:|---:|---:|
+| Fox (2000–2006) | 600 | 0.03 | 0.01 | 0.01 | 197 |
+| Calderón (2006–2012) | 7 039 | 0.40 | 0.02 | 0.04 | 239 |
+| Peña Nieto (2012–2018) | 11 705 | 0.65 | 0.03 | 0.06 | 198 |
+| AMLO (2018–2024) | 24 632 | 1.56 | 0.05 | 0.11 | 174 |
+| Sheinbaum (2024–) | 6 476 | 0.37 | 0.01 | 0.03 | 232 |
+
+: Tiempos de ejecución y número de reglas por sexenio {tbl-colwidths="[30,18,17,17,10,8]"}
+
+Los tres algoritmos producen exactamente el mismo número de reglas en cada sexenio. Esto confirma que **Apriori propio, mlxtend Apriori y FP-Growth son matemáticamente equivalentes**, ya que parten del mismo umbral de soporte mínimo y recorren el mismo espacio de itemsets frecuentes. La diferencia radica únicamente en la estrategia de búsqueda y en la eficiencia de implementación.
+
+---
+
+### Fox (2000–2006) — 600 transacciones
+
+Con 600 registros válidos (el sexenio con menos registros en el dataset) se encontraron **22 reglas de asociación** con $\text{lift}>1.2$ y $\text{conf}>0.4$.
+
+La regla de mayor lift en este período es:
+
+$$
+\texttt{MES\_DESAPARICION = Mayo}
+\rightarrow
+\texttt{GRUPO\_EDAD = 18-29,\ ESTATUS\_VICTIMA = DESAPARECIDA}
+$$
+$$
+\text{support}=0.045,\quad \text{confidence}=0.50,\quad \text{lift}=1.622
+$$
+
+Durante el sexenio de Fox, las desapariciones registradas en mayo tenían un 62% más de probabilidad de involucrar a jóvenes de 18 a 29 años aún no localizados, en comparación con lo esperado por azar.
+
+Otra regla destacable es:
+
+$$
+\texttt{ENTIDAD=ESTADO DE MÉXICO} \;\rightarrow\; \texttt{SEXO=MUJER,\;ESTATUS\_VICTIMA=DESAPARECIDA} \quad \text{lift}=1.52
+$$
+
+Apunta al Estado de México como entidad con mayor proporción de mujeres desaparecidas no localizadas durante ese período.
+
+---
+
+### Calderón (2006–2012) — 7 039 transacciones
+
+En el sexenio de Calderón, el número de registros válidos aumenta considerablemente. Sin embargo, el número de reglas de asociación se reduce a **2**, lo que indica que los patrones son más dispersos y no se encuentra ninguna combinación de variables con suficiente fuerza estadística.
+
+Las dos reglas que superan los umbrales son:
+
+$$
+\{SEXO = MUJER\}
+\rightarrow
+\{GRUPO\_EDAD = 18\text{-}29,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 1.204
+$$
+
+$$
+\{ENTIDAD = TAMAULIPAS\}
+\rightarrow
+\{GRUPO\_EDAD = 18\text{-}29,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 1.201
+$$
+
+Tamaulipas fue entidad clave del sexenio de Calderón, con confianza de 0.464 y soporte de 0.111 —el soporte más alto de todas las reglas de asociación en cualquier sexenio. El perfil predominante es **Mujer, 18-29 años, Tamaulipas, Desaparecida**.
+
+---
+
+### Peña Nieto (2012–2018) — 11 705 transacciones
+
+Este sexenio produce las reglas con mayor lift de todo el análisis. Se encontraron **13 reglas de asociación**. La regla principal es:
+
+$$
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 3.131
+$$
+
+Con un lift de 3.13, la probabilidad de que una víctima de 12 a 17 años sea mujer y no localizada es más del triple de lo que se esperaría si sexo, edad y estatus fueran independientes. Esta regla es estadísticamente robusta ($\text{conf}=0.602$, $\text{sup}=0.051$, equivalente a 596 casos reales sobre 11 705).
+
+Otra regla destacable es que el Estado de México concentra el patrón de adolescentes desaparecidos:
+
+$$
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{ENTIDAD = ESTADO\ DE\ MÉXICO,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 3.070
+$$
+
+Estas reglas no reflejan que el fenómeno sea exclusivo del **Estado de México**, sino que concentra el mayor número de registros en esta categoría.
+
+---
+
+### AMLO (2018–2024) — 24 632 transacciones
+
+Fue el sexenio con la mayor cantidad de transacciones, lo que permite deducir que fue el período con más desapariciones. Es donde más tiempo tardó el algoritmo de Apriori propio (1.56 s), confirmando el comportamiento $O(n)$ en el número de transacciones, a diferencia de FP-Growth y mlxtend que se mantuvieron por debajo de 0.12 s.
+
+Se encontraron **2 reglas de asociación**:
+
+$$
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER\}
+\qquad \text{lift} = 2.562
+$$
+
+$$
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 2.504
+$$
+
+El patrón de **niñas y adolescentes (12–17 años) desaparecidas y no localizadas** se mantiene pero con un lift menor que en el período anterior (2.5), lo que sugiere que las desapariciones se volvieron más generalizadas y distribuidas geográficamente, ya no concentradas explícitamente en el Estado de México (aunque éste conserva un lift de 1.747 para mujeres desaparecidas).
+
+---
+
+### Sheinbaum (2024–presente) — 6 476 transacciones
+
+Este sexenio es el actual; los datos llegan hasta septiembre de 2025. A pesar de eso, se encontraron **12 reglas de asociación**, el segundo mayor número después del período de Fox.
+
+La regla más fuerte sigue siendo el patrón de adolescentes mujeres:
+
+$$
+\{GRUPO\_EDAD = 12\text{-}17\}
+\rightarrow
+\{SEXO = MUJER,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 2.218
+$$
+
+Aparece además una regla nueva que no existía en sexenios anteriores:
+
+$$
+\{ENTIDAD = SINALOA\}
+\rightarrow
+\{GRUPO\_EDAD = 30\text{-}59,\ SEXO = HOMBRE,\ ESTATUS\_VICTIMA = DESAPARECIDA\}
+\qquad \text{lift} = 1.274
+$$
+
+Lo que apunta a un desplazamiento del perfil de víctimas en Sinaloa hacia hombres adultos en este nuevo período.
+
+---
+
+## Comparativa entre los tres algoritmos
+
+**¿Generan las mismas reglas?**
+
+Sí, en todos los sexenios los tres algoritmos producen exactamente el mismo conjunto de itemsets frecuentes y el mismo número de reglas. Esto se debe a que los tres resuelven el mismo problema matemático (encontrar todos los itemsets cuyo soporte supere el umbral mínimo) y usan la misma métrica de confianza para generar reglas. La equivalencia se garantiza siempre que se use el mismo $\text{min\_support}$ y $\text{min\_confidence}$.
+
+**¿Cuál tarda más?**
+
+El algoritmo **Apriori propio** es el más lento en todos los sexenios, puesto que genera combinaciones de tamaño $k$ enumerando todos los pares de itemsets frecuentes de tamaño $k-1$, y luego escanea todas las transacciones para calcular el soporte de cada candidato. Al estar implementado en Python puro, sin vectorización, cada operación de subconjunto recorre listas con bucles nativos y su tiempo crece de forma aproximadamente lineal con el número de transacciones.
+
+**¿Cuál tarda menos?**
+
+El algoritmo **mlxtend Apriori** es el más rápido en los sexenios de menor tamaño, mientras que **FP-Growth** es ligeramente más lento que mlxtend en este dataset en específico, pero escalaría mejor en datasets mucho más grandes, ya que no enumera combinaciones: comprime el dataset en un árbol FP-Tree y extrae patrones frecuentes recorriéndolo, eliminando el cuello de botella de generar y podar combinaciones.
+
+## Interpretación general de los patrones
+
+Del análisis por sexenio emergen tres patrones transversales:
+
+1. **Desaparición de niñas y adolescentes (12–17 años):** Es el patrón más fuerte y consistente a lo largo del tiempo, presente desde Peña Nieto hasta Sheinbaum con lifts entre 2.2 y 3.1. El Estado de México, Sonora y Tamaulipas concentran la mayor parte de estos casos durante 2012–2024.
+
+2. **Desaparición de hombres en edad de 30–59 años:** Durante el sexenio de Calderón, Tamaulipas destaca como la entidad con mayor asociación con desapariciones de hombres de 18–29 años, reflejando el período de mayor intensidad del conflicto entre organizaciones criminales en esa zona. En el período de Sheinbaum, Sinaloa toma un rol similar para hombres adultos (30–59 años).
+
+3. **Estacionalidad incipiente en Fox:** Durante el sexenio de Fox, el mes de mayo aparece asociado a desapariciones de jóvenes, aunque con soporte muy bajo. Este patrón no se reproduce en sexenios posteriores.
+
+## Limitaciones y posibles sesgos
+
+- **Sesgo de registro:** El 37% de los registros originales son `CONFIDENCIAL` y fueron excluidos del análisis. Si la confidencialidad no es aleatoria (por ejemplo, si las fiscalías de ciertos estados clasifican más casos como confidenciales), las reglas pueden estar sesgadas hacia las entidades con mayor transparencia en el registro.
+
+- **Dominio de estatus DESAPARECIDA:** El estatus de desaparecido representa el 94.6% de los registros válidos. Las reglas que incluyen este consecuente tienen soporte y confianza altos simplemente porque es el valor mayoritario, no necesariamente porque exista una asociación real. El lift corrige parcialmente esto, por lo que las reglas con $\text{lift} > 1.2$ son las que realmente aportan información.
+
+- **Cobertura desigual por sexenio:** Fox tiene apenas 600 registros mientras que AMLO tiene 24 632. Hay diferentes razones: en el sexenio de Fox no existía la tecnología actual y podrían haberse perdido registros, o realmente hubo mayor número de desapariciones durante el sexenio de AMLO. Por lo tanto, las comparaciones entre sexenios deben hacerse con reservas.
+
+
+## Código completo:
+```{python}
+import pandas as pd
+import numpy as np
+import time
+import warnings
+from itertools import combinations
+from collections import defaultdict
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori as mlx_apriori
+from mlxtend.frequent_patterns import fpgrowth, association_rules
+
+
+
+warnings.filterwarnings("ignore")
+
+# ──────────────────────────────────────────────────────────────
+# Algoritmos implementados
+# ──────────────────────────────────────────────────────────────
+
+def apriori_propio(transactions, min_support, min_confidence):
+    """
+    Implementación propia del algoritmo Apriori.
+    Retorna (frequent_itemsets_dict, rules_list)
+    """
+    n = len(transactions)
+    all_items = set(item for t in transactions for item in t)
+
+    # Itemsets frecuentes de tamaño 1
+    freq = {}
+    L1 = {}
+    for item in all_items:
+        sup = get_support(frozenset([item]), transactions, n)
+        if sup >= min_support:
+            L1[frozenset([item])] = sup
+    freq.update(L1)
+
+    Lk = L1
+    k = 2
+    while Lk:
+        prev_keys = list(Lk.keys())
+        candidates = set()
+        for i in range(len(prev_keys)):
+            for j in range(i + 1, len(prev_keys)):
+                union = prev_keys[i] | prev_keys[j]
+                if len(union) == k:
+                    candidates.add(union)
+
+        Lk_new = {}
+        for c in candidates:
+            subsets_freq = all(
+                frozenset(sub) in Lk
+                for sub in combinations(c, k - 1)
+            )
+            if not subsets_freq:
+                continue
+            sup = get_support(c, transactions, n)
+            if sup >= min_support:
+                Lk_new[c] = sup
+
+        freq.update(Lk_new)
+        Lk = Lk_new
+        k += 1
+
+    # Generar reglas
+    rules = []
+    for itemset, sup_itemset in freq.items():
+        if len(itemset) < 2:
+            continue
+        for size in range(1, len(itemset)):
+            for antecedent in combinations(itemset, size):
+                antecedent = frozenset(antecedent)
+                consequent = itemset - antecedent
+                sup_ant = freq.get(antecedent, get_support(antecedent, transactions, n))
+                if sup_ant == 0:
+                    continue
+                confidence = get_confidence(sup_itemset, sup_ant) # calculamos confidence
+                sup_cons = freq.get(consequent, get_support(consequent, transactions, n))
+                lift = get_lift(confidence, sup_cons) # calculamos lift
+                if confidence >= min_confidence:
+                    rules.append({
+                        "antecedents": antecedent,
+                        "consequents": consequent,
+                        "support":     round(sup_itemset, 4),
+                        "confidence":  round(confidence, 4),
+                        "lift":        round(lift, 4)
+                    })
+    return freq, rules
+
+
+def apriori_mlxtend(df_te, min_support, min_confidence):
+    """
+    Apriori de mlxtend.
+    Retorna (freq_itemsets, rules_df, elapsed_seconds)
+    """
+    t0 = time.time()
+    freq = mlx_apriori(df_te, min_support, use_colnames=True)
+    rules = association_rules(freq, metric="confidence", min_threshold=min_confidence)
+    elapsed = time.time() - t0
+    return freq, rules, elapsed
+
+
+def apriori_fpgrowth(df_te, min_support, min_confidence):
+    """
+    FP-Growth de mlxtend.
+    Retorna (freq_itemsets, rules_df, elapsed_seconds)
+    """
+    t0 = time.time()
+    freq = fpgrowth(df_te, min_support, use_colnames=True)
+    rules = association_rules(freq, metric="confidence", min_threshold=min_confidence)
+    elapsed = time.time() - t0
+    return freq, rules, elapsed
+
+
+# ──────────────────────────────────────────────────────────────
+# Codificación de transacciones
+# ──────────────────────────────────────────────────────────────
+def encode_transactions(df_enc, columns):
+    """Transforma los valores del dataset a la forma {col}={val}, como SEXO=mujer, lo utiliza Apriori propio"""
+    transactions = []
+    for _, row in df_enc.iterrows():
+        items = set()
+        for col in columns:
+            val = row[col]
+            if pd.notna(val) and str(val).strip() not in ("", "nan"):
+                items.add(f"{col}={val}")
+        transactions.append(frozenset(items))
+    return transactions
+
+def transactions_to_df(transactions):
+    """Convierte lista de frozensets al DataFrame booleano que requiere mlxtend y fp-growth"""
+    te = TransactionEncoder()
+    te_array = te.fit_transform([list(t) for t in transactions])
+    return pd.DataFrame(te_array, columns=te.columns_)
+
+
+# ──────────────────────────────────────────────────────────────
+#  Calculamos Support, confidence, lift
+# ──────────────────────────────────────────────────────────────
+
+def get_support(itemset, transactions, n):
+    count = sum(1 for t in transactions if itemset.issubset(t))
+    return count / n
+
+def get_confidence(sup_itemset, sup_ant):
+    return sup_itemset / sup_ant if sup_ant > 0 else 0
+
+def get_lift(confidence, sup_cons):
+    return confidence / sup_cons if sup_cons > 0 else 0
+
+
+
+# ──────────────────────────────────────────────────────────────
+# 0. CARGA Y PREPROCESAMIENTO
+# ──────────────────────────────────────────────────────────────
+print("=" * 65)
+print("0. CARGA Y PREPROCESAMIENTO")
+print("=" * 65)
+
+df_raw = pd.read_csv("data_secretariado.csv")
+print(f"Registros originales : {len(df_raw):,}")
+print(f"Columnas             : {list(df_raw.columns)}\n")
+
+CONF = "CONFIDENCIAL"
+
+# Filtrar CONFIDENCIAL para reglas de asociación
+df = df_raw[df_raw["SEXO"] != CONF].copy()
+df = df[df["FECHA_DESAPARICION"] != CONF].copy()
+df = df[df["FECHA_NACIMIENTO"] != CONF].copy()
+df = df[df["ESTATUS_VICTIMA"] != CONF].copy()
+print(f"Registros tras filtrar CONFIDENCIAL: {len(df):,}")
+
+df["FECHA_NACIMIENTO"]   = pd.to_datetime(df["FECHA_NACIMIENTO"],   errors="coerce")
+df["FECHA_DESAPARICION"] = pd.to_datetime(df["FECHA_DESAPARICION"], errors="coerce")
+df.dropna(subset=["FECHA_NACIMIENTO", "FECHA_DESAPARICION"], inplace=True)
+
+df["EDAD"] = (df["FECHA_DESAPARICION"] - df["FECHA_NACIMIENTO"]).dt.days // 365
+df = df[(df["EDAD"] >= 0) & (df["EDAD"] <= 110)]
+print(f"Registros tras filtrar edades inválidas: {len(df):,}\n")
+
+bins_edad = [0, 11, 17, 29, 59, 110]
+labs_edad = ["0-11", "12-17", "18-29", "30-59", "60+"]
+df["GRUPO_EDAD"] = pd.cut(df["EDAD"], bins=bins_edad, labels=labs_edad, right=True)
+df["MES_DESAPARICION"] = df["FECHA_DESAPARICION"].dt.month.map(
+    {1:"Enero",2:"Febrero",3:"Marzo",4:"Abril",5:"Mayo",6:"Junio",
+     7:"Julio",8:"Agosto",9:"Septiembre",10:"Octubre",11:"Noviembre",12:"Diciembre"}
+)
+df["SEXO"] = df["SEXO"].str.strip()
+df.drop_duplicates(subset="ID_VICTIMA", inplace=True)
+print(f"Registros finales para asociación: {len(df):,}\n")
+
+for col in ["SEXO", "GRUPO_EDAD", "ESTATUS_VICTIMA"]:
+    print(f"  {col}:\n{df[col].value_counts().to_string()}\n")
+
+# Segmentación temporal por sexenio
+def asignar_sexenio(fecha):
+    y = fecha.year
+    if y <= 2006:   return "Fox (2000-2006)"
+    elif y <= 2012: return "Calderon (2006-2012)"
+    elif y <= 2018: return "PeñaNieto (2012-2018)"
+    elif y <= 2024: return "AMLO (2018-2024)"
+    else:           return "Sheinbaum (2024-)"
+
+df["SEXENIO"] = df["FECHA_DESAPARICION"].apply(asignar_sexenio)
+print("Distribución por sexenio:")
+print(df["SEXENIO"].value_counts().sort_index().to_string(), "\n")
+
+
+# ──────────────────────────────────────────────────────────────
+# 1 y 2. REGLAS DE ASOCIACIÓN — 3 algoritmos por sexenio
+# ──────────────────────────────────────────────────────────────
+print("=" * 65)
+print("REGLAS DE ASOCIACIÓN POR SEXENIO — Apriori propio, mlxtend Apriori y FP-Growth")
+print("=" * 65)
+
+MIN_SUPPORT    = 0.04
+MIN_CONFIDENCE = 0.4
+cols_assoc     = ["SEXO", "GRUPO_EDAD", "ENTIDAD", "MES_DESAPARICION", "ESTATUS_VICTIMA"]
+
+ORDEN_SEXENIOS = [
+    "Fox (2000-2006)",
+    "Calderon (2006-2012)",
+    "PeñaNieto (2012-2018)",
+    "AMLO (2018-2024)",
+    "Sheinbaum (2024-)",
+]
+
+def _print_top5(rules_df, label):
+    print(f"  Top-5 reglas ({label}) por lift:")
+    top = rules_df.sort_values("lift", ascending=False).head(5)
+    for _, r in top.iterrows():
+        ant = ", ".join(sorted(r["antecedents"]))
+        con = ", ".join(sorted(r["consequents"]))
+        print(f"    [{ant}]")
+        print(f"    → [{con}]")
+        print(f"      sup={r['support']:.3f}  conf={r['confidence']:.3f}  lift={r['lift']:.3f}")
+
+resumen_tiempos = []
+
+for sexenio in ORDEN_SEXENIOS:
+    df_seg = df[df["SEXENIO"] == sexenio]
+    if len(df_seg) < 500:
+        print(f"\n  [Saltando {sexenio}: solo {len(df_seg)} registros]\n")
+        continue
+
+    print(f"\n{'=' * 65}")
+    print(f"  SEXENIO: {sexenio}  ({len(df_seg):,} registros)")
+    print(f"{'=' * 65}")
+
+    df_assoc = df_seg[cols_assoc].dropna().copy()
+    transactions = encode_transactions(df_assoc, cols_assoc)
+    df_te = transactions_to_df(transactions)
+
+    print(f"  Transacciones usadas: {len(transactions):,}")
+    print(f"  Parámetros → min_support={MIN_SUPPORT}, min_confidence={MIN_CONFIDENCE}\n")
+
+    # Apriori propio
+    print("  [Apriori propio] Ejecutando...")
+    t0 = time.time()
+    freq_propio, rules_propio = apriori_propio(transactions, MIN_SUPPORT, MIN_CONFIDENCE)
+    t_propio = time.time() - t0
+    print(f"    Tiempo: {t_propio:.2f} s  |  Itemsets: {len(freq_propio)}  |  Reglas: {len(rules_propio)}")
+    if rules_propio:
+        rules_propio_df = pd.DataFrame(rules_propio).sort_values("lift", ascending=False)
+        _print_top5(rules_propio_df, "Apriori propio")
+
+    # mlxtend Apriori
+    print("\n  [mlxtend Apriori] Ejecutando...")
+    freq_mlx, rules_mlx, t_mlx = apriori_mlxtend(df_te, MIN_SUPPORT, MIN_CONFIDENCE)
+    print(f"    Tiempo: {t_mlx:.2f} s  |  Itemsets: {len(freq_mlx)}  |  Reglas: {len(rules_mlx)}")
+    if len(rules_mlx) > 0:
+        _print_top5(rules_mlx, "mlxtend Apriori")
+
+    # FP-Growth
+    print("\n  [FP-Growth] Ejecutando...")
+    freq_fp, rules_fp, t_fp = apriori_fpgrowth(df_te, MIN_SUPPORT, MIN_CONFIDENCE)
+    print(f"    Tiempo: {t_fp:.2f} s  |  Itemsets: {len(freq_fp)}  |  Reglas: {len(rules_fp)}")
+    if len(rules_fp) > 0:
+        _print_top5(rules_fp, "FP-Growth")
+
+    # Reglas interesantes (lift > 1.2, conf > 0.4)
+    if len(rules_fp) > 0:
+        mask = (rules_fp["lift"] > 1.2) & (rules_fp["confidence"] > 0.4)
+        interesting = rules_fp[mask].sort_values("lift", ascending=False)
+        print(f"\n  ─── Reglas interesantes (lift>1.2, conf>0.4): {len(interesting)} ───")
+        for _, r in interesting.head(5).iterrows():
+            ant = ", ".join(sorted(r["antecedents"]))
+            con = ", ".join(sorted(r["consequents"]))
+            print(f"    [{ant}] → [{con}]")
+            print(f"      sup={r['support']:.3f}  conf={r['confidence']:.3f}  lift={r['lift']:.3f}")
+
+    print(f"\n  ─── Comparativa de tiempos ({sexenio}) ───")
+    print(f"    Apriori propio  : {t_propio:.2f} s")
+    print(f"    mlxtend Apriori : {t_mlx:.2f} s")
+    print(f"    FP-Growth       : {t_fp:.2f} s")
+
+    resumen_tiempos.append({
+        "sexenio": sexenio, "registros": len(df_assoc),
+        "t_propio": t_propio, "t_mlx": t_mlx, "t_fp": t_fp,
+        "reglas_propio": len(rules_propio),
+        "reglas_mlx": len(rules_mlx), "reglas_fp": len(rules_fp),
+    })
+
+print("\n" + "=" * 65)
+print("RESUMEN COMPARATIVO DE TIEMPOS POR SEXENIO")
+print("=" * 65)
+resumen_df = pd.DataFrame(resumen_tiempos)
+print(resumen_df.to_string(index=False))
+
+# variable dummy para que el bloque de RESUMEN FINAL no falle
+# (toma los tiempos del último sexenio procesado)
+if resumen_tiempos:
+    t_propio = resumen_tiempos[-1]["t_propio"]
+    t_mlx    = resumen_tiempos[-1]["t_mlx"]
+    t_fp     = resumen_tiempos[-1]["t_fp"]
+
+
+print("\n" + "=" * 65)
+print("RESUMEN FINAL")
+print("=" * 65)
+print(f"\nTiempos algoritmos Apriori:")
+print(f"  Apriori propio  : {t_propio:.2f} s  (O(2^n) candidatos, el mas lento)")
+print(f"  mlxtend Apriori : {t_mlx:.2f} s")
+print(f"  FP-Growth       : {t_fp:.2f} s  (sin generación de candidatos, el más rápido)")
+
+
+```
+

@@ -1,0 +1,16 @@
+---
+sidebar: tarea03
+---
+
+# Tarea 03 — Reglas de asociación y clasificación
+
+Este documento presenta:
+
+- Reglas de asociación (Apriori, FP-Growth)
+- Clasificación
+
+## Contenido
+
+- [Apriori](Tarea03/01-apriori.qmd)
+- [Reglas de asociación](Tarea03/02-reglas-asociacion.qmd)
+- [Clasificación](Tarea03/03-clasificacion.qmd)

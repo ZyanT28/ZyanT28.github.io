@@ -1,0 +1,120 @@
+---
+sidebar: tarea03
+---
+
+# Implementación de algoritmo de asociación
+
+Implementación del algoritmo Apriori en Python.
+
+## Funciones auxiliares
+
+Las siguientes funciones de soporte calculan las métricas fundamentales utilizadas por el algoritmo Apriori propio.
+
+```{python}
+
+#| label: funciones-auxiliares
+#| code-summary: "Funciones de soporte (support, confidence, lift)"
+
+from itertools import combinations
+
+def get_support(itemset, transactions, n):
+    count = sum(1 for t in transactions if itemset.issubset(t))
+    return count / n
+
+def get_confidence(sup_itemset, sup_ant):
+    return sup_itemset / sup_ant if sup_ant > 0 else 0
+
+def get_lift(confidence, sup_cons):
+    return confidence / sup_cons if sup_cons > 0 else 0
+
+```
+
+## Implementación de Apriori propio
+
+```{python}
+
+#| label: funciones-auxiliares-01
+#| code-summary: "Funciones de soporte (support, confidence, lift)"
+
+from itertools import combinations
+
+def get_support(itemset, transactions, n):
+    count = sum(1 for t in transactions if itemset.issubset(t))
+    return count / n
+
+def get_confidence(sup_itemset, sup_ant):
+    return sup_itemset / sup_ant if sup_ant > 0 else 0
+
+def get_lift(confidence, sup_cons):
+    return confidence / sup_cons if sup_cons > 0 else 0
+
+
+def apriori_propio(transactions, min_support, min_confidence):
+    """
+    Implementación propia del algoritmo Apriori.
+    Retorna (frequent_itemsets_dict, rules_list)
+    """
+    n = len(transactions)
+    all_items = set(item for t in transactions for item in t)
+
+    # Itemsets frecuentes de tamaño 1
+    freq = {}
+    L1 = {}
+    for item in all_items:
+        sup = get_support(frozenset([item]), transactions, n)
+        if sup >= min_support:
+            L1[frozenset([item])] = sup
+    freq.update(L1)
+
+    Lk = L1
+    k = 2
+    while Lk:
+        prev_keys = list(Lk.keys())
+        candidates = set()
+        for i in range(len(prev_keys)):
+            for j in range(i + 1, len(prev_keys)):
+                union = prev_keys[i] | prev_keys[j]
+                if len(union) == k:
+                    candidates.add(union)
+
+        Lk_new = {}
+        for c in candidates:
+            subsets_freq = all(
+                frozenset(sub) in Lk
+                for sub in combinations(c, k - 1)
+            )
+            if not subsets_freq:
+                continue
+            sup = get_support(c, transactions, n)
+            if sup >= min_support:
+                Lk_new[c] = sup
+
+        freq.update(Lk_new)
+        Lk = Lk_new
+        k += 1
+
+    # Generar reglas
+    rules = []
+    for itemset, sup_itemset in freq.items():
+        if len(itemset) < 2:
+            continue
+        for size in range(1, len(itemset)):
+            for antecedent in combinations(itemset, size):
+                antecedent = frozenset(antecedent)
+                consequent = itemset - antecedent
+                sup_ant = freq.get(antecedent, get_support(antecedent, transactions, n))
+                if sup_ant == 0:
+                    continue
+                confidence = get_confidence(sup_itemset, sup_ant)
+                sup_cons = freq.get(consequent, get_support(consequent, transactions, n))
+                lift = get_lift(confidence, sup_cons)
+                if confidence >= min_confidence:
+                    rules.append({
+                        "antecedents": antecedent,
+                        "consequents": consequent,
+                        "support":     round(sup_itemset, 4),
+                        "confidence":  round(confidence, 4),
+                        "lift":        round(lift, 4)
+                    })
+    return freq, rules
+```
