@@ -14,3 +14,9 @@ Este documento presenta:
 - [Apriori](Tarea03/01-apriori.qmd)
 - [Reglas de asociación](Tarea03/02-reglas-asociacion.qmd)
 - [Clasificación](Tarea03/03-clasificacion.qmd)
+
+### Integrantes
+- Zianya Nenetzi Trujillo Beltran
+- José Eduardo Cruz Campos
+- Paola Mildred Martínez Hidalgo
+- Eric Toporek Coca
